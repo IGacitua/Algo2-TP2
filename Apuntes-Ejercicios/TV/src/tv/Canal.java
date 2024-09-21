@@ -1,26 +1,35 @@
 package tv;
 
 public class Canal {
-	private int numeroCanal;
-	private int volumenMaximo;
-	private int volumenActual;
+	
+	// Atributos de clase ------------------------------------------------------------------------------
+	private int numeroCanal=0;
+	private int volumenMaximo=0;
+	private int volumenActual=0;
 
+	// Constructores -----------------------------------------------------------------------------------
 	public Canal(int numeroCanal) throws Exception {
 		if (Tools.checkPositiveStrict(numeroCanal)) {
 			throw new Exception("Numero de canal invalido.");
 		}
 		this.numeroCanal = numeroCanal;
 	}
-
-	/*
-	 * PRE POST
+	
+	// Metodos --------------------------------------------------------------------------------------------------
+	
+	/**
+	 * pre: -
+	 * @return El valor entero del volumen actual del canal
 	 */
 	public int getVolumenActual() {
 		return volumenActual;
 	}
 
-	/*
-	 * PRE POST
+	/**
+	 * pre : - 
+	 * post: Actualiza el volumen actual del canal
+	 * @param volumenActual, entero que represente el volumen del canal
+	 * @throws Exception si el volumen es invalido (mayor a 100 o menor a 0)
 	 */
 	public void setVolumenActual(int volumenActual) throws Exception {
 		if (Tools.checkPositive(volumenActual) || volumenActual > 100) {
@@ -29,21 +38,29 @@ public class Canal {
 		this.volumenActual = volumenActual;
 	}
 
-	/*
-	 * PRE POST
+	/**
+	 * pre: - 
+	 * @return Devuelve el numero del canal actual
 	 */
 	public int getNumeroCanal() {
 		return numeroCanal;
 	}
 
-	/*
-	 * PRE POST
+	/**
+	 * pre: -
+	 * @return Devuelve el volumen maximo registrado en este canal
 	 */
 	public int getVolumenMaximo() {
 		return volumenMaximo;
 	}
 	
+	/**
+	 * pre: - 
+	 * post: Actualiza el volumen del canal y si es mayor al mayore registrado, tambien lo actualiza
+	 * @param volumen, entero que represente el volumen
+	 */
 	public void changeVolumen(int volumen) {
+		//TODO: que pasa si el televisor esta muteado? (volumen actual = o)?
 		if (volumen > this.volumenMaximo) {
 			this.volumenMaximo = volumen;
 		}
