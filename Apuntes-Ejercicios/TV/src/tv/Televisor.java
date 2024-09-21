@@ -12,13 +12,13 @@ public class Televisor {
 	
 	/**
 	 * pre: -
-	 * post: Devuelve un televisor con cantidadCanales inicializados, con volumen actual en 0, canal actual en 1 y no 				silenciado
+	 * post: Devuelve un televisor con cantidadCanales inicializados, con volumen actual en 0, canal actual en 1 y no silenciado
 	 * @param cantidadCanales, un valor entero
 	 * @throws Exception si el valor dado como parametro es 0 o negativo
 	 */
 	public Televisor(int cantidadCanales) throws Exception {
 		if(!(Tools.checkPositiveStrict(cantidadCanales))) {
-			throw new Exception("cantidad de canales invalido");
+			throw new Exception("Cantidad de canales invalido");
 		}
 		this.canales = new Canal[cantidadCanales];
 		for (int i = 0; i < cantidadCanales; i++) {
@@ -33,7 +33,6 @@ public class Televisor {
 	 */
 	public void subirCanal() throws Exception {
 		setCanal(canalActual + 1);
-		canales[canalActual - 1].changeVolumen(volumenActual);
 	};
 	
 	/**
@@ -43,7 +42,6 @@ public class Televisor {
 	 */
 	public void bajarCanal() throws Exception {
 		setCanal(canalActual - 1);
-		canales[canalActual - 1].changeVolumen(volumenActual);
 	};
 	
 	/**
@@ -53,14 +51,10 @@ public class Televisor {
 	 * @throws Exception si es un canal invalido
 	 */
 	public void setCanal(int canal) throws Exception {
-		// cambie el || (or) por && (and)
-		if (canal > 0 && canal < this.canales.length) {
-			this.canalActual = canal;
-		} else {
-			throw new Exception("Canal debe estar entre 1 y " + this.canales.length);
-		}
+		verificarValidezCanal(canal);
+		this.canalActual = canal;
 		//cambiamos el volumen del canal al que cambiamos
-		canales[canalActual - 1].changeVolumen(volumenActual);
+		actualizarVolumenCanalActual();
 	};
 	
 	/**
@@ -69,13 +63,15 @@ public class Televisor {
 	 * @throws Exception si el volumen es maximo (100)
 	 */
 	public void subirVolumen() throws Exception {
-		//TODO:si el televisor esta muteado y le subo el volumen, se desmutea, vuelve al que estaba y le suma 1?
+		if (silenciado) {
+            silenciado = false; // desmutea
+        }
 		if (this.volumenActual < 100) {
 			this.volumenActual += 1;
+			actualizarVolumenCanalActual();
 		} else {
 			throw new Exception("Volumen no puede ser mayor a 100.");
 		}
-		canales[canalActual - 1].changeVolumen(volumenActual);
 	};
 	
 	/**
@@ -84,13 +80,15 @@ public class Televisor {
 	 * @throws Exception si el volumen es minimo
 	 */
 	public void bajarVolumen() throws Exception {
-		//TODO: si esta muteado y le bajo el volumen se desmutea y le baja 1 al volumen actual?
+		if (silenciado) {
+            silenciado = false; // desmutea
+        }
 		if (this.volumenActual > 0) {
 			this.volumenActual -= 1;
+			actualizarVolumenCanalActual();
 		} else {
 			throw new Exception("Volumen no puede ser menor a 0.");
 		}
-		canales[canalActual - 1].changeVolumen(volumenActual);
 	};
 	
 	/**
@@ -125,6 +123,9 @@ public class Televisor {
 	 * @return devuelve el valor actual del volumen
 	 */
 	public int getVolumenActual() {
+		if (silenciado) {
+			return 0;
+		}
 		return this.volumenActual;
 	}
 	
@@ -147,14 +148,10 @@ public class Televisor {
 	 * pre: -
 	 * @param canal, el numero del canal el cual quiere saber el volumen actual
 	 * @return el volumen del canal dado como parametro
+	 * @throws Exception 
 	 */
-	public int getVolumenCanal(int canal) {
-		//TODO:podriamos hacer una funcion para verificar que los canales estan dentro del rango necesario, se repite 				varias veces en el codigo
-		if (canal > 0 && canal < this.canales.length) {
-			this.canalActual = canal;
-		} else {
-			throw new Exception("Canal debe estar entre 1 y " + this.canales.length);
-		}
+	public int getVolumenCanal(int canal) throws Exception {
+		verificarValidezCanal(canal);
 		return this.canales[canal - 1].getVolumenActual();
 	};
 	
@@ -162,13 +159,32 @@ public class Televisor {
 	 * pre: -
 	 * @param canal, el numero de canal que se quiere saber el mayor volumen registrado
 	 * @return un entero 
+	 * @throws Exception 
 	 */
-	public int getVolumenMaxCanal(int canal) {
-		if (canal > 0 && canal < this.canales.length) {
-			this.canalActual = canal;
-		} else {
-			throw new Exception("Canal debe estar entre 1 y " + this.canales.length);
-		}
+	public int getVolumenMaxCanal(int canal) throws Exception {
+		verificarValidezCanal(canal);
 		return this.canales[canal - 1].getVolumenMaximo();
 	}
+	
+	/**
+	 * pre: -
+	 * post: - 
+	 * @param canal, verifica que sea válido (mayor a 0, menor al máximo)
+	 * @throws Exception
+	 */
+	private void verificarValidezCanal(int canal) throws Exception {
+		if (canal < 1 || canal > this.canales.length) {
+			throw new Exception("Canal debe estar entre 1 y " + this.canales.length);
+		}
+	}
+	
+	/**
+	 * pre: -
+	 * post: -
+	 * Actualiza el volumen del canal actual
+	 * @throws Exception
+	 */
+    private void actualizarVolumenCanalActual() throws Exception {
+        canales[canalActual - 1].changeVolumen(volumenActual);
+    }
 }
