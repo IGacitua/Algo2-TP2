@@ -3,13 +3,13 @@ package tv;
 public class Canal {
 	
 	// Atributos de clase ------------------------------------------------------------------------------
-	private int numeroCanal=0;
-	private int volumenMaximo=0;
-	private int volumenActual=0;
+	private int numeroCanal = 0;
+	private int volumenMaximo = 0;
+	private int volumenActual = 0;
 
 	// Constructores -----------------------------------------------------------------------------------
 	public Canal(int numeroCanal) throws Exception {
-		if (Tools.checkPositiveStrict(numeroCanal)) {
+		if (!Tools.checkPositiveStrict(numeroCanal)) {
 			throw new Exception("Numero de canal invalido.");
 		}
 		this.numeroCanal = numeroCanal;
@@ -27,15 +27,15 @@ public class Canal {
 
 	/**
 	 * pre : - 
-	 * post: Actualiza el volumen actual del canal
+	 * post: Actualiza el volumen actual del canal. Si es el volumen máximo, también lo actualiza.
 	 * @param volumenActual, entero que represente el volumen del canal
 	 * @throws Exception si el volumen es invalido (mayor a 100 o menor a 0)
 	 */
 	public void setVolumenActual(int volumenActual) throws Exception {
-		if (Tools.checkPositive(volumenActual) || volumenActual > 100) {
+		if (!Tools.checkPositive(volumenActual) || volumenActual > 100) {
 			throw new Exception("Volumen debe estar entre 0 y 100.");
 		}
-		this.volumenActual = volumenActual;
+		changeVolumen(volumenActual);
 	}
 
 	/**
@@ -60,7 +60,6 @@ public class Canal {
 	 * @param volumen, entero que represente el volumen
 	 */
 	public void changeVolumen(int volumen) {
-		//TODO: que pasa si el televisor esta muteado? (volumen actual = o)?
 		if (volumen > this.volumenMaximo) {
 			this.volumenMaximo = volumen;
 		}
