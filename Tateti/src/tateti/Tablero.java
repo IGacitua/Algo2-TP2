@@ -43,7 +43,7 @@ public class Tablero {
 			for (int y = 0; y < this.tamañoY; y++) {
 				System.out.printf("\n");
 				for (int x = 0; x < this.tamañoX; x++) {
-					System.out.printf("%d", getFicha(x,y,z).getJugador());
+					System.out.printf("%d", getFicha(x+1,y+1,z+1).getJugador());
 				}
 			}
 		}
