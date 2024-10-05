@@ -1,7 +1,6 @@
 package tateti;
 
 public class Tablero {
-	// TODO validacion
 	//ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
 	
 	//ATRIBUTOS -----------------------------------------------------------------------------------------------
@@ -10,11 +9,18 @@ public class Tablero {
 	private int tamañoX;
 	private int tamañoY;
 	private int tamañoZ;
-	//CONSTRUCTORES -------------------------------------------------------------------------------------------
 	
-	//TODO pre-post
+	//CONSTRUCTORES -------------------------------------------------------------------------------------------
+	/**
+	 * pre: -, pos: crea el tablero
+	 * @param tamañoX, @param tamañoY, @param tamañoZ: no puede ser <=0
+	 * @throws Exception
+	 */
 	public Tablero(int tamañoX, int tamañoY, int tamañoZ) throws Exception {
-		// TODO validacion tamaños
+		if ((!Herramientas.validarNumeroPositivoEstricto(tamañoX)) || (!Herramientas.validarNumeroPositivoEstricto(tamañoY)) ||
+				(!Herramientas.validarNumeroPositivoEstricto(tamañoZ))) {
+			throw new Exception("Los tamaños del tablero deben ser mayores a 0.");
+		}
 		this.tamañoX = tamañoX;
 		this.tamañoY = tamañoY;
 		this.tamañoZ = tamañoZ;
@@ -36,7 +42,10 @@ public class Tablero {
 	
 	//METODOS GENERALES ---------------------------------------------------------------------------------------
 	
-	// TODO pre-post
+	/**
+	 * pre: -, pos: imprime el tablero por pantalla
+	 * @throws Exception
+	 */
 	public void imprimirTablero() throws Exception {
 		for (int z = 0; z < this.tamañoZ; z++) {
 			System.out.printf("\n\n");
@@ -49,17 +58,42 @@ public class Tablero {
 		}
 	}
 	
-	// TODO pre-post
+	/**
+	 * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, pos: -
+	 * @param x, @param y, @param z: no puede ser <0
+	 * @param jugador: debe existir?? //TODO: cuando esté hecho el jugador vemos
+	 * @throws Exception
+	 */
 	public void colocarFicha(int x, int y, int z, int jugador) throws Exception {
+		verificarPosicionFichaIngresada(x, y, z);
+		//TODO: validación si el jugador no existe????
 		getFicha(x,y,z).setJugador(jugador);
 	}
 	
 	//METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
 	
+	/**
+	 * pre: recibe la posición y la verifica, pos: -
+	 * @param x, @param y, @param z: no puede ser <0
+	 * @throws Exception
+	 */
+	private void verificarPosicionFichaIngresada(int x, int y, int z) throws Exception {
+		if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
+				|| (!Herramientas.validarNumeroPositivo(z))) {
+			throw new Exception("La posición de la ficha debe ser válida.");
+		}
+	}
+	
 	//GETTERS SIMPLES -----------------------------------------------------------------------------------------
 	
-	// TODO pre-post
+	/**
+	 * pre: debe existir la ficha, pos: -
+	 * @param x, @param y, @param z: no puede ser <0
+	 * @return devuelve la posición de la ficha (y el tipo??)
+	 * @throws Exception
+	 */
 	private Casillero getFicha(int x, int y, int z) throws Exception {
+		verificarPosicionFichaIngresada(x, y, z);
 		return this.casilleros.obtener(x).obtener(y).obtener(z);
 	}
 	

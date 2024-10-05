@@ -1,7 +1,6 @@
 package tateti;
 
 public class Casillero {
-	//TODO: pre y post
 	//ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
 	//ATRIBUTOS -----------------------------------------------------------------------------------------------
 	
@@ -14,7 +13,16 @@ public class Casillero {
 	
 	//CONSTRUCTORES -------------------------------------------------------------------------------------------
 	
-	public Casillero(int x, int y, int z) {
+	/**
+	 * pre: -, pos: crea el casillero
+	 * @param x, @param y, @param z: no puede ser < 0
+	 * @throws Exception 
+	 */
+	public Casillero(int x, int y, int z) throws Exception {
+		if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
+				|| (!Herramientas.validarNumeroPositivo(z))) {
+			throw new Exception("La posición del casillero debe ser válida.");
+		}
 		this.posicionX = x;
 		this.posicionY = y;
 		this.posicionZ = z;
@@ -22,10 +30,12 @@ public class Casillero {
 	
 	//METODOS DE CLASE ----------------------------------------------------------------------------------------
 	
-	// TODO pre-post
-	public boolean alternarBloqueo() {
-		bloqueado = !bloqueado;
-		return bloqueado;
+	/**
+	 * pre: -, pos: -
+	 * Alterna el bool de bloqueo para bloquear/desbloquear el casillero
+	 */
+	public void alternarBloqueo() {
+		this.bloqueado = !this.bloqueado;
 	}
 	
 	//METODOS GENERALES ---------------------------------------------------------------------------------------
@@ -34,24 +44,43 @@ public class Casillero {
 	
 	//GETTERS SIMPLES -----------------------------------------------------------------------------------------
 	
-	// TODO todos los pre y post de getters 
-	
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve el jugador que está en ese casillero
+	 */
 	public int getJugador() {
 		return jugador;
 	}
 
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve la posición x del casillero
+	 */
 	public int getPosicionX() {
 		return posicionX;
 	}
 
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve la posición y del casillero
+	 */
 	public int getPosicionY() {
 		return posicionY;
 	}
 
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve la posición z del casillero
+	 */
 	public int getPosicionZ() {
 		return posicionZ;
 	}
 	
+
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve las coordenadas completas del casillero
+	 */
 	public int[] getCoordenadas() {
 		int[] coordenadas = new int[3];
 		coordenadas[0] = this.posicionX;
@@ -59,16 +88,24 @@ public class Casillero {
 		coordenadas[2] = this.posicionZ;
 		return coordenadas;
 	}
-	
-	public boolean isBloqueado() {
+
+	/**
+	 * pre: -, pos: -
+	 * @return devuelve un booleano correspondiente a si el casillero está bloqueado o no.
+	 */
+	public boolean verificarEstadoBloqueo() {
 		return bloqueado;
 	}
 	
 	
 	//SETTERS SIMPLES -----------------------------------------------------------------------------------------
 	
-	// TODO pre-post
+	/**
+	 * pre: debe existir el jugador, pos: -
+	 * @param jugador: TODO: validar
+	 */
 	public void setJugador(int jugador) {
+		//TODO: validar que exista el jugador cuando la clase esté hecha
 		this.jugador = jugador;
 	}
 }
