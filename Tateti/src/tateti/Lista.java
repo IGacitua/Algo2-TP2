@@ -168,12 +168,12 @@ public class Lista<T> {
 	}
 	
 	//TODO pre-post
-		private void validarPosicionEnLista(int posicion) throws Exception {
-			if ((posicion < 1) ||
-					(posicion > this.longitud)) {
-				throw new Exception("La posicion debe estar entre 1 y tamaño");
-			}
+	private void validarPosicionEnLista(int posicion) throws Exception {
+		if ((posicion < 1) ||
+				(posicion > this.longitud)) {
+			throw new Exception("La posicion debe estar entre 1 y tamaño");
 		}
+	}
 	
 	//SETTERS SIMPLES -----------------------------------------------------------------------------------------
 }
