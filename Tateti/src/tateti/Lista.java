@@ -35,7 +35,7 @@ public class Lista<T> {
 	
 	//TODO pre-post
 	public void agregarElemento(int posicion, T elemento) throws Exception {
-		validarPosicion(posicion);
+		validarPosicionParaAgregar(posicion);
 		NodoLista<T> nuevo = new NodoLista<T>(elemento);
 		if (posicion == 1) {
 			nuevo.setSiguiente(this.primero);
@@ -50,7 +50,7 @@ public class Lista<T> {
 	
 	//TODO pre-post
 	public void remover(int posicion) throws Exception {
-		validarPosicion(posicion);
+		validarPosicionEnLista(posicion);
 		this.cursor = null;
 		NodoLista<T> removido = null;
 		if (posicion == 1) {
@@ -81,13 +81,13 @@ public class Lista<T> {
 	
 	//TODO pre-post
 	public T obtener(int posicion) throws Exception {
-		validarPosicion(posicion);
+		validarPosicionEnLista(posicion);
 		return this.getNodo(posicion).getDato();
 	}
 	
 	//TODO pre-post
 	public void cambiar(T elemento, int posicion) throws Exception {
-		validarPosicion(posicion);
+		validarPosicionEnLista(posicion);
 		this.getNodo(posicion).setDato(elemento);
 	}
 	
@@ -151,7 +151,7 @@ public class Lista<T> {
 	
 	//TODO pre-post
 	private NodoLista<T> getNodo(int posicion) throws Exception {
-		validarPosicion(posicion);
+		validarPosicionEnLista(posicion);
 		NodoLista<T> actual = this.primero;
 		for(int i = 1; i < posicion; i++) {
 			actual = actual.getSiguiente();
@@ -160,12 +160,20 @@ public class Lista<T> {
 	}
 	
 	//TODO pre-post
-	private void validarPosicion(int posicion) throws Exception {
+	private void validarPosicionParaAgregar(int posicion) throws Exception {
 		if ((posicion < 1) ||
 				(posicion > this.longitud + 1)) {
 			throw new Exception("La posicion debe estar entre 1 y tamaño + 1");
 		}
 	}
+	
+	//TODO pre-post
+		private void validarPosicionEnLista(int posicion) throws Exception {
+			if ((posicion < 1) ||
+					(posicion > this.longitud)) {
+				throw new Exception("La posicion debe estar entre 1 y tamaño");
+			}
+		}
 	
 	//SETTERS SIMPLES -----------------------------------------------------------------------------------------
 }
