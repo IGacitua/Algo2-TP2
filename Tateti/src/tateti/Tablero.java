@@ -17,11 +17,11 @@ public class Tablero {
         this.TAMAÑO_X = tamañoX;
         this.TAMAÑO_Y = tamañoY;
         this.TAMAÑO_Z = tamañoZ;
-        this.casilleros = new Lista<Lista<Lista<Casillero>>>();
+        this.casilleros = new Lista<>();
         for (int x = 0; x < tamañoX; x++) {
-            Lista<Lista<Casillero>> fila = new Lista<Lista<Casillero>>();
+            Lista<Lista<Casillero>> fila = new Lista<>();
             for (int y = 0; y < tamañoY; y++) {
-                Lista<Casillero> columna = new Lista<Casillero>();
+                Lista<Casillero> columna = new Lista<>();
                 for (int z = 0; z < tamañoZ; z++) {
                     columna.agregarElemento(new Casillero(x, y, z));
                 }
