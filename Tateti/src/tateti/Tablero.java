@@ -83,6 +83,8 @@ public class Tablero {
                 || (!Herramientas.validarNumeroPositivo(z))) {
             throw new Exception("La posición de la ficha debe ser válida.");
         }
+        // TODO creo que no es necesario esto. Lista<> ya tiene sus verificaciones. Es redundante
+        // Si se queda, hacer mensaje de error mas descriptivo
     }
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -93,7 +95,7 @@ public class Tablero {
      * @return devuelve la posición de la ficha (y el tipo??)
      * @throws Exception
      */
-    private Casillero getFicha(int x, int y, int z) throws Exception {
+    public Casillero getFicha(int x, int y, int z) throws Exception {
         verificarPosicionFichaIngresada(x, y, z);
         return this.casilleros.obtener(x).obtener(y).obtener(z);
     }
