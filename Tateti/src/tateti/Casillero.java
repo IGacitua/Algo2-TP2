@@ -7,6 +7,8 @@ public class Casillero {
 	private int posicionX;
 	private int posicionY;
 	private int posicionZ;
+
+	private Casillero[][][] entorno;
 	
 	private int jugador = 0; // 0 sin jugador.
 	private boolean bloqueado = false; // Con ficha -> No se puede sacar. Sin ficha -> No se puede colocar
@@ -38,6 +40,41 @@ public class Casillero {
 		this.bloqueado = !this.bloqueado;
 	}
 	
+	// TODO pre-post
+    public void establecerEntorno(Tablero tablero) {
+        this.entorno = new Casillero[3][3][3];
+        // Las var deberian empezar en -1, pero todos sus usos tienen +1 asi que se cancela a 0.
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    try {
+                        this.entorno[x][y][z] = tablero.getFicha(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
+                    } catch (Exception e) {
+                        this.entorno[x][y][z] = null;
+                    }
+                }
+            }
+        }
+        imprimirEntorno(); // TODO delete
+    }
+
+   // TODO delete
+    private void imprimirEntorno() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    if (this.entorno[x][y][z] != null) {
+                        System.out.printf("%d ", this.entorno[x][y][z].jugador);
+                    } else {
+                        System.out.printf("-1 ");
+                    };
+                }
+                System.out.printf("\n");
+            }
+            System.out.printf("\n");
+        }
+    }
+
 	//METODOS GENERALES ---------------------------------------------------------------------------------------
 	
 	//METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
