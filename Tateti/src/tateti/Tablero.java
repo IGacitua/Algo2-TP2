@@ -41,12 +41,12 @@ public class Tablero {
         }
     }
 
-    // TODO pre-post; fijarse si va en otro lado
+    // TODO pre-post;
     public void establecerEntornos() throws Exception {
         for (int x = 0; x < this.tamañoX; x++) {
             for (int y = 0; y < this.tamañoY; y++) {
                 for (int z = 0; z < this.tamañoZ; z++) {
-                    this.getFicha(x + 1, y + 1, z + 1).establecerEntorno(this);
+                    this.getFicha(x, y, z).establecerEntorno(this);
                 }
             }
         }
@@ -54,7 +54,7 @@ public class Tablero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, pos: imprime el tablero por pantalla
+     * pre: -, pos: Imprime el tablero por pantalla
      *
      * @throws Exception
      */
@@ -64,7 +64,7 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY; y++) {
                 System.out.printf("\n");
                 for (int x = 0; x < this.tamañoX; x++) {
-                    System.out.printf("%2d ", getFicha(x + 1, y + 1, z + 1).getJugador());
+                    System.out.printf("%2d ", getFicha(x, y, z).getJugador());
                 }
             }
         }
@@ -75,20 +75,20 @@ public class Tablero {
      * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, pos:
      * TODO actualizar post, ahora devuelve si la jugada resultó en victoria
      *
-     * @param x, @param y, @param z: no puede ser <0
+     * @param x, @param y, @param z: No puede ser < 0
      * @param jugador: debe existir?? //TODO: cuando esté hecho el jugador vemos
      * @throws Exception
      */
     public boolean colocarFicha(int x, int y, int z, int jugador) throws Exception {
         verificarPosicionFichaIngresada(x, y, z); // TODO innecesario?
-        //TODO: validación si el jugador no existe????
+        //TODO: validación si el jugador no existe.
         getFicha(x, y, z).setJugador(jugador);
-        //return revisarVictoria(x, y, z);
-        return false;
+        return revisarVictoria(x, y, z);
     }
 
     //TODO pre-post (Toma la posicion de la ficha colocada y revisa si el jugador ganó)
     //TODO no revisa diagonales todavia!!!
+    //TODO, no funciona
     private boolean revisarVictoria(int x, int y, int z) throws Exception {
         boolean victoria = false;
         int cantidadEjeX = victoriaEjeX(x, y, z); // Cantidad de fichas en hilera en el eje X
@@ -202,13 +202,13 @@ public class Tablero {
     /**
      * pre: debe existir la ficha, pos: -
      *
-     * @param x, @param y, @param z: no puede ser <0
-     * @return devuelve la posición de la ficha (y el tipo??)
+     * @param x, @param y, @param z: no puede ser < 0
+     * @return Devuelve un puntero a la ficha
      * @throws Exception
      */
     public final Casillero getFicha(int x, int y, int z) throws Exception {
-        verificarPosicionFichaIngresada(x, y, z);
-        return this.casilleros.obtener(x).obtener(y).obtener(z);
+        verificarPosicionFichaIngresada(x + 1, y + 1, z + 1); // Listas son index 1
+        return this.casilleros.obtener(x + 1).obtener(y + 1).obtener(z + 1);
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
