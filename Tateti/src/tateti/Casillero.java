@@ -46,9 +46,9 @@ public class Casillero {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
                     try {
-                        this.entorno[z + 1][y + 1][x + 1] = tablero.getFicha(this.posicionZ + z, this.posicionY + y, this.posicionX + x);
+                        this.entorno[x + 1][y + 1][z + 1] = tablero.getFicha(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
                     } catch (Exception e) {
-                        this.entorno[z + 1][y + 1][x + 1] = null;
+                        this.entorno[x + 1][y + 1][z + 1] = null;
                     }
                 }
             }
@@ -57,9 +57,9 @@ public class Casillero {
 
     // TODO delete
     public void imprimirEntorno() {
-        for (int x = -1; x < 2; x++) {
+        for (int z = -1; z < 2; z++) {
             for (int y = -1; y < 2; y++) {
-                for (int z = -1; z < 2; z++) {
+                for (int x = -1; x < 2; x++) {
                     if (this.entorno[x + 1][y + 1][z + 1] != null) {
                         System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador());
                     } else {
