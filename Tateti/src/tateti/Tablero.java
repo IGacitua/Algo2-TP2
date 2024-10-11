@@ -39,7 +39,6 @@ public class Tablero {
     }
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
-    //METODOS GENERALES ---------------------------------------------------------------------------------------
     /**
      * pre: -, pos: imprime el tablero por pantalla
      *
@@ -70,6 +69,7 @@ public class Tablero {
         //TODO: validación si el jugador no existe????
         getFicha(x, y, z).setJugador(jugador);
     }
+    //METODOS GENERALES ---------------------------------------------------------------------------------------
 
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
