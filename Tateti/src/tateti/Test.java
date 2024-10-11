@@ -4,16 +4,17 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
         Tablero tablero = new Tablero(3, 3, 3, 3);
-        //tablero.establecerEntornos();
-        for (int i = 1; i <= 3; i++) {
-            for (int j = 1; j <= 3; j++) {
-                for (int k = 1; k <= 3; k++) {
-                    tablero.colocarFicha(i, j, k, k);
+        tablero.establecerEntornos();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    if (tablero.colocarFicha(i, j, k, k + 1)) {
+                        System.out.printf("Win!");
+                    }
                 }
             }
         }
         tablero.imprimirTablero();
-        System.out.printf("\n\nA");
-        tablero.getFicha(2, 2, 2).establecerEntorno(tablero);
+        System.out.printf("\n\n");
     }
 }
