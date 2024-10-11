@@ -158,7 +158,7 @@ public class Lista<T> {
     private void validarPosicionParaAgregar(int posicion) throws Exception {
         if ((posicion < 1)
                 || (posicion > this.longitud + 1)) {
-            throw new Exception("La posicion debe estar entre 1 y tamaño + 1");
+            throw new Exception("La posicion debe estar entre 1 y tamaño + 1. (Es " + posicion + ")");
         }
     }
 
@@ -166,7 +166,7 @@ public class Lista<T> {
     private void validarPosicionEnLista(int posicion) throws Exception {
         if ((posicion < 1)
                 || (posicion > this.longitud)) {
-            throw new Exception("La posicion debe estar entre 1 y tamaño");
+            throw new Exception("La posicion debe estar entre 1 y tamaño. (Es " + posicion + ")");
         }
     }
 
