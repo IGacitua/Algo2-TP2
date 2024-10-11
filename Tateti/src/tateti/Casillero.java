@@ -42,32 +42,26 @@ public class Casillero {
     // TODO pre-post
     public void establecerEntorno(Tablero tablero) {
         this.entorno = new Casillero[3][3][3];
-        // Las var deberian empezar en -1, pero todos sus usos tienen +1 asi que se cancela a 0.
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int z = 0; z < 3; z++) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                for (int z = -1; z < 2; z++) {
                     try {
-                        this.entorno[x][y][z] = tablero.getFicha(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
-                        System.out.printf("%2d ", this.entorno[x][y][z].jugador);
+                        this.entorno[z + 1][y + 1][x + 1] = tablero.getFicha(this.posicionZ + z, this.posicionY + y, this.posicionX + x);
                     } catch (Exception e) {
-                        this.entorno[x][y][z] = null;
-                        System.out.printf("-1 ");
+                        this.entorno[z + 1][y + 1][x + 1] = null;
                     }
                 }
-                System.out.printf("\n");
             }
-            System.out.printf("\n");
         }
-        //imprimirEntorno(); // TODO delete
     }
 
     // TODO delete
     public void imprimirEntorno() {
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int z = 0; z < 3; z++) {
-                    if (this.entorno[x][y][z] != null) {
-                        System.out.printf("%2d ", this.entorno[x][y][z].jugador);
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                for (int z = -1; z < 2; z++) {
+                    if (this.entorno[x + 1][y + 1][z + 1] != null) {
+                        System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador());
                     } else {
                         System.out.printf("-1 ");
                     }
@@ -93,7 +87,7 @@ public class Casillero {
     /**
      * pre: -, pos: -
      *
-     * @return devuelve la posición x del casillero
+     * @return Devuelve la posición x del casillero
      */
     public int getPosicionX() {
         return posicionX;
@@ -102,7 +96,7 @@ public class Casillero {
     /**
      * pre: -, pos: -
      *
-     * @return devuelve la posición y del casillero
+     * @return Devuelve la posición y del casillero
      */
     public int getPosicionY() {
         return posicionY;
@@ -111,7 +105,7 @@ public class Casillero {
     /**
      * pre: -, pos: -
      *
-     * @return devuelve la posición z del casillero
+     * @return Devuelve la posición z del casillero
      */
     public int getPosicionZ() {
         return posicionZ;
@@ -120,7 +114,7 @@ public class Casillero {
     /**
      * pre: -, pos: -
      *
-     * @return devuelve las coordenadas completas del casillero
+     * @return Devuelve las coordenadas completas del casillero
      */
     public int[] getCoordenadas() {
         int[] coordenadas = new int[3];
@@ -133,7 +127,7 @@ public class Casillero {
     /**
      * pre: -, pos: -
      *
-     * @return devuelve un booleano correspondiente a si el casillero está
+     * @return Devuelve un booleano correspondiente a si el casillero está
      * bloqueado o no.
      */
     public boolean isBloqueado() {
