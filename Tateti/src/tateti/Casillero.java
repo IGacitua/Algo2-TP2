@@ -48,22 +48,26 @@ public class Casillero {
                 for (int z = 0; z < 3; z++) {
                     try {
                         this.entorno[x][y][z] = tablero.getFicha(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
+                        System.out.printf("%2d ", this.entorno[x][y][z].jugador);
                     } catch (Exception e) {
                         this.entorno[x][y][z] = null;
+                        System.out.printf("-1 ");
                     }
                 }
+                System.out.printf("\n");
             }
+            System.out.printf("\n");
         }
-        imprimirEntorno(); // TODO delete
+        //imprimirEntorno(); // TODO delete
     }
 
     // TODO delete
-    private void imprimirEntorno() {
+    public void imprimirEntorno() {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 for (int z = 0; z < 3; z++) {
                     if (this.entorno[x][y][z] != null) {
-                        System.out.printf("%d ", this.entorno[x][y][z].jugador);
+                        System.out.printf("%2d ", this.entorno[x][y][z].jugador);
                     } else {
                         System.out.printf("-1 ");
                     }
@@ -132,8 +136,13 @@ public class Casillero {
      * @return devuelve un booleano correspondiente a si el casillero está
      * bloqueado o no.
      */
-    public boolean verificarEstadoBloqueo() {
+    public boolean isBloqueado() {
         return bloqueado;
+    }
+
+    // TODO pre-post
+    public Casillero[][][] getEntorno() {
+        return entorno;
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -146,4 +155,5 @@ public class Casillero {
         //TODO: validar que exista el jugador cuando la clase esté hecha
         this.jugador = jugador;
     }
+
 }
