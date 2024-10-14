@@ -94,13 +94,17 @@ public class Tablero {
         int cantidadEjeX = victoriaEjeX(x, y, z); // Cantidad de fichas en hilera en el eje X
         int cantidadEjeY = victoriaEjeY(x, y, z); // IDEM Y
         int cantidadEjeZ = victoriaEjeZ(x, y, z); // IDEM Z
-        if (cantidadEjeX >= this.condicionVictoria) {
-            victoria = true;
-        }
-        if (cantidadEjeY >= this.condicionVictoria) {
-            victoria = true;
-        }
-        if (cantidadEjeZ >= this.condicionVictoria) {
+        int cantidadEjesXY = victoriaEjeXY(x, y, z); // IDEM XY
+        int cantidadEjesXZ = victoriaEjeXZ(x, y, z); // IDEM XZ
+        int cantidadEjesYZ = victoriaEjeYZ(x, y, z); // IDEM YZ
+        int cantidadEjesXYZ = victoriaEjeXYZ(x, y, z); // IDEM XYZ
+        if (cantidadEjeX >= this.condicionVictoria
+                || cantidadEjeY >= this.condicionVictoria
+                || cantidadEjeZ >= this.condicionVictoria
+                || cantidadEjesXY >= this.condicionVictoria
+                || cantidadEjesXZ >= this.condicionVictoria
+                || cantidadEjesYZ >= this.condicionVictoria
+                || cantidadEjesXYZ >= this.condicionVictoria) {
             victoria = true;
         }
         return victoria;
@@ -179,6 +183,211 @@ public class Tablero {
             }
         }
         return cantidadEnHilera;
+    }
+
+    // TODO pre-post
+    private int victoriaEjeXY(int x, int y, int z) throws Exception {
+        // Revisa linea x+ y+ / x- y-
+        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
+        Casillero fichaColocada = this.getFicha(x, y, z);
+        Casillero fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][0][1]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][2][1]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        // Revisa linea x+ y- / x- y+
+        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
+        fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][2][1]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][0][1]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
+    }
+
+    // TODO pre-post
+    private int victoriaEjeXZ(int x, int y, int z) throws Exception {
+        // Revisa linea x+ z+ / x- z-
+        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
+        Casillero fichaColocada = this.getFicha(x, y, z);
+        Casillero fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][1][0]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][1][2]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        // Revisa linea x+ z- / x- z+
+        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
+        fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][1][2]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][1][0]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
+    }
+
+    // TODO pre-post
+    private int victoriaEjeYZ(int x, int y, int z) throws Exception {
+        // Revisa linea y+ z+ / y- z-
+        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
+        Casillero fichaColocada = this.getFicha(x, y, z);
+        Casillero fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[1][0][0]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[1][2][2]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        // Revisa linea y+ z- / y- z+
+        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
+        fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[1][0][2]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[1][2][0]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
+    }
+
+    // TODO pre-post
+    private int victoriaEjeXYZ(int x, int y, int z) throws Exception {
+        // Revisa linea x+ y+ z+ / x- y- z-
+        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
+        Casillero fichaColocada = this.getFicha(x, y, z);
+        Casillero fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][0][0]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][2][2]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraUno++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        // Revisa linea x- y+ z+ / x+ y- z-
+        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
+        fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][2][2]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][0][0]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        // Revisa linea x+ y- z+ / x- y+ z-
+        int cantidadEnHileraTres = 1; // Empieza en 1 xq se considera la propia casilla
+        fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[2][0][2]) != null) {
+            // Revisar arriba a la izquierda
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+        fichaAuxiliar = fichaColocada; // Reiniciamos aux
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[0][2][0]) != null) {
+            // Revisar por atras
+            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+                cantidadEnHileraDos++;
+            } else {
+                break; // Para evitar que fichas no-adyacentes cuenten
+            }
+        }
+
+        return Math.max(Math.max(cantidadEnHileraUno, cantidadEnHileraDos), cantidadEnHileraTres); // Devuelve el mas alto de los tres
     }
 
     //METODOS GENERALES ---------------------------------------------------------------------------------------
