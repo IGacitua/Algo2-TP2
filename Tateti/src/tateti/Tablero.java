@@ -80,7 +80,10 @@ public class Tablero {
      * @throws Exception
      */
     public boolean colocarFicha(int x, int y, int z, int jugador) throws Exception {
-        verificarPosicionFichaIngresada(x, y, z); // TODO innecesario?
+        verificarPosicionFichaIngresada(x, y, z);
+        if (this.getFicha(x, y, z).isBloqueado()) {
+            throw new Exception("La casilla está bloqueada.");
+        }
         //TODO: validación si el jugador no existe.
         getFicha(x, y, z).setJugador(jugador);
         return revisarVictoria(x, y, z);
@@ -160,7 +163,7 @@ public class Tablero {
         return cantidadEnHilera;
     }
 
-// TODO pre-post
+    // TODO pre-post
     private int victoriaEjeZ(int x, int y, int z) throws Exception {
         int cantidadEnHilera = 1; // Empieza en 1 xq se considera la propia casilla
         Casillero fichaColocada = this.getFicha(x, y, z);
