@@ -8,10 +8,12 @@ public class Jugador {
     private int identificacion;
     private int maxCartas;
     private boolean pierdeTurno;
+    //TODO: mano de cartas
+    //TODO: cantidad de fichas max
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: -, pos: - Inicializa Jugador y establece los valores de los
+     * pre: -, post: - Inicializa Jugador y establece los valores de los
      * atributos
      *
      * @param cantidadJugadores, @param maxCartas: no pueden ser < 0
