@@ -42,7 +42,7 @@ public class Jugador {
     /**
      * pre: -, post: - invierte el estado del turno
      */
-    public void cambiarEstadoDelTurno() {
+    public void alternarPierdeTurno() {
         this.pierdeTurno = !this.pierdeTurno;
     }
 
