@@ -154,6 +154,3 @@ public class Casillero {
     }
 
 }
-
-
-}
