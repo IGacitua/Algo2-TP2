@@ -35,6 +35,20 @@ public class Jugador {
         this.maxCartas = maxCartas;
         this.pierdeTurno = false;
     }
+
+    // TODO pre-post (Constructor para jugador sin nombre)
+    public Jugador(int identificacion, int maxCartas) throws Exception {
+        if (!Herramientas.validarNumeroPositivo(maxCartas)) {
+            throw new Exception("El valor de cartas maximas debe ser mayor o igual que 0");
+        }
+        if (!Herramientas.validarNumeroPositivoEstricto(identificacion)) {
+            throw new Exception("El valor de identificacion del usuario debe ser mayor a 0");
+        }
+        this.nombre = "";
+        this.identificacion = identificacion;
+        this.maxCartas = maxCartas;
+        this.pierdeTurno = false;
+    }
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
