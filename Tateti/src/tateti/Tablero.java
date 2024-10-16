@@ -14,12 +14,15 @@ public class Tablero {
     /**
      * pre: -, post: crea el tablero
      *
-     * @param tamañoX, @param tamañoY, @param tamañoZ, @param condicionVictoria: no puede ser <=0
+     * @param tamañoX, @param tamañoY, @param tamañoZ, @param condicionVictoria:
+     * no puede ser <=0
      * @throws Exception
      */
     public Tablero(int tamañoX, int tamañoY, int tamañoZ, int condicionVictoria) throws Exception {
-        if ((!Herramientas.validarNumeroPositivoEstricto(tamañoX)) || (!Herramientas.validarNumeroPositivoEstricto(tamañoY))
-                || (!Herramientas.validarNumeroPositivoEstricto(tamañoZ)) || (!Herramientas.validarNumeroPositivoEstricto(condicionVictoria))) {
+        if ((!Herramientas.validarNumeroPositivoEstricto(tamañoX))
+                || (!Herramientas.validarNumeroPositivoEstricto(tamañoY))
+                || (!Herramientas.validarNumeroPositivoEstricto(tamañoZ))
+                || (!Herramientas.validarNumeroPositivoEstricto(condicionVictoria))) {
             throw new Exception("Los tamaños del tablero y la condición de victoria deben ser mayores a 0.");
         }
         this.tamañoX = tamañoX;
@@ -42,7 +45,7 @@ public class Tablero {
 
     /**
      * pre: -, post: establece el entorno de trabajo (el tablero).
-     * 
+     *
      * @throws Exception
      */
     public void establecerEntornos() throws Exception {
@@ -75,7 +78,8 @@ public class Tablero {
     }
 
     /**
-     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, post: -
+     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, post:
+     * -
      *
      * @param x, @param y, @param z: No puede ser < 0
      * @param jugador: debe existir?? //TODO: cuando esté hecho el jugador vemos
@@ -93,209 +97,44 @@ public class Tablero {
     }
 
     /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post: -
-     * 
+     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post:
+     * -
+     *
      * @param x, @param y, @param z: No puede ser < 0
-     * @return devuelve un booleano dependiendo de si la jugada fue de victoria o no
+     * @return devuelve un booleano dependiendo de si la jugada fue de victoria
+     * o no
      * @throws Exception
      */
-    private boolean revisarVictoria(int x, int y, int z) throws Exception {
-        boolean victoria = false;
-        int cantidadEjeX = victoriaEjeX(x, y, z); // Cantidad de fichas en hilera en el eje X
-        int cantidadEjeY = victoriaEjeY(x, y, z); // Cantidad de fichas en hilera en el eje Y
-        int cantidadEjeZ = victoriaEjeZ(x, y, z); // Cantidad de fichas en hilera en el eje Z
-        int cantidadEjesXY = victoriaEjeXY(x, y, z); // Cantidad de fichas en hilera en el eje XY
-        int cantidadEjesXZ = victoriaEjeXZ(x, y, z); // Cantidad de fichas en hilera en el eje XZ
-        int cantidadEjesYZ = victoriaEjeYZ(x, y, z); // Cantidad de fichas en hilera en el eje YZ
-        int cantidadEjesXYZ = victoriaEjeXYZ(x, y, z); // Cantidad de fichas en hilera en el eje XYZ
-        if (cantidadEjeX >= this.condicionVictoria
-                || cantidadEjeY >= this.condicionVictoria
-                || cantidadEjeZ >= this.condicionVictoria
-                || cantidadEjesXY >= this.condicionVictoria
-                || cantidadEjesXZ >= this.condicionVictoria
-                || cantidadEjesYZ >= this.condicionVictoria
-                || cantidadEjesXYZ >= this.condicionVictoria) {
-            victoria = true;
+    private boolean revisarVictoria(int posicionX, int posicionY, int posicionZ) throws Exception {
+        Casillero fichaColocada = this.getFicha(posicionX, posicionY, posicionZ);
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == y && x == z && z == 0) {
+                        continue; // Saltea el desplazamiento nulo para evitar bucle infinito
+                    }
+                    if (auxiliarVictoria(x, y, z, fichaColocada) + auxiliarVictoria(-x, -y, -z, fichaColocada) >= this.condicionVictoria - 1) {
+                        // Se le resta 1 a la condicion de victoria porque se considera la propia ficha
+                        return true;
+                    }
+                }
+            }
         }
-        return victoria;
+        return false;
     }
 
-    private int auxiliarVictoria(int x, int y, int z, int cantidadEnHilera, Casillero fichaColocada, Casillero fichaAuxiliar) {
-    	while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[x][y][z]) != null) {
+    // TODO pre-post
+    private int auxiliarVictoria(int desplazamientoX, int desplazamientoY, int desplazamientoZ, Casillero fichaColocada) {
+        int cantidadEnHilera = 0; // Empieza en 1 porque se considera la propia ficha
+        Casillero fichaAuxiliar = fichaColocada;
+        while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[desplazamientoX + 1][desplazamientoY + 1][desplazamientoZ + 1]) != null) {
             if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
                 cantidadEnHilera++;
             } else {
                 break; // Para evitar que fichas no-adyacentes cuenten
             }
         }
-		return cantidadEnHilera;
-    }
-    
-    /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return devuelve la cantidadEnHilera del eje x
-     * @throws Exception
-     */
-    private int victoriaEjeX(int x, int y, int z) throws Exception {
-        int cantidadEnHilera = 1; // Empieza en 1 porque se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHilera = auxiliarVictoria(0, 1, 1, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHilera = auxiliarVictoria(2, 1, 1, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        
         return cantidadEnHilera;
-    }
-    
-    /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return devuelve la cantidadEnHilera del eje y
-     * @throws Exception
-     */
-    private int victoriaEjeY(int x, int y, int z) throws Exception {
-        int cantidadEnHilera = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHilera = auxiliarVictoria(1, 0, 1, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHilera = auxiliarVictoria(1, 2, 1, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        return cantidadEnHilera;
-    }
-
-    /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return devuelve la cantidadEnHilera del eje z
-     * @throws Exception
-     */
-    private int victoriaEjeZ(int x, int y, int z) throws Exception {
-        int cantidadEnHilera = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHilera = auxiliarVictoria(1, 1, 0, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHilera = auxiliarVictoria(1, 1, 2, cantidadEnHilera, fichaColocada, fichaAuxiliar);
-        
-        return cantidadEnHilera;
-    }
-
-    /**
-     * pre: recibe la posicion (x,y,z), post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return revisa los cuatro cuadrantes de un plano x,y (1ero, 3ero cantidadEnHileraUno;
-     * 2do y 4to cantidadEnHileraDos) y devuelve la cantidadEnHilera más grande
-     * @throws Exception
-     */
-    private int victoriaEjeXY(int x, int y, int z) throws Exception {
-        // Revisa linea x+ y+ / x- y-  (PRIMER CUADRANTE, TERCER CUADRANTE)
-        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHileraUno = auxiliarVictoria(0, 0, 1, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraUno = auxiliarVictoria(2, 2, 1, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        
-        // Revisa linea x+ y- / x- y+  (CUARTO CUADRANTE, SEGUNDO CUADRANTE)
-        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
-        fichaAuxiliar = fichaColocada;
-        cantidadEnHileraDos = auxiliarVictoria(0, 2, 1, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraDos = auxiliarVictoria(2, 0, 1, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        
-        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
-    }
-
-    /**
-     * pre: recibe la posicion (x,y,z), post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return revisa los cuatro cuadrantes de un plano x,z (1ero, 3ero cantidadEnHileraUno;
-     * 2do y 4to cantidadEnHileraDos) y devuelve la cantidadEnHilera más grande
-     * @throws Exception
-     */
-    private int victoriaEjeXZ(int x, int y, int z) throws Exception {
-        // Revisa linea x+ z+ / x- z-  (PRIMER CUADRANTE, TERCER CUADRANTE)
-        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHileraUno = auxiliarVictoria(0, 1, 0, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraUno = auxiliarVictoria(2, 1, 2, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        
-        // Revisa linea x+ z- / x- z+  (CUARTO CUADRANTE, SEGUNDO CUADRANTE)
-        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
-        fichaAuxiliar = fichaColocada;
-        cantidadEnHileraDos = auxiliarVictoria(0, 1, 2, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraDos = auxiliarVictoria(2, 1, 0, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        
-        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
-    }
-
-    /** 
-     * pre: recibe la posicion (x,y,z), post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return revisa los cuatro cuadrantes de un plano y,z (1ero, 3ero cantidadEnHileraUno;
-     * 2do y 4to cantidadEnHileraDos) y devuelve la cantidadEnHilera más grande
-     * @throws Exception
-     */
-    private int victoriaEjeYZ(int x, int y, int z) throws Exception {
-        // Revisa linea y+ z+ / y- z-   (PRIMER CUADRANTE, TERCER CUADRANTE)
-        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHileraUno = auxiliarVictoria(1, 0, 0, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraUno = auxiliarVictoria(1, 2, 2, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        
-        // Revisa linea y+ z- / y- z+  (CUARTO CUADRANTE, SEGUNDO CUADRANTE)
-        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
-        fichaAuxiliar = fichaColocada;
-        cantidadEnHileraDos = auxiliarVictoria(1, 0, 2, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraDos = auxiliarVictoria(1, 2, 0, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        
-        return Math.max(cantidadEnHileraUno, cantidadEnHileraDos); // Devuelve el mas alto de ambos
-    }
-
-    /**
-     * pre: recibe la posicion (x,y,z), post: -
-     * 
-     * @param x, @param y, @param z: No puede ser < 0
-     * @return revisa los x,y,z y devuelve el mayor entre cantidadEnHileraUno, cantidadEnHileraDos,
-     * cantidadEnHileraTres
-     * @throws Exception
-     */
-    private int victoriaEjeXYZ(int x, int y, int z) throws Exception {
-        // Revisa linea x+ y+ z+ / x- y- z-
-        int cantidadEnHileraUno = 1; // Empieza en 1 xq se considera la propia casilla
-        Casillero fichaColocada = this.getFicha(x, y, z);
-        Casillero fichaAuxiliar = fichaColocada;
-        cantidadEnHileraUno = auxiliarVictoria(0, 0, 0, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraUno = auxiliarVictoria(2, 2, 2, cantidadEnHileraUno, fichaColocada, fichaAuxiliar);
-    
-        // Revisa linea x- y+ z+ / x+ y- z-
-        int cantidadEnHileraDos = 1; // Empieza en 1 xq se considera la propia casilla
-        fichaAuxiliar = fichaColocada;
-        cantidadEnHileraDos = auxiliarVictoria(0, 2, 2, cantidadEnHileraDos, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        
-        // Revisa linea x+ y- z+ / x- y+ z-
-        int cantidadEnHileraTres = 1; // Empieza en 1 xq se considera la propia casilla
-        fichaAuxiliar = fichaColocada;
-        cantidadEnHileraTres = auxiliarVictoria(2, 0, 2, cantidadEnHileraTres, fichaColocada, fichaAuxiliar);
-        fichaAuxiliar = fichaColocada; // Reiniciamos aux
-        cantidadEnHileraTres = auxiliarVictoria(0, 2, 0, cantidadEnHileraTres, fichaColocada, fichaAuxiliar);
-
-        return Math.max(Math.max(cantidadEnHileraUno, cantidadEnHileraDos), cantidadEnHileraTres); // Devuelve el mas alto de los tres
     }
 
     //METODOS GENERALES ---------------------------------------------------------------------------------------
