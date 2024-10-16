@@ -10,7 +10,7 @@ public class Casillero {
 
     private Casillero[][][] entorno;
 
-    private int jugador = 0; // 0 sin jugador
+    private Jugador jugador = null;
     private boolean bloqueado = false; // Con ficha -> No se puede sacar. Sin ficha -> No se puede colocar
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
@@ -41,6 +41,7 @@ public class Casillero {
 
     /**
      * pre: el tablero debe existir, post: -
+     *
      * @param tablero: se establece el entorno de la ficha
      */
     public void establecerEntorno(Tablero tablero) {
@@ -59,12 +60,12 @@ public class Casillero {
     }
 
     // TODO delete
-    public void imprimirEntorno() {
+    public void imprimirEntorno() throws Exception {
         for (int z = -1; z < 2; z++) {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (this.entorno[x + 1][y + 1][z + 1] != null) {
-                        System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador());
+                        System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador().getIdentificacion());
                     } else {
                         System.out.printf("-1 ");
                     }
@@ -83,8 +84,17 @@ public class Casillero {
      *
      * @return devuelve el jugador que está en ese casillero
      */
-    public int getJugador() {
+    public Jugador getJugador() throws Exception {
         return jugador;
+    }
+
+    // TODO pre-post
+    public int getIdentificacionDeJugador() {
+        if (jugador == null) {
+            return 0;
+        } else {
+            return this.jugador.getIdentificacion();
+        }
     }
 
     /**
@@ -148,7 +158,7 @@ public class Casillero {
      *
      * @param jugador: TODO: validar
      */
-    public void setJugador(int jugador) {
+    public void setJugador(Jugador jugador) {
         //TODO: validar que exista el jugador cuando la clase esté hecha
         this.jugador = jugador;
     }

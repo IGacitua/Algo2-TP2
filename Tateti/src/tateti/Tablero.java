@@ -70,7 +70,7 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY; y++) {
                 System.out.printf("\n");
                 for (int x = 0; x < this.tamañoX; x++) {
-                    System.out.printf("%2d ", getFicha(x, y, z).getJugador());
+                    System.out.printf("%2d ", getFicha(x, y, z).getIdentificacionDeJugador());
                 }
             }
         }
@@ -86,7 +86,7 @@ public class Tablero {
      * @retrurn devuelve si la jugada de dicho jugador es una victoria o no
      * @throws Exception
      */
-    public boolean colocarFicha(int x, int y, int z, int jugador) throws Exception {
+    public boolean colocarFicha(int x, int y, int z, Jugador jugador) throws Exception {
         verificarPosicionFichaIngresada(x, y, z);
         if (this.getFicha(x, y, z).isBloqueado()) {
             throw new Exception("La casilla está bloqueada.");
@@ -128,7 +128,7 @@ public class Tablero {
         int cantidadEnHilera = 0; // Empieza en 1 porque se considera la propia ficha
         Casillero fichaAuxiliar = fichaColocada;
         while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[desplazamientoX + 1][desplazamientoY + 1][desplazamientoZ + 1]) != null) {
-            if (fichaAuxiliar.getJugador() == fichaColocada.getJugador()) {
+            if (fichaAuxiliar.getIdentificacionDeJugador() == fichaColocada.getIdentificacionDeJugador()) {
                 cantidadEnHilera++;
             } else {
                 break; // Para evitar que fichas no-adyacentes cuenten
