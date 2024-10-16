@@ -4,7 +4,7 @@ public class Jugador {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
-    private String nombre;
+    private String nombre = null;
     private int identificacion;
     private int maxCartas;
     private boolean pierdeTurno;
@@ -44,7 +44,6 @@ public class Jugador {
         if (!Herramientas.validarNumeroPositivoEstricto(identificacion)) {
             throw new Exception("El valor de identificacion del usuario debe ser mayor a 0");
         }
-        this.nombre = "";
         this.identificacion = identificacion;
         this.maxCartas = maxCartas;
         this.pierdeTurno = false;
@@ -62,6 +61,7 @@ public class Jugador {
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     public String getNombreJugador() {
+        // TODO validar si tiene nombre el jugador
         return nombre;
     }
 
