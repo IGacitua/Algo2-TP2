@@ -10,7 +10,7 @@ public class Casillero {
 
     private Casillero[][][] entorno;
 
-    private int jugador = 0; // 0 sin jugador.
+    private int jugador = 0; // 0 sin jugador
     private boolean bloqueado = false; // Con ficha -> No se puede sacar. Sin ficha -> No se puede colocar
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
@@ -39,7 +39,10 @@ public class Casillero {
         this.bloqueado = !this.bloqueado;
     }
 
-    // TODO pre-post
+    /**
+     * pre: el tablero debe existir, post: -
+     * @param tablero: se establece el entorno de la ficha
+     */
     public void establecerEntorno(Tablero tablero) {
         this.entorno = new Casillero[3][3][3];
         for (int x = -1; x < 2; x++) {
@@ -149,5 +152,8 @@ public class Casillero {
         //TODO: validar que exista el jugador cuando la clase esté hecha
         this.jugador = jugador;
     }
+
+}
+
 
 }

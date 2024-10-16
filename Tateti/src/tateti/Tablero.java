@@ -398,7 +398,7 @@ public class Tablero {
     /**
      * pre: recibe la posición y la verifica, pos: -
      *
-     * @param x, @param y, @param z: no puede ser <0
+     * @param x, @param y, @param z: no puede ser < 0
      * @throws Exception
      */
     private void verificarPosicionFichaIngresada(int x, int y, int z) throws Exception {
