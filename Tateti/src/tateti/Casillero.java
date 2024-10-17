@@ -15,7 +15,7 @@ public class Casillero {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: -, pos: crea el casillero
+     * pre: -, post: crea el casillero
      *
      * @param x, @param y, @param z: no puede ser < 0
      * @throws Exception
@@ -32,7 +32,8 @@ public class Casillero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, pos: - Alterna el bool de bloqueo para bloquear/desbloquear el
+     * pre: -, post: - 
+     * Alterna el bool de bloqueo para bloquear/desbloquear el
      * casillero
      */
     public void alternarBloqueo() {
@@ -76,7 +77,12 @@ public class Casillero {
         }
     }
 
-    // TODO pre-post
+    /**
+     * pre: recibe un casillero válido, post: -
+     * @param casilla: debe ser válida //TODO: VALIDAR
+     * @return Devuelve un boolean correspondiente a si el casillero
+     * con el que se está trabajando es adyacente al propuesto
+     */
     public boolean esAdyacente(Casillero casilla) {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -94,15 +100,19 @@ public class Casillero {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -, pos: -
+     * pre: -, post: -
      *
-     * @return devuelve el jugador que está en ese casillero
+     * @return Devuelve el jugador que está en ese casillero
      */
     public Jugador getJugador() throws Exception {
         return jugador;
     }
 
-    // TODO pre-post
+    /**
+     * pre: debe existir un jugador, post: -
+     * @return Devuelve 0 si no hay un jugador en el casillero, o devuelve la
+     * identificación del mismo
+     */
     public int getIdentificacionDeJugador() {
         if (jugador == null) {
             return 0;
@@ -112,7 +122,7 @@ public class Casillero {
     }
 
     /**
-     * pre: -, pos: -
+     * pre: -, post: -
      *
      * @return Devuelve la posición x del casillero
      */
@@ -121,7 +131,7 @@ public class Casillero {
     }
 
     /**
-     * pre: -, pos: -
+     * pre: -, post: -
      *
      * @return Devuelve la posición y del casillero
      */
@@ -130,7 +140,7 @@ public class Casillero {
     }
 
     /**
-     * pre: -, pos: -
+     * pre: -, post: -
      *
      * @return Devuelve la posición z del casillero
      */
@@ -139,7 +149,7 @@ public class Casillero {
     }
 
     /**
-     * pre: -, pos: -
+     * pre: -, post: -
      *
      * @return Devuelve las coordenadas completas del casillero
      */
@@ -161,19 +171,25 @@ public class Casillero {
         return bloqueado;
     }
 
-    // TODO pre-post
+    /**
+     * pre: -, post: -
+     * @return Devuelve el entorno del casillero
+     */
     public Casillero[][][] getEntorno() {
         return entorno;
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: debe existir el jugador, pos: -
+     * pre: debe existir el jugador, post: -
      *
-     * @param jugador: TODO: validar
+     * @param jugador: no puede ser nulo
+     * @throws Exception 
      */
-    public void setJugador(Jugador jugador) {
-        //TODO: validar que exista el jugador cuando la clase esté hecha
+    public void setJugador(Jugador jugador) throws Exception {
+        if (jugador == null) {
+        	throw new Exception("Ese jugador no existe");
+        }
         this.jugador = jugador;
     }
 
