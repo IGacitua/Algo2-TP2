@@ -4,15 +4,17 @@ public class Test {
 
     public static void main(String[] args) {
         try {
-            Tablero tablero = new Tablero(3, 3, 3, 3);
+            Tablero tablero = new Tablero(3, 3, 1, 3);
             Jugador jugadorUno = new Jugador("Pepe", 1, 10);
+            Jugador jugadorDos = new Jugador(2, 10);
             tablero.establecerEntornos();
-            boolean win1 = tablero.colocarFicha(0, 0, 0, jugadorUno);
-            boolean win2 = tablero.colocarFicha(1, 1, 1, jugadorUno);
-            boolean win3 = tablero.colocarFicha(2, 2, 2, jugadorUno);
-            System.out.printf("Wins: %b, %b, %b.", win1, win2, win3);
+            tablero.colocarFicha(0, 0, 0, jugadorUno);
+            tablero.colocarFicha(1, 0, 0, jugadorUno);
+            tablero.colocarFicha(2, 1, 0, jugadorUno);
+            tablero.moverFicha(2, 0, 0, tablero.getCasillero(2, 1, 0));
+            tablero.colocarFicha(0, 1, 0, jugadorDos);
+            tablero.moverFicha(1, 0, 0, tablero.getCasillero(0, 1, 0));
             tablero.imprimirTablero();
-            System.out.printf("\n\n");
         } catch (Exception e) {
             System.out.println(e);
         }
