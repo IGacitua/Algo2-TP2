@@ -1,15 +1,15 @@
 package tateti;
 
-public class NodoLista<T> {
+public class Nodo<T> {
 	//ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
 	
 	//ATRIBUTOS -----------------------------------------------------------------------------------------------
 	private T dato;
-	private NodoLista<T> siguiente = null;
+	private Nodo<T> siguiente = null;
 	//CONSTRUCTORES -------------------------------------------------------------------------------------------
 	
 	// TODO pre-post
-	NodoLista(T dato){
+	Nodo(T dato){
 		this.dato = dato;
 		this.siguiente = null;
 	}
@@ -28,7 +28,7 @@ public class NodoLista<T> {
 	}
 	
 	// TODO pre-post
-	public NodoLista<T> getSiguiente() {
+	public Nodo<T> getSiguiente() {
 		return siguiente;
 	}
 	
@@ -40,7 +40,7 @@ public class NodoLista<T> {
 	}
 	
 	// TODO pre-post
-	public void setSiguiente(NodoLista<T> siguiente) {
+	public void setSiguiente(Nodo<T> siguiente) {
 		this.siguiente = siguiente;
 	}
 }
