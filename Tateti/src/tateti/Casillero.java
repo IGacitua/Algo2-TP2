@@ -50,7 +50,7 @@ public class Casillero {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
                     try {
-                        this.entorno[x + 1][y + 1][z + 1] = tablero.getFicha(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
+                        this.entorno[x + 1][y + 1][z + 1] = tablero.getCasillero(this.posicionX + x, this.posicionY + y, this.posicionZ + z);
                     } catch (Exception e) {
                         this.entorno[x + 1][y + 1][z + 1] = null;
                     }
@@ -74,6 +74,20 @@ public class Casillero {
             }
             System.out.printf("\n");
         }
+    }
+
+    // TODO pre-post
+    public boolean esAdyacente(Casillero casilla) {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    if (this.getEntorno()[x][y][z] == casilla) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     //METODOS GENERALES ---------------------------------------------------------------------------------------

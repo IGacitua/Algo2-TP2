@@ -52,7 +52,7 @@ public class Tablero {
         for (int x = 0; x < this.tamañoX; x++) {
             for (int y = 0; y < this.tamañoY; y++) {
                 for (int z = 0; z < this.tamañoZ; z++) {
-                    this.getFicha(x, y, z).establecerEntorno(this);
+                    this.getCasillero(x, y, z).establecerEntorno(this);
                 }
             }
         }
@@ -70,7 +70,7 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY; y++) {
                 System.out.printf("\n");
                 for (int x = 0; x < this.tamañoX; x++) {
-                    System.out.printf("%2d ", getFicha(x, y, z).getIdentificacionDeJugador());
+                    System.out.printf("%2d ", getCasillero(x, y, z).getIdentificacionDeJugador());
                 }
             }
         }
@@ -87,12 +87,31 @@ public class Tablero {
      * @throws Exception
      */
     public boolean colocarFicha(int x, int y, int z, Jugador jugador) throws Exception {
-        verificarPosicionFichaIngresada(x, y, z);
-        if (this.getFicha(x, y, z).isBloqueado()) {
+        verificarValidezCasillero(x, y, z);
+        if (this.getCasillero(x, y, z).isBloqueado()) {
             throw new Exception("La casilla está bloqueada.");
         }
         //TODO: validación si el jugador no existe.
-        getFicha(x, y, z).setJugador(jugador);
+        getCasillero(x, y, z).setJugador(jugador);
+        return revisarVictoria(x, y, z);
+    }
+
+    //TODO pre-post
+    public boolean moverFicha(int x, int y, int z, Casillero ubicacionOriginal) throws Exception {
+        verificarValidezCasillero(x, y, z);
+        if (this.getCasillero(x, y, z).isBloqueado()) {
+            throw new Exception("La casilla está bloqueada.");
+        }
+        Casillero casilleroDestino = this.getCasillero(x, y, z);
+        if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.getJugador() == null) {
+            System.out.println(casilleroDestino.getJugador());
+            casilleroDestino.setJugador(ubicacionOriginal.getJugador());
+            ubicacionOriginal.setJugador(null);
+        } else if (!ubicacionOriginal.esAdyacente(casilleroDestino)) {
+            throw new Exception("Las casillas indicadas no son adyacentes."); // TODO aclarar ubicacion de ambas.
+        } else if (casilleroDestino.getJugador() != null) {
+            throw new Exception("El casillero de destino ya tiene una ficha colocada."); // TODO aclarar ubicacion de destino
+        }
         return revisarVictoria(x, y, z);
     }
 
@@ -106,7 +125,7 @@ public class Tablero {
      * @throws Exception
      */
     private boolean revisarVictoria(int posicionX, int posicionY, int posicionZ) throws Exception {
-        Casillero fichaColocada = this.getFicha(posicionX, posicionY, posicionZ);
+        Casillero fichaColocada = this.getCasillero(posicionX, posicionY, posicionZ);
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 for (int z = -1; z <= 1; z++) {
@@ -145,10 +164,10 @@ public class Tablero {
      * @param x, @param y, @param z: no puede ser <0
      * @throws Exception
      */
-    private void verificarPosicionFichaIngresada(int x, int y, int z) throws Exception {
+    private void verificarValidezCasillero(int x, int y, int z) throws Exception {
         if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
                 || (!Herramientas.validarNumeroPositivo(z))) {
-            throw new Exception("La posición de la ficha debe ser válida.");
+            throw new Exception("La posición del casillero debe ser válida.");
         }
         // TODO creo que no es necesario esto. Lista<> ya tiene sus verificaciones. Es redundante
         // Si se queda, hacer mensaje de error mas descriptivo
@@ -162,8 +181,8 @@ public class Tablero {
      * @return Devuelve un puntero a la ficha
      * @throws Exception
      */
-    public final Casillero getFicha(int x, int y, int z) throws Exception {
-        verificarPosicionFichaIngresada(x + 1, y + 1, z + 1); // Listas son index 1
+    public final Casillero getCasillero(int x, int y, int z) throws Exception {
+        verificarValidezCasillero(x + 1, y + 1, z + 1); // Listas son index 1
         return this.casilleros.obtener(x + 1).obtener(y + 1).obtener(z + 1);
     }
 
