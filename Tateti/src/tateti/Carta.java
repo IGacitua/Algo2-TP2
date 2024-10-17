@@ -1,5 +1,10 @@
 package tateti;
 
-public class Carta {
-	// TODO: Hacer Carta
+public abstract class Carta {
+	
+	protected Tablero tablero;
+	
+	public Carta(Tablero tablero) {
+		this.tablero = tablero;
+	}
 }
