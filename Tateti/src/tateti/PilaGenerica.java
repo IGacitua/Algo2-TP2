@@ -21,7 +21,7 @@ public class PilaGenerica<T> {
 	
 	public void agregar(Lista<T> lista) throws Exception {
 		if(lista==null || 
-				lista.estaVacia()) {
+				lista.esVacia()) {
 			throw new Exception("La lista esta vacia");
 		}
 		while(!lista.avanzarCursor()) {
