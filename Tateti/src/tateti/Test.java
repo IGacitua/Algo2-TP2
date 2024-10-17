@@ -5,8 +5,8 @@ public class Test {
     public static void main(String[] args) {
         try {
             Tablero tablero = new Tablero(3, 3, 1, 3);
-            Jugador jugadorUno = new Jugador("Pepe", 1, 10);
-            Jugador jugadorDos = new Jugador(2, 10);
+            Jugador jugadorUno = new Jugador("Pepe", 1, 10, 5);
+            Jugador jugadorDos = new Jugador(2, 10, 5);
             tablero.establecerEntornos();
             tablero.colocarFicha(0, 0, 0, jugadorUno);
             tablero.colocarFicha(1, 0, 0, jugadorUno);
