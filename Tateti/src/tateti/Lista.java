@@ -4,9 +4,9 @@ public class Lista<T> {
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
 
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
-    private NodoLista<T> primero = null;
+    private Nodo<T> primero = null;
     private int longitud = 0;
-    private NodoLista<T> cursor = null;
+    private Nodo<T> cursor = null;
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
 
     /**
@@ -47,12 +47,12 @@ public class Lista<T> {
      */
     public void agregarElemento(int posicion, T elemento) throws Exception {
         validarPosicionParaAgregar(posicion);
-        NodoLista<T> nuevo = new NodoLista<>(elemento);
+        Nodo<T> nuevo = new Nodo<>(elemento);
         if (posicion == 1) {
             nuevo.setSiguiente(this.primero);
             this.primero = nuevo;
         } else {
-            NodoLista<T> anterior = this.getNodo(posicion - 1);
+            Nodo<T> anterior = this.getNodo(posicion - 1);
             nuevo.setSiguiente(anterior.getSiguiente());
             anterior.setSiguiente(nuevo);
         }
@@ -68,12 +68,12 @@ public class Lista<T> {
     public void remover(int posicion) throws Exception {
         validarPosicionEnLista(posicion);
         this.cursor = null;
-        NodoLista<T> removido;
+        Nodo<T> removido;
         if (posicion == 1) {
             removido = this.primero;
             this.primero = removido.getSiguiente();
         } else {
-            NodoLista<T> anterior = this.getNodo(posicion - 1);
+            Nodo<T> anterior = this.getNodo(posicion - 1);
             removido = anterior.getSiguiente();
             anterior.setSiguiente(removido.getSiguiente());
         }
@@ -209,9 +209,9 @@ public class Lista<T> {
      * @return Devuelve el nodo actual donde se halla la lista
      * @throws Exception
      */
-    private NodoLista<T> getNodo(int posicion) throws Exception {
+    private Nodo<T> getNodo(int posicion) throws Exception {
         validarPosicionEnLista(posicion);
-        NodoLista<T> actual = this.primero;
+        Nodo<T> actual = this.primero;
         for (int i = 1; i < posicion; i++) {
             actual = actual.getSiguiente();
         }
