@@ -78,8 +78,7 @@ public class Tablero {
     }
 
     /**
-     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, post:
-     * -
+     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, post: -
      *
      * @param x, @param y, @param z: No puede ser < 0
      * @param jugador: debe existir?? //TODO: cuando esté hecho el jugador vemos
@@ -96,7 +95,13 @@ public class Tablero {
         return revisarVictoria(x, y, z);
     }
 
-    //TODO pre-post
+    /**
+     * pre: (x,y,z) deben ser válidos y debe existir ubicacionOriginal, post: -
+     * @param x, @param y, @param z: no puede ser <0
+     * @param ubicacionOriginal: //TODO: validar
+     * @return devuelve si al mover la ficha se ganó o no
+     * @throws Exception
+     */
     public boolean moverFicha(int x, int y, int z, Casillero ubicacionOriginal) throws Exception {
         verificarValidezCasillero(x, y, z);
         if (this.getCasillero(x, y, z).isBloqueado()) {
@@ -142,7 +147,12 @@ public class Tablero {
         return false;
     }
 
-    // TODO pre-post
+    /**
+     * pre: los desplazamientos ingresados deben ser válidos y la ficha también, post: -
+     * @param desplazamientoX, @param desplazamientoY, @param desplazamientoZ: //TODO: validar
+     * @param fichaColocada: //TODO: validar
+     * @return
+     */
     private int auxiliarVictoria(int desplazamientoX, int desplazamientoY, int desplazamientoZ, Casillero fichaColocada) {
         int cantidadEnHilera = 0; // Empieza en 1 porque se considera la propia ficha
         Casillero fichaAuxiliar = fichaColocada;
@@ -183,7 +193,7 @@ public class Tablero {
      */
     public final Casillero getCasillero(int x, int y, int z) throws Exception {
         verificarValidezCasillero(x + 1, y + 1, z + 1); // Listas son index 1
-        return this.casilleros.obtener(x + 1).obtener(y + 1).obtener(z + 1);
+        return this.casilleros.obtenerDato(x + 1).obtenerDato(y + 1).obtenerDato(z + 1);
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
