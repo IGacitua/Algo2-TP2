@@ -8,6 +8,7 @@ public class Jugador {
     private int identificacion;
     private int maxCartas;
     private boolean pierdeTurno;
+    private Carta cartas[];
     //TODO: mano de cartas
     //TODO: cantidad de fichas max
 

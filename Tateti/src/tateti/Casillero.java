@@ -170,6 +170,10 @@ public class Casillero {
     public boolean isBloqueado() {
         return bloqueado;
     }
+    
+    public boolean isVacio() {
+    	return this.jugador == null;
+    }
 
     /**
      * pre: -, post: -
