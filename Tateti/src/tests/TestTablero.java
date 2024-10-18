@@ -18,8 +18,8 @@ public class TestTablero {
 	public void Test() {
 		try {
             
-            Jugador jugadorUno = new Jugador("Pepe", 1, 10);
-            Jugador jugadorDos = new Jugador(2, 10);
+            Jugador jugadorUno = new Jugador("Pepe", 1, 10, 3);
+            Jugador jugadorDos = new Jugador(2, 10, 3);
             tablero.establecerEntornos();
             tablero.colocarFicha(0, 0, 0, jugadorUno);
             tablero.colocarFicha(1, 0, 0, jugadorUno);
