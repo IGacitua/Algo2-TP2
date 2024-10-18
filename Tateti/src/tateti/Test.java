@@ -1,9 +1,11 @@
 package tateti;
 
+import java.io.File;
+
 public class Test {
 
     public static void main(String[] args) {
-        try {
+        /*try {
             Tablero tablero = new Tablero(3, 3, 1, 3);
             Jugador jugadorUno = new Jugador("Pepe", 1, 10, 5);
             Jugador jugadorDos = new Jugador(2, 10, 5);
@@ -17,6 +19,17 @@ public class Test {
             tablero.imprimirTablero();
         } catch (Exception e) {
             System.out.println(e);
+        }*/
+
+        System.out.println(new File("").getAbsolutePath());
+        try {
+            Imagen imagen = new Imagen("Tp-2/Tateti/src/imagenes/number_0.bmp"); // El path relativo es desde el proceso que lo abre
+            imagen.print();
+            System.out.printf("\n\n\n");
+            imagen.recolorizar(255, 0, 0);
+            imagen.exportar("rojo.bmp");
+        } catch (Exception e) {
+            System.out.println("Error " + e);
         }
     }
 }
