@@ -21,4 +21,10 @@ public class Herramientas {
     public static boolean validarNumeroPositivoEstricto(Integer valor) {
         return valor > 0;
     }
+
+    // TODO Pre-post
+    // Devuelve el digito en la posición dada, con 0 siendo el mas pequeño
+    public static int devolverDigito(int numero, int posicion) {
+        return (int) ((numero / (Math.pow(10, posicion))) % 10);
+    }
 }
