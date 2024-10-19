@@ -13,12 +13,19 @@ public class Imagen {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     //TODO pre-post
+    // Crea una imagen desde un archivo
     public Imagen(String archivo) throws Exception {
         try {
             this.imagen = ImageIO.read(new File(archivo));
         } catch (IOException ex) {
             throw new Exception("Archivo invalido.");
         }
+    }
+
+    //TODO pre-post
+    // Crea un Imagen desde una BufferedImage
+    public Imagen(BufferedImage imagen) {
+        this.imagen = imagen;
     }
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
@@ -58,6 +65,59 @@ public class Imagen {
             }
         }
         return arrayImagen;
+    }
+
+    //TODO pre-post
+    private BufferedImage obtenerImagen(int[][] array) {
+        BufferedImage imagenRetorno = new BufferedImage(array.length, array[0].length, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                imagenRetorno.setRGB(i, j, array[i][j]);
+            }
+        }
+        return imagenRetorno;
+    }
+
+    //TODO pre-post
+    // Añade la imagen "adicional" a la derecha de this
+    public Imagen añadirImagenDerecha(Imagen adicional) throws Exception {
+        if (this.getAlto() != adicional.getAlto()) {
+            throw new Exception("Las imagenes deben tener la misma altura.");
+        }
+        int[][] arrayOriginal = this.obtenerArray();
+        int[][] arrayAdicional = adicional.obtenerArray();
+        int[][] arrayNuevo = new int[this.getAncho() * 2][this.getAlto()];
+        for (int x = 0; x < (this.getAncho() * 2); x++) {
+            for (int y = 0; y < this.getAlto(); y++) {
+                if (x < this.getAncho()) {
+                    arrayNuevo[x][y] = arrayOriginal[x][y];
+                } else {
+                    arrayNuevo[x][y] = arrayAdicional[x - this.getAncho()][y];
+                }
+            }
+        }
+        return new Imagen(obtenerImagen(arrayNuevo));
+    }
+
+    //TODO pre-post
+    // Añade la imagen "adicional" abajo de this
+    public Imagen añadirImagenAbajo(Imagen adicional) throws Exception {
+        if (this.getAncho() != adicional.getAncho()) {
+            throw new Exception("Las imagenes deben tener el mismo ancho.");
+        }
+        int[][] arrayOriginal = this.obtenerArray();
+        int[][] arrayAdicional = adicional.obtenerArray();
+        int[][] arrayNuevo = new int[this.getAncho()][this.getAlto() * 2];
+        for (int x = 0; x < (this.getAncho()); x++) {
+            for (int y = 0; y < (this.getAlto() * 2); y++) {
+                if (y < this.getAlto()) {
+                    arrayNuevo[x][y] = arrayOriginal[x][y];
+                } else {
+                    arrayNuevo[x][y] = arrayAdicional[x][y - this.getAlto()];
+                }
+            }
+        }
+        return new Imagen(obtenerImagen(arrayNuevo));
     }
 
     //METODOS GENERALES ---------------------------------------------------------------------------------------
