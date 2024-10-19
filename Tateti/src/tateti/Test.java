@@ -23,11 +23,12 @@ public class Test {
 
         System.out.println(new File("").getAbsolutePath());
         try {
-            Imagen imagen = new Imagen("Tp-2/Tateti/src/imagenes/number_0.bmp"); // El path relativo es desde el proceso que lo abre
-            imagen.print();
+            Imagen imagenUno = new Imagen("Tp-2/Tateti/src/imagenes/number_0.bmp"); // El path relativo es desde el proceso que lo abre
+            Imagen imagenDos = new Imagen("Tp-2/Tateti/src/imagenes/number_1.bmp");
+            imagenDos.recolorizar(128, 0, 255);
+            imagenUno.añadirImagenAbajo(imagenDos).exportar("imagenDoble");
+
             System.out.printf("\n\n\n");
-            imagen.recolorizar(255, 0, 0);
-            imagen.exportar("rojo.bmp");
         } catch (Exception e) {
             System.out.println("Error " + e);
         }
