@@ -22,15 +22,18 @@ public class Test {
         }*/
 
         System.out.println(new File("").getAbsolutePath());
+        int i = 0;
         try {
-            Imagen imagenUno = new Imagen("Tp-2/Tateti/src/imagenes/number_0.bmp"); // El path relativo es desde el proceso que lo abre
-            Imagen imagenDos = new Imagen("Tp-2/Tateti/src/imagenes/number_1.bmp");
-            imagenDos.recolorizar(128, 0, 255);
-            imagenUno.añadirImagenAbajo(imagenDos).exportar("imagenDoble");
-
-            System.out.printf("\n\n\n");
+            Imagen imagen = new Imagen("C:/Users/Gacitua/Documents/UBA/Algoritmos y Estructuras de Datos/Tp-2/Tateti/src/imagenes/number_0.bmp");
+            for (i = 1; i < 10; i++) {
+                String path = "C:/Users/Gacitua/Documents/UBA/Algoritmos y Estructuras de Datos/Tp-2/Tateti/src/imagenes/number_" + i + ".bmp";
+                Imagen adicional = new Imagen(path);
+                adicional.recolorizar(i * 5, i * 10, i * 15);
+                imagen = imagen.añadirImagenAbajo(adicional);
+            }
+            imagen.exportar("pepe pepito");
         } catch (Exception e) {
-            System.out.println("Error " + e);
+            System.out.println("Error en iteración " + i + "; Error: " + e);
         }
     }
 }

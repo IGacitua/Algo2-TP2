@@ -86,8 +86,8 @@ public class Imagen {
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
-        int[][] arrayNuevo = new int[this.getAncho() * 2][this.getAlto()];
-        for (int x = 0; x < (this.getAncho() * 2); x++) {
+        int[][] arrayNuevo = new int[this.getAncho() + adicional.getAncho()][this.getAlto()];
+        for (int x = 0; x < (this.getAncho() + adicional.getAncho()); x++) {
             for (int y = 0; y < this.getAlto(); y++) {
                 if (x < this.getAncho()) {
                     arrayNuevo[x][y] = arrayOriginal[x][y];
@@ -107,9 +107,9 @@ public class Imagen {
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
-        int[][] arrayNuevo = new int[this.getAncho()][this.getAlto() * 2];
-        for (int x = 0; x < (this.getAncho()); x++) {
-            for (int y = 0; y < (this.getAlto() * 2); y++) {
+        int[][] arrayNuevo = new int[this.getAncho()][this.getAlto() + adicional.getAlto()];
+        for (int x = 0; x < this.getAncho(); x++) {
+            for (int y = 0; y < (this.getAlto() + adicional.getAlto()); y++) {
                 if (y < this.getAlto()) {
                     arrayNuevo[x][y] = arrayOriginal[x][y];
                 } else {
