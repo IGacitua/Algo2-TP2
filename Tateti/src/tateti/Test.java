@@ -1,6 +1,7 @@
 package tateti;
 
 import java.io.File;
+import java.util.Random;
 
 public class Test {
 
@@ -22,18 +23,17 @@ public class Test {
         }*/
 
         System.out.println(new File("").getAbsolutePath());
-        int i = 0;
         try {
             Imagen imagen = new Imagen("C:/Users/Gacitua/Documents/UBA/Algoritmos y Estructuras de Datos/Tp-2/Tateti/src/imagenes/number_0.bmp");
-            for (i = 1; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 String path = "C:/Users/Gacitua/Documents/UBA/Algoritmos y Estructuras de Datos/Tp-2/Tateti/src/imagenes/number_" + i + ".bmp";
                 Imagen adicional = new Imagen(path);
-                adicional.recolorizar(i * 5, i * 10, i * 15);
+                adicional.recolorizar((new Random()).nextInt(255), (new Random()).nextInt(255), (new Random()).nextInt(255));
                 imagen = imagen.añadirImagenAbajo(adicional);
             }
             imagen.exportar("pepe pepito");
         } catch (Exception e) {
-            System.out.println("Error en iteración " + i + "; Error: " + e);
+            System.out.println("Error: " + e);
         }
     }
 }
