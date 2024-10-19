@@ -120,6 +120,29 @@ public class Imagen {
         return new Imagen(obtenerImagen(arrayNuevo));
     }
 
+    //TODO pre-post
+    public void bordear(int profundidad, int r, int g, int b) {
+        int rgb = (r << 16) | (g << 8) | b;
+        BufferedImage imagenAuxiliar = new BufferedImage(this.getAncho() + 2, this.getAlto() + 2, BufferedImage.TYPE_INT_RGB);
+        if (profundidad > 0) {
+            for (int x = 0; x < imagenAuxiliar.getWidth(); x++) {
+                for (int y = 0; y < imagenAuxiliar.getHeight(); y++) {
+                    if (x == 0 || y == 0) {
+                        // Borde Superior / Borde Izquierdo
+                        imagenAuxiliar.setRGB(x, y, rgb);
+                    } else if (x == imagenAuxiliar.getWidth() - 1 || y == imagenAuxiliar.getHeight() - 1) {
+                        // Borde Inferior / Borde Derecho
+                        imagenAuxiliar.setRGB(x, y, rgb);
+                    } else {
+                        imagenAuxiliar.setRGB(x, y, this.imagen.getRGB(x - 1, y - 1)); // +1 Por los bordes superior e izquierdo
+                    }
+                }
+            }
+            this.setImagen(imagenAuxiliar);
+            this.bordear(profundidad - 1, r, g, b);
+        }
+    }
+
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -132,5 +155,11 @@ public class Imagen {
     public int getAlto() {
         return this.imagen.getHeight();
     }
+
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+    //TODO pre-post
+    public void setImagen(BufferedImage imagen) {
+        this.imagen = imagen;
+    }
+
 }
