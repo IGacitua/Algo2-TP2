@@ -28,6 +28,18 @@ public class Imagen {
         this.imagen = imagen;
     }
 
+    //TODO pre-post
+    // Crea una imagen blanca con las dimensiones dadas
+    public Imagen(int ancho, int alto) {
+        int rgb = (255 << 16) | (255 << 8) | 255;
+        this.imagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < ancho; i++) {
+            for (int j = 0; j < alto; j++) {
+                this.imagen.setRGB(i, j, rgb);
+            }
+        }
+    }
+
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //TODO pre-post
     // Convierte la imagen a un .bmp en destino
@@ -82,7 +94,9 @@ public class Imagen {
     // Añade la imagen "adicional" a la derecha de this
     public Imagen añadirImagenDerecha(Imagen adicional) throws Exception {
         if (this.getAlto() != adicional.getAlto()) {
-            throw new Exception("Las imagenes deben tener la misma altura.");
+            this.exportar("Imagen Principal Error");
+            adicional.exportar("Imagen Adicional Error");
+            throw new Exception("Las imagenes deben tener el mismo alto. Img1 tiene altura " + this.getAlto() + ". Img2 tiene altura " + adicional.getAlto());
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
@@ -103,7 +117,9 @@ public class Imagen {
     // Añade la imagen "adicional" abajo de this
     public Imagen añadirImagenAbajo(Imagen adicional) throws Exception {
         if (this.getAncho() != adicional.getAncho()) {
-            throw new Exception("Las imagenes deben tener el mismo ancho.");
+            this.exportar("Imagen Principal Error");
+            adicional.exportar("Imagen Adicional Error");
+            throw new Exception("Las imagenes deben tener el mismo ancho. Img1 tiene ancho " + this.getAncho() + ". Img2 tiene ancho " + adicional.getAncho());
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
@@ -121,6 +137,7 @@ public class Imagen {
     }
 
     //TODO pre-post
+    // da un borde con los colores R G B separados
     public void bordear(int profundidad, int r, int g, int b) {
         int rgb = (r << 16) | (g << 8) | b;
         BufferedImage imagenAuxiliar = new BufferedImage(this.getAncho() + 2, this.getAlto() + 2, BufferedImage.TYPE_INT_RGB);
@@ -139,7 +156,30 @@ public class Imagen {
                 }
             }
             this.setImagen(imagenAuxiliar);
-            this.bordear(profundidad - 1, r, g, b);
+            this.bordear(profundidad - 1, rgb);
+        }
+    }
+
+    //TODO pre-post
+    // bordear pero con el rgb completo
+    public void bordear(int profundidad, int rgb) {
+        BufferedImage imagenAuxiliar = new BufferedImage(this.getAncho() + 2, this.getAlto() + 2, BufferedImage.TYPE_INT_RGB);
+        if (profundidad > 0) {
+            for (int x = 0; x < imagenAuxiliar.getWidth(); x++) {
+                for (int y = 0; y < imagenAuxiliar.getHeight(); y++) {
+                    if (x == 0 || y == 0) {
+                        // Borde Superior / Borde Izquierdo
+                        imagenAuxiliar.setRGB(x, y, rgb);
+                    } else if (x == imagenAuxiliar.getWidth() - 1 || y == imagenAuxiliar.getHeight() - 1) {
+                        // Borde Inferior / Borde Derecho
+                        imagenAuxiliar.setRGB(x, y, rgb);
+                    } else {
+                        imagenAuxiliar.setRGB(x, y, this.imagen.getRGB(x - 1, y - 1)); // +1 Por los bordes superior e izquierdo
+                    }
+                }
+            }
+            this.setImagen(imagenAuxiliar);
+            this.bordear(profundidad - 1, rgb);
         }
     }
 
