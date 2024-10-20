@@ -1,6 +1,4 @@
-
 package tateti;
-
 
 public class Tablero {
 
@@ -74,7 +72,7 @@ public class Tablero {
      *
      * @throws Exception
      */
-    public void imprimirTablero() throws Exception {
+    public void imprimir() throws Exception {
         for (int z = 0; z < this.tamañoZ; z++) {
             System.out.printf("\n");
             for (int y = 0; y < this.tamañoY; y++) {
@@ -98,7 +96,7 @@ public class Tablero {
             if (x == 0) {
                 // Caso: Esquina en blanco
                 // TODO: cambiar a 0 y poner todo +1?
-                imagenPrincipal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
+                imagenPrincipal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES * 2);
                 imagenPrincipal.bordear(1, COLOR_BORDES);
             } else {
                 imagenAuxiliar = null;
@@ -109,6 +107,8 @@ public class Tablero {
                     Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 1) + ".bmp");
                     Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 0) + ".bmp");
                     Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
+                    Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
+                    numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
                     numeroCompleto.bordear(1, COLOR_BORDES);
                     imagenPrincipal = imagenPrincipal.añadirImagenAbajo(numeroCompleto);
                 } else if (x != 0 && y == 0) {
@@ -116,6 +116,8 @@ public class Tablero {
                     Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 1) + ".bmp");
                     Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 0) + ".bmp");
                     Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
+                    Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
+                    numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
                     numeroCompleto.bordear(1, COLOR_BORDES);
                     if (imagenAuxiliar == null) {
                         imagenAuxiliar = numeroCompleto;
@@ -126,12 +128,17 @@ public class Tablero {
                     // Caso: Interior (Tablero)
                     // TODO: Las imagenes del interior son 8x8 en vez de 16x8
                     // TODO: Solucion: Cambiar fichas a 16x16, y aumentar el tamaño de las filas luego de la primera
-                    Imagen imagenTemporal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES); //TODO remplazar
-                    imagenTemporal.bordear(1, COLOR_BORDES);
+
+                    int numeroJugador = this.getCasillero(x - 1, y - 1, 0).getIdentificacionDeJugador();
+                    Imagen imagenFicha = new Imagen(RUTA_IMAGENES + "number_" + numeroJugador + ".bmp"); //TODO remplazar por ficha
+                    imagenFicha = imagenFicha.añadirImagenDerecha(new Imagen(TAMAÑO_IMAGENES, TAMAÑO_IMAGENES));
+
+                    imagenFicha = imagenFicha.añadirImagenAbajo(new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES));
+                    imagenFicha.bordear(1, COLOR_BORDES);
                     if (imagenAuxiliar != null) {
-                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(imagenTemporal);
+                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(imagenFicha);
                     } else {
-                        imagenAuxiliar = imagenTemporal;
+                        imagenAuxiliar = imagenFicha;
                     }
                 }
             }
@@ -141,7 +148,9 @@ public class Tablero {
                 throw new Exception("Imagen auxiliar es null!? Iteracion " + x); // TODO remove, no deberia suceder nunca
             }
         }
-        if (imagenPrincipal != null) {
+        if (imagenPrincipal == null) {
+            throw new Exception("Error Fatal. Imagen principal es Nula.");
+        } else {
             imagenPrincipal.exportar("TestTableroEntero");
         }
     }
