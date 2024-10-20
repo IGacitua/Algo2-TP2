@@ -1,11 +1,13 @@
+
 package tateti;
+
 
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-    private String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de DONDE ejecutes el programa
-    private int TAMAÑO_IMAGENES = 8; // Dimensiones de las imagenes. Deben ser cuadradas
-    private int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R, G, B
+    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de DONDE ejecutes el programa
+    private final int TAMAÑO_IMAGENES = 8; // Dimensiones de las imagenes. Deben ser cuadradas
+    private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R, G, B
     //ATRIBUTOS --------------------------------------------- ------------------------------------------------
     private Lista<Lista<Lista<Casillero>>> casilleros = null;
     private int tamañoX;
@@ -86,31 +88,62 @@ public class Tablero {
     }
 
     //TODO pre-post
-    public void exportarTablero() throws Exception {
-        Imagen imagenPrincipal = new Imagen(16, 8);
-        imagenPrincipal.bordear(1, COLOR_BORDES);
+    //TODO solo exporta una capa
+    //TODO darle parametro PATH
+    public void exportar() throws Exception {
+        Imagen imagenPrincipal = null;
+        Imagen imagenAuxiliar = null;
         // X + 2 | Y +2 | Debido a los bordes numerados
-        for (int x = 0; x < this.tamañoX + 2; x++) {
-            for (int y = 0; y < this.tamañoY + 2; y++) {
-                Imagen imagenAuxiliar;
-                if (x == 0 || y != 0) {
-                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 1));
-                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 0));
+        for (int x = 0; x < this.tamañoX + 1; x++) {
+            if (x == 0) {
+                // Caso: Esquina en blanco
+                // TODO: cambiar a 0 y poner todo +1?
+                imagenPrincipal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
+                imagenPrincipal.bordear(1, COLOR_BORDES);
+            } else {
+                imagenAuxiliar = null;
+            }
+            for (int y = 0; y < this.tamañoY + 1; y++) {
+                if ((x == 0 && y != 0) && imagenPrincipal != null) {
+                    // Caso: Primera columna
+                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 1) + ".bmp");
+                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 0) + ".bmp");
                     Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
                     numeroCompleto.bordear(1, COLOR_BORDES);
-                    imagenPrincipal.añadirImagenDerecha(numeroCompleto);
-                } else if (x != 0 || y == 0) {
-                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 1));
-                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 0));
+                    imagenPrincipal = imagenPrincipal.añadirImagenAbajo(numeroCompleto);
+                } else if (x != 0 && y == 0) {
+                    // Caso: Primera fila
+                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 1) + ".bmp");
+                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 0) + ".bmp");
                     Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
                     numeroCompleto.bordear(1, COLOR_BORDES);
-                    imagenPrincipal.añadirImagenAbajo(numeroCompleto);
-                } else {
-                    // TODO: TEMP
+                    if (imagenAuxiliar == null) {
+                        imagenAuxiliar = numeroCompleto;
+                    } else {
+                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(numeroCompleto);
+                    }
+                } else if (x != 0 && y != 0) {
+                    // Caso: Interior (Tablero)
+                    // TODO: Las imagenes del interior son 8x8 en vez de 16x8
+                    // TODO: Solucion: Cambiar fichas a 16x16, y aumentar el tamaño de las filas luego de la primera
+                    Imagen imagenTemporal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES); //TODO remplazar
+                    imagenTemporal.bordear(1, COLOR_BORDES);
+                    if (imagenAuxiliar != null) {
+                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(imagenTemporal);
+                    } else {
+                        imagenAuxiliar = imagenTemporal;
+                    }
                 }
             }
+            if (x != 0 && imagenPrincipal != null && imagenAuxiliar != null) {
+                imagenPrincipal = imagenPrincipal.añadirImagenDerecha(imagenAuxiliar);
+            } else if (x != 0 && imagenAuxiliar == null) {
+                throw new Exception("Imagen auxiliar es null!? Iteracion " + x); // TODO remove, no deberia suceder nunca
+            }
         }
-        imagenPrincipal.exportar("TestUnoDosTres");
+        if (imagenPrincipal != null) {
+            imagenPrincipal.exportar("TestTableroEntero");
+        }
     }
 
     /**

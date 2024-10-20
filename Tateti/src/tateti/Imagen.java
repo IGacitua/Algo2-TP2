@@ -94,7 +94,7 @@ public class Imagen {
     // Añade la imagen "adicional" a la derecha de this
     public Imagen añadirImagenDerecha(Imagen adicional) throws Exception {
         if (this.getAlto() != adicional.getAlto()) {
-            throw new Exception("Las imagenes deben tener la misma altura.");
+            throw new Exception("Las imagenes deben tener la misma altura. Img1 tiene altura " + this.getAlto() + ". Img2 tiene altura " + adicional.getAlto());
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
@@ -115,7 +115,7 @@ public class Imagen {
     // Añade la imagen "adicional" abajo de this
     public Imagen añadirImagenAbajo(Imagen adicional) throws Exception {
         if (this.getAncho() != adicional.getAncho()) {
-            throw new Exception("Las imagenes deben tener el mismo ancho.");
+            throw new Exception("Las imagenes deben tener el mismo ancho. Img1 tiene ancho " + this.getAncho() + ". Img2 tiene ancho " + adicional.getAncho());
         }
         int[][] arrayOriginal = this.obtenerArray();
         int[][] arrayAdicional = adicional.obtenerArray();
