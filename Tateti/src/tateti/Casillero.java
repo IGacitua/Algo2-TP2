@@ -1,6 +1,7 @@
 package tateti;
 import utilidades.Herramientas;
 
+
 public class Casillero {
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
@@ -96,7 +97,14 @@ public class Casillero {
         }
         return false;
     }
-
+    
+    public void quitarJugador(int identificacion) throws Exception {
+    	if ((identificacion < 0) || (this.jugador.getIdentificacion() != identificacion)) {
+    		throw new Exception("No existe ningún jugador con esa identificación en este casillero.");
+    	}
+    	this.jugador = null;
+    }
+    
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -106,7 +114,7 @@ public class Casillero {
      * @return Devuelve el jugador que está en ese casillero
      */
     public Jugador getJugador() throws Exception {
-        return jugador;
+        return this.jugador;
     }
 
     /**
@@ -172,7 +180,7 @@ public class Casillero {
         return bloqueado;
     }
     
-    public boolean isVacio() {
+    public boolean estaVacio() {
     	return this.jugador == null;
     }
 
