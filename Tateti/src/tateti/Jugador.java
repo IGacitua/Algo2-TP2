@@ -1,4 +1,5 @@
 package tateti;
+import utilidades.Herramientas;
 
 public class Jugador {
 
