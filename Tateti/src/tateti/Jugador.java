@@ -1,6 +1,7 @@
 package tateti;
 import cartas.Carta;
 import utilidades.Herramientas;
+import utilidades.Lista;
 
 public class Jugador {
 
@@ -12,7 +13,7 @@ public class Jugador {
     private Fichas ficha; // TODO ni idea como funcionan los ENUM, q alguien lo haga. 
     private int maxCartas;
     private boolean pierdeTurno;
-    private Carta cartas[];
+    private Lista<Carta> cartas = new Lista<Carta>();
     //TODO: mano de cartas
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
@@ -72,6 +73,36 @@ public class Jugador {
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
+    
+    /**
+     * pre: -, post: - Roba cartas del mazo y las guarda en el jugador
+     * 
+     * @param cantidad: si es <= 0, no roba cartas
+     * @param mazo: mazo del que se roban las cartas
+     * @throws Exception 
+     */
+    public void robarCartas(int cantidad, Mazo mazo) throws Exception {
+    	if (this.cartas.getLongitud()+cantidad > this.maxCartas) {
+    		throw new Exception("Maximo de cartas alcanzado");
+    	}
+    	
+    	if (mazo == null) {
+    		throw new Exception("No se indico un mazo");
+    	}
+    	
+    	for (int i = 0; i < cantidad; i++) {
+    		try {
+				this.cartas.agregarElemento(mazo.tomarCarta());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	//test
+    	for (int i = 0; i < this.cartas.getLongitud(); i++) {
+    		System.out.println(this.cartas.obtenerDato(i+1));
+    	}
+    	System.out.println();
+    }
 
     /**
      * pre: -, post: - Invierte el estado del turno
