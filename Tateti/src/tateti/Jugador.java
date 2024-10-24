@@ -97,11 +97,6 @@ public class Jugador {
 				e.printStackTrace();
 			}
     	}
-    	//test
-    	for (int i = 0; i < this.cartas.getLongitud(); i++) {
-    		System.out.println(this.cartas.obtenerDato(i+1));
-    	}
-    	System.out.println();
     }
 
     /**
@@ -163,6 +158,10 @@ public class Jugador {
 
     public Fichas getFicha() {
         return ficha;
+    }
+    
+    public int getCantidadCartas() {
+    	return cartas.getLongitud();
     }
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 
