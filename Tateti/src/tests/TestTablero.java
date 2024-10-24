@@ -100,4 +100,24 @@ public class TestTablero {
 		}
 	}
 	
+	@Test
+	public void testLimitesTablero() {
+		try {
+		Tablero tablero= new Tablero(4,4,4);
+		
+		Exception exception = assertThrows(Exception.class, () -> {
+	       tablero.getCasillero(-1, 0, 0);
+		});
+		String mensajeDeErrorRecibido=exception.getMessage();
+		String mensajeDeErrorEsperado= "La posicion debe estar entre 1 y tamaño. (Es 0)";
+		assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+		//forma mas simple de revisar lo mismo
+		assertTrue(tablero.getCasillero(1, 1, 1)!=null);
+		assertFalse(tablero.getCasillero(10, 10, 10)!=null);
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
