@@ -5,9 +5,6 @@ import tateti.Tablero;
 
 public class CartaAnularCasillero extends Carta {
 
-	public CartaAnularCasillero(Tablero tablero) {
-		super(tablero);
-	}
 	
 	/**
      * pre: -, post: -
