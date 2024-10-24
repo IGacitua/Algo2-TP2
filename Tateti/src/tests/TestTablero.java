@@ -3,6 +3,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 
 import tateti.*;
@@ -90,23 +92,25 @@ public class TestTablero {
 		Tablero tablero= new Tablero(4,4,4);
 		tablero.establecerEntornos();
 		
-		Casillero casillero=tablero.getCasillero(1, 1, 1);
-		Casillero[][][] entornoCasillero=casillero.getEntorno();
-		
-		 Exception exception = assertThrows(Exception.class, () -> {
+		Casillero casillero1=tablero.getCasillero(1, 1, 1);
+		Casillero[][][] entornoCasillero=casillero1.getEntorno();
+		//verifico que alguno de los vecinos de este casillero sea nulo, lo cual deberia no ser posible al ser uno de 			los casilleros interiores
 		        for (int i = 0; i < 3; i++) {
 		            for (int j = 0; j < 3; j++) {
 		                for (int k = 0; k < 3; k++) {
-		                    if (entornoCasillero[i][j][k] == null) {
-		                        throw new Exception("No puedo no tener este vecino");
+		                    if (entornoCasillero[i][j][k] == null) {   
+		                    	 assertNotNull(entornoCasillero[i][j][k], 
+		                                 "El vecino en la posición [" + i + "][" + j + "][" + k + "] es nulo");
 		                    }
 		                }
 		            }
 		        }
-		    });
-		 String mensajeEsperado = "No puedo no tener este vecino";
-		 String mensajeReal = exception.getMessage();
-		 assertFalse(mensajeReal.contains(mensajeEsperado));
+		   
+		//verifico que asigne null a los vecinos que no existen
+		Casillero casillero2=tablero.getCasillero(0, 0, 0);
+		Casillero[][][] entornoCasillero2=casillero2.getEntorno();
+		assertTrue(entornoCasillero2[0][0][0]==null);
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -125,7 +129,6 @@ public class TestTablero {
 		assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 		//forma mas simple de revisar lo mismo
 		assertTrue(tablero.getCasillero(1, 1, 1)!=null);
-		assertFalse(tablero.getCasillero(10, 10, 10)!=null);
 		
 		}catch(Exception e) {
 			e.printStackTrace();
