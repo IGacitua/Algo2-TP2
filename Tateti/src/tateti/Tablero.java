@@ -1,12 +1,11 @@
 package tateti;
-
 import utilidades.Herramientas;
 import utilidades.Lista;
 
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de DONDE ejecutes el programa
+    private final String RUTA_IMAGENES = "src/imagenes/"; // Porque ruta relativa depende de DONDE ejecutes el programa
     private final int TAMAÑO_IMAGENES = 8; // Dimensiones de las imagenes. Deben ser cuadradas
     private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R, G, B
     //ATRIBUTOS --------------------------------------------- ------------------------------------------------
@@ -56,7 +55,6 @@ public class Tablero {
 
     /**
      * pre: -, post: establece el entorno de trabajo (el tablero).
-     *
      * @throws Exception
      */
     public void establecerEntornos() throws Exception {
@@ -72,7 +70,7 @@ public class Tablero {
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
      * pre: -, post: Imprime el tablero por pantalla (TEMPORAL)
-     *
+     * TODO: eliminar ?
      * @throws Exception
      */
     public void imprimir() throws Exception {
@@ -107,21 +105,11 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY + 1; y++) {
                 if ((x == 0 && y != 0) && imagenPrincipal != null) {
                     // Caso: Primera columna
-                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 1) + ".bmp");
-                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 0) + ".bmp");
-                    Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
-                    Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
-                    numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
-                    numeroCompleto.bordear(1, COLOR_BORDES);
-                    imagenPrincipal = imagenPrincipal.añadirImagenAbajo(numeroCompleto);
+                	Imagen numeroCompleto = algo(y); //TODO: no sé del tema así que espero que la función sirva
+                	imagenPrincipal = imagenPrincipal.añadirImagenAbajo(numeroCompleto);
                 } else if (x != 0 && y == 0) {
                     // Caso: Primera fila
-                    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 1) + ".bmp");
-                    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 0) + ".bmp");
-                    Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
-                    Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
-                    numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
-                    numeroCompleto.bordear(1, COLOR_BORDES);
+                	Imagen numeroCompleto = algo(x);
                     if (imagenAuxiliar == null) {
                         imagenAuxiliar = numeroCompleto;
                     } else {
@@ -157,13 +145,24 @@ public class Tablero {
             imagenPrincipal.exportar("TestTableroEntero");
         }
     }
+    
+    //TODO: VER SI SIRVE, CAMBIARLE EL NOMBRE
+    //TODO: DOCUMENTACION
+    private Imagen algo(int posicion) throws Exception {
+    Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(posicion, 1) + ".bmp");
+    Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(posicion, 0) + ".bmp");
+    Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
+    Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
+    numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
+    numeroCompleto.bordear(1, COLOR_BORDES);
+    return numeroCompleto;
+    }
 
     /**
-     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha, post:
-     * -
-     *
-     * @param x, @param y, @param z: No puede ser < 0
-     * @param jugador: debe existir?? //TODO: cuando esté hecho el jugador vemos
+     * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha
+     * post: coloca la ficha en el casillero
+     * @param x, @param y, @param z: No puede ser < 0 (verificarCasillero())
+     * @param jugador: no debe ser nulo
      * @retrurn devuelve si la jugada de dicho jugador es una victoria o no
      * @throws Exception
      */
@@ -172,16 +171,18 @@ public class Tablero {
         if (this.getCasillero(x, y, z).isBloqueado()) {
             throw new Exception("La casilla está bloqueada.");
         }
-        //TODO: validación si el jugador no existe.
+        if (jugador == null) {
+        	throw new Exception("El jugador que colocará la ficha no puede ser nulo.");
+        }
         getCasillero(x, y, z).setJugador(jugador);
         return revisarVictoria(x, y, z);
     }
 
     /**
-     * pre: (x,y,z) deben ser válidos y debe existir ubicacionOriginal, post: -
-     *
-     * @param x, @param y, @param z: no puede ser <0
-     * @param ubicacionOriginal: //TODO: validar
+     * pre: (x,y,z) deben ser válidos y debe existir ubicacionOriginal
+     * post: mueve la ficha ya colocada
+     * @param x, @param y, @param z: no puede ser < 0 (verificarCasillero())
+     * @param ubicacionOriginal: debe haber una ficha en dicha ubicación
      * @return devuelve si al mover la ficha se ganó o no
      * @throws Exception
      */
@@ -190,23 +191,26 @@ public class Tablero {
         if (this.getCasillero(x, y, z).isBloqueado()) {
             throw new Exception("La casilla está bloqueada.");
         }
+        if (ubicacionOriginal.isVacio()) {
+        	throw new Exception("No se puede mover una ficha que no está en la ubicación original");
+        }
         Casillero casilleroDestino = this.getCasillero(x, y, z);
         if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.getJugador() == null) {
             System.out.println(casilleroDestino.getJugador());
             casilleroDestino.setJugador(ubicacionOriginal.getJugador());
             ubicacionOriginal.setJugador(null);
         } else if (!ubicacionOriginal.esAdyacente(casilleroDestino)) {
-            throw new Exception("Las casillas indicadas no son adyacentes."); // TODO aclarar ubicacion de ambas.
+            throw new Exception("Las casillas indicadas " + ubicacionOriginal.getCoordenadas()
+            	+ " (ubicación original) y " + casilleroDestino.getCoordenadas() + " (ubicación de destino) no son adyacentes");
         } else if (casilleroDestino.getJugador() != null) {
-            throw new Exception("El casillero de destino ya tiene una ficha colocada."); // TODO aclarar ubicacion de destino
+            throw new Exception("El casillero " + casilleroDestino.getCoordenadas() + " (ubicacion de destino) ya tiene una ficha colocada.");
         }
         return revisarVictoria(x, y, z);
     }
 
     /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha, post:
-     * -
-     *
+     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha
+     * post: devuelve si el Jugador ganó o no
      * @param x, @param y, @param z: No puede ser < 0
      * @return devuelve un booleano dependiendo de si la jugada fue de victoria
      * o no
@@ -231,16 +235,18 @@ public class Tablero {
     }
 
     /**
-     * pre: los desplazamientos ingresados deben ser válidos y la ficha también,
-     * post: -
-     *
-     * @param desplazamientoX, @param desplazamientoY, @param desplazamientoZ:
-     * //TODO: validar
-     * @param fichaColocada: //TODO: validar
-     * @return
+     * pre: los desplazamientos ingresados deben ser válidos y la ficha también
+     * post: devuelve la cantidad de fichas en hilera
+     * @param desplazamientoX, @param desplazamientoY, @param desplazamientoZ
+     * @param fichaColocada: no puede ser nula
+     * @return devuelve la cantidad de fichas en hilera
+     * @throws Exception 
      */
-    private int auxiliarVictoria(int desplazamientoX, int desplazamientoY, int desplazamientoZ, Casillero fichaColocada) {
+    private int auxiliarVictoria(int desplazamientoX, int desplazamientoY, int desplazamientoZ, Casillero fichaColocada) throws Exception {
         int cantidadEnHilera = 0; // Empieza en 1 porque se considera la propia ficha
+        if (fichaColocada == null) {
+        	throw new Exception("La ficha colocada no puede ser nula");
+        }
         Casillero fichaAuxiliar = fichaColocada;
         while ((fichaAuxiliar = fichaAuxiliar.getEntorno()[desplazamientoX + 1][desplazamientoY + 1][desplazamientoZ + 1]) != null) {
             if (fichaAuxiliar.getIdentificacionDeJugador() == fichaColocada.getIdentificacionDeJugador()) {
@@ -265,13 +271,12 @@ public class Tablero {
                 || (!Herramientas.validarNumeroPositivo(z))) {
             throw new Exception("La posición del casillero debe ser válida.");
         }
-        // TODO creo que no es necesario esto. Lista<> ya tiene sus verificaciones. Es redundante
-        // Si se queda, hacer mensaje de error mas descriptivo
     }
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: debe existir la ficha, post: -
+     * pre: debe existir la ficha
+     * post: devuele el casillero con las posiciones: [x][y][z]
      *
      * @param x, @param y, @param z: no puede ser < 0
      * @return Devuelve un puntero a la ficha
