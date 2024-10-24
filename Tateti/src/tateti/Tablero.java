@@ -1,5 +1,8 @@
 package tateti;
 
+import utilidades.Herramientas;
+import utilidades.Lista;
+
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
