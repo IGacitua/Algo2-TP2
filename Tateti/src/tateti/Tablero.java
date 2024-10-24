@@ -189,18 +189,22 @@ public class Tablero {
         if (this.getCasillero(x, y, z).isBloqueado()) {
             throw new Exception("La casilla está bloqueada.");
         }
-        if (ubicacionOriginal.isVacio()) {
+        if (ubicacionOriginal.estaVacio()) {
         	throw new Exception("No se puede mover una ficha que no está en la ubicación original");
         }
         Casillero casilleroDestino = this.getCasillero(x, y, z);
-        if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.getJugador() == null) {
-            System.out.println(casilleroDestino.getJugador());
+        //verifica si está vacío el casillero destino y si es adyacente
+        if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.estaVacio()) {
             casilleroDestino.setJugador(ubicacionOriginal.getJugador());
-            ubicacionOriginal.setJugador(null);
+            ubicacionOriginal.quitarJugador(ubicacionOriginal.getIdentificacionDeJugador());
+            
+        //si no es adyacente, lanza una excepción:
         } else if (!ubicacionOriginal.esAdyacente(casilleroDestino)) {
             throw new Exception("Las casillas indicadas " + ubicacionOriginal.getCoordenadas()
             	+ " (ubicación original) y " + casilleroDestino.getCoordenadas() + " (ubicación de destino) no son adyacentes");
-        } else if (casilleroDestino.getJugador() != null) {
+            
+        //si está vacío, lanza una excepción
+        } else if (!casilleroDestino.estaVacio()) {
             throw new Exception("El casillero " + casilleroDestino.getCoordenadas() + " (ubicacion de destino) ya tiene una ficha colocada.");
         }
         return revisarVictoria(x, y, z);
@@ -287,3 +291,4 @@ public class Tablero {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }
+
