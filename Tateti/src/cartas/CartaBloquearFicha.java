@@ -1,14 +1,9 @@
-package tateti;
+package cartas;
+
+import tateti.Casillero;
+import tateti.Tablero;
 
 public class CartaBloquearFicha extends Carta {
-
-	/**
-	 * pre: -, post: Inicializa la carta
-	 * @param tablero
-	 */
-	public CartaBloquearFicha(Tablero tablero) {
-		super(tablero);
-	}
 
 	/**
      * pre: -, post: -

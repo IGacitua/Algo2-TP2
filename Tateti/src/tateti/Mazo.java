@@ -1,6 +1,8 @@
 package tateti;
 
 import java.util.Random;
+
+import cartas.Carta;
 import utilidades.PilaGenerica;
 
 public class Mazo {
@@ -41,6 +43,9 @@ public class Mazo {
      * @param cartas: array de cartas que contendra el mazo
      */
 	public Mazo(Carta[] cartas) {
+		if (cartas == null) {
+			cartas = new Carta[0];
+		}
 
 		int[] indices = indicesAleatorios(cartas.length);
 		
@@ -52,9 +57,13 @@ public class Mazo {
 	/*
 	 * pre: -, post: -
 	 * Elimina la carta del tope del mazo y la devuelve
-	 * Devuelve null si no hay cartas
+	 * 
+	 * @throws Exception 
 	 */
-	public Carta tomarCarta() {
+	public Carta tomarCarta() throws Exception {
+		if (this.cartas.getCantidadElementos() == 0) {
+			throw new Exception("No se pueden tomar cartas porque el mazo esta vacio");
+		}
 		return this.cartas.quitar();
 	}
 	
