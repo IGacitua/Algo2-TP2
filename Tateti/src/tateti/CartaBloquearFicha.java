@@ -18,7 +18,7 @@ public class CartaBloquearFicha extends Carta {
      * @throws Exception
      */
 	public void usar(Casillero casillero) throws Exception {
-		if (!casillero.isVacio() &&
+		if (!casillero.estaVacio() &&
 			!casillero.isBloqueado()) {
 			casillero.alternarBloqueo();
 		} else {
