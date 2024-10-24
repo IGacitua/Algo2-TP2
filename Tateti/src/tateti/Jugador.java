@@ -1,4 +1,5 @@
 package tateti;
+import cartas.Carta;
 import utilidades.Herramientas;
 
 public class Jugador {

@@ -1,4 +1,6 @@
-package tateti;
+package cartas;
+
+import tateti.Tablero;
 
 public abstract class Carta {
 	

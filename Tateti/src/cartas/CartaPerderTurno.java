@@ -1,4 +1,7 @@
-package tateti;
+package cartas;
+
+import tateti.Jugador;
+import tateti.Tablero;
 
 public class CartaPerderTurno extends Carta{
 	

@@ -1,4 +1,7 @@
-package tateti;
+package cartas;
+
+import tateti.Casillero;
+import tateti.Tablero;
 
 public class CartaAnularCasillero extends Carta {
 

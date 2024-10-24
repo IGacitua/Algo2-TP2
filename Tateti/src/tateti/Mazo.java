@@ -1,6 +1,8 @@
 package tateti;
 
 import java.util.Random;
+
+import cartas.Carta;
 import utilidades.PilaGenerica;
 
 public class Mazo {
