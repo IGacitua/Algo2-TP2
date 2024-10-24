@@ -8,7 +8,7 @@ public class Jugador {
     private String nombre = null; //TODO es necesario nombre?
     private int identificacion;
     private int cantidadDeFichas;
-    private Enum ficha; // TODO ni idea como funcionan los ENUM, q alguien lo haga. 
+    private Fichas ficha; // TODO ni idea como funcionan los ENUM, q alguien lo haga. 
     private int maxCartas;
     private boolean pierdeTurno;
     private Carta cartas[];
@@ -129,7 +129,7 @@ public class Jugador {
         return cantidadDeFichas;
     }
 
-    public Enum getFicha() {
+    public Fichas getFicha() {
         return ficha;
     }
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
