@@ -9,15 +9,20 @@ public class Jugador {
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
     private String nombre = null; //TODO es necesario nombre?
-    private int identificacion;
-    private int cantidadDeFichas;
-    private Fichas ficha; // TODO ni idea como funcionan los ENUM, q alguien lo haga. 
-    private int maxCartas;
-    private boolean pierdeTurno;
+    private int identificacion; // Numero de ID interno
+
+    private int cantidadDeFichas; // Cantidad de fichas que le quedan
+    private int cartasMaximas; // Cantidad maxima de cartas en mano
     @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
     private Lista<Carta> cartas = new Lista<>();
-    //TODO: mano de cartas
 
+    private Fichas fichaImagen; // Ficha que usa el usuario -> Para exportar tablero
+    private char fichaCaracter; // Ficha que usa el usuario -> Para imprimir tablero
+    private int color; // Valor RGB del usuario
+
+    private boolean pierdeTurno;
+
+    //TODO: mano de cartas
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
      * pre: -, post: - Inicializa Jugador y establece los valores de los
@@ -28,54 +33,37 @@ public class Jugador {
      * @param identificacion, @param cantidadDeFichas: no puede ser <= 0
      * @throws Exception
      */
-    public Jugador(String nombre, int identificacion, int maxCartas, int cantidadDeFichas) throws Exception {
+    public Jugador(String nombre, int identificacion, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, char fichaCaracter, int color) throws Exception {
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
-        if (!Herramientas.validarNumeroPositivo(maxCartas)) {
-            throw new Exception("El valor de cartas máximas debe ser mayor o igual que 0");
-        }
         if (!Herramientas.validarNumeroPositivoEstricto(identificacion)) {
             throw new Exception("El valor de identificación del usuario debe ser mayor a 0");
         }
-        if (!Herramientas.validarNumeroPositivoEstricto(cantidadDeFichas)) {
+        if (!Herramientas.validarNumeroPositivo(this.cartasMaximas)) {
+            throw new Exception("El valor de cartas máximas debe ser mayor o igual que 0");
+        }
+        if (!Herramientas.validarNumeroPositivoEstricto(fichasMaximas)) {
             throw new Exception("La cantidad de fichas debe ser positiva");
         }
+        if (fichaImagen == null) {
+            throw new Exception("La ficha debe existir");
+        }
+
         this.nombre = nombre;
         this.identificacion = identificacion;
-        this.maxCartas = maxCartas;
-        this.pierdeTurno = false;
-        this.cantidadDeFichas = cantidadDeFichas;
+
+        this.cantidadDeFichas = fichasMaximas;
+        this.cartasMaximas = cartasMaximas;
+
+        this.fichaImagen = fichaImagen;
+        this.fichaCaracter = fichaCaracter;
+        this.color = color;
     }
 
-    /**
-     * pre: -, post: - Inicializa Jugador sin nombre y establece sus otros
-     * atributos
-     *
-     * @param identificacion, @param cantidadDeFichas: no puede ser <= 0
-     * @param maxCartas: no puede ser < 0
-     * @throws Exception
-     */ //TODO: ELIMINAR
-    public Jugador(int identificacion, int maxCartas, int cantidadDeFichas) throws Exception {
-        if (!Herramientas.validarNumeroPositivo(maxCartas)) {
-            throw new Exception("El valor de cartas máximas debe ser mayor o igual que 0");
-        }
-        if (!Herramientas.validarNumeroPositivoEstricto(identificacion)) {
-            throw new Exception("El valor de identificación del usuario debe ser mayor a 0");
-        }
-        if (!Herramientas.validarNumeroPositivoEstricto(cantidadDeFichas)) {
-            throw new Exception("La cantidad de fichas debe ser positiva");
-        }
-
-        this.identificacion = identificacion;
-        this.maxCartas = maxCartas;
-        this.pierdeTurno = false;
-        this.cantidadDeFichas = cantidadDeFichas;
-    }
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
-
     /**
      * pre: -, post: - Roba cartas del mazo y las guarda en el jugador
      *
@@ -83,7 +71,7 @@ public class Jugador {
      * roban las cartas @throws Exception
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
-        if (this.cartas.getLongitud() + cantidad > this.maxCartas) {
+        if (this.cartas.getLongitud() + cantidad > this.cartasMaximas) {
             throw new Exception("Maximo de cartas alcanzado");
         }
 
@@ -124,28 +112,10 @@ public class Jugador {
     /**
      * pre: -, post: -
      *
-     * @return Devuelve el máximo de cartas en mano
-     */
-    public int getMaxCartasEnMano() {
-        return maxCartas;
-    }
-
-    /**
-     * pre: -, post: -
-     *
      * @return Devuelve la identificacion
      */
     public int getIdentificacion() {
         return identificacion;
-    }
-
-    /**
-     * pre: -, post: -
-     *
-     * @return Devuelve un boolean correspondiente a si pierde el turno o no
-     */
-    public boolean isPierdeTurno() {
-        return pierdeTurno;
     }
 
     /**
@@ -157,13 +127,59 @@ public class Jugador {
         return cantidadDeFichas;
     }
 
-    public Fichas getFicha() {
-        return ficha;
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve el máximo de cartas en mano
+     */
+    public int getCartasMaximas() {
+        return cartasMaximas;
     }
 
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve la cantidad de cartas en mano
+     */
     public int getCantidadCartas() {
         return cartas.getLongitud();
     }
-    //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve la ficha del usuario en forma de imagen
+     */
+    public Fichas getFichaImagen() {
+        return fichaImagen;
+    }
+
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve la ficha del usuario en forma de caracter
+     */
+    public char getFichaCaracter() {
+        return fichaCaracter;
+    }
+
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve el color del usuario en formato RGB
+     */
+    public int getColor() {
+        return color;
+    }
+
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve un boolean correspondiente a si pierde el turno o no
+     */
+    public boolean isPierdeTurno() {
+        return pierdeTurno;
+    }
+
+    //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }

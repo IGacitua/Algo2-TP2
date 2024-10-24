@@ -7,7 +7,7 @@ import utilidades.Lista;
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-    private final String RUTA_IMAGENES = "src/imagenes/"; // Porque ruta relativa depende de donde ejecutes el programa
+    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de donde ejecutes el programa
     private final int TAMAÑO_IMAGENES = 8; // Dimensiones de las imagenes. Deben ser cuadradas
     private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R, G, B
     //ATRIBUTOS --------------------------------------------- ------------------------------------------------
@@ -15,14 +15,15 @@ public class Tablero {
     private int tamañoX;
     private int tamañoY;
     private int tamañoZ;
-    private int condicionVictoria;
+    private int condicionVictoria; // Cuantas fichas en hilera debe haber para ganar
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: -, post: crea el tablero
+     * pre: -, post: Crea el tablero
      *
-     * @param tamañoX, @param tamañoY, @param tamañoZ: Debe estar entre 0 y 100,
-     * no inclusivo
+     * @param tamañoX:Debe estar entre 0 y 100 no inclusivo
+     * @param tamañoY:Debe estar entre 0 y 100 no inclusivo
+     * @param tamañoZ:Debe estar entre 0 y 100 no inclusivo
      * @throws Exception
      */
     public Tablero(int tamañoX, int tamañoY, int tamañoZ) throws Exception {
@@ -54,11 +55,13 @@ public class Tablero {
             casilleros.agregarElemento(fila);
         }
         // TODO: Buscar una forma de establecer entornos luego de construir
-        //establecerEntornos();
+        // establecerEntornos();
     }
 
     /**
-     * pre: -, post: establece el entorno de trabajo (el tablero).
+     * pre: -, post: Establece el entorno de cada ficha del tablero.
+     *
+     * El entorno es un array con todas las fichas directamente adyacentes.
      *
      * @throws Exception
      */
@@ -74,7 +77,7 @@ public class Tablero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: Imprime el tablero por pantalla (TEMPORAL) TODO: eliminar ?
+     * pre: -, post: Imprime el tablero por pantalla
      *
      * @throws Exception
      */
@@ -92,75 +95,114 @@ public class Tablero {
     }
 
     //TODO pre-post
-    //TODO solo exporta una capa
-    //TODO darle parametro PATH
-    public void exportar() throws Exception {
-        Imagen imagenPrincipal = null;
-        Imagen imagenAuxiliar = null;
-        // X + 2 | Y +2 | Debido a los bordes numerados
-        for (int x = 0; x < this.tamañoX + 1; x++) {
-            if (x == 0) {
-                // Caso: Esquina en blanco
-                // TODO: cambiar a 0 y poner todo +1?
-                imagenPrincipal = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES * 2);
-                imagenPrincipal.bordear(1, COLOR_BORDES);
+    public void exportar(String RUTA_EXPORTAR) throws Exception {
+        Imagen imagenFinal = null;
+        for (int z = 0; z < this.tamañoZ; z++) {
+            // For loop que crea cada capa
+            Imagen imagenAuxiliar = crearCapa(z);
+            if (imagenFinal == null) {
+                // Primer capa
+                imagenFinal = imagenAuxiliar;
             } else {
-                imagenAuxiliar = null;
-            }
-            for (int y = 0; y < this.tamañoY + 1; y++) {
-                if ((x == 0 && y != 0) && imagenPrincipal != null) {
-                    // Caso: Primera columna
-                    Imagen numeroCompleto = algo(y); //TODO: no sé del tema así que espero que la función sirva
-                    imagenPrincipal = imagenPrincipal.añadirImagenAbajo(numeroCompleto);
-                } else if (x != 0 && y == 0) {
-                    // Caso: Primera fila
-                    Imagen numeroCompleto = algo(x);
-                    if (imagenAuxiliar == null) {
-                        imagenAuxiliar = numeroCompleto;
-                    } else {
-                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(numeroCompleto);
-                    }
-                } else if (x != 0 && y != 0) {
-                    // Caso: Interior (Tablero)
-                    // TODO: Las imagenes del interior son 8x8 en vez de 16x8
-                    // TODO: Solucion: Cambiar fichas a 16x16, y aumentar el tamaño de las filas luego de la primera
-
-                    int numeroJugador = this.getCasillero(x - 1, y - 1, 0).getIdentificacionDeJugador();
-                    Imagen imagenFicha = new Imagen(RUTA_IMAGENES + "number_" + numeroJugador + ".bmp"); //TODO remplazar por ficha
-                    imagenFicha = imagenFicha.añadirImagenDerecha(new Imagen(TAMAÑO_IMAGENES, TAMAÑO_IMAGENES));
-
-                    imagenFicha = imagenFicha.añadirImagenAbajo(new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES));
-                    imagenFicha.bordear(1, COLOR_BORDES);
-                    if (imagenAuxiliar != null) {
-                        imagenAuxiliar = imagenAuxiliar.añadirImagenAbajo(imagenFicha);
-                    } else {
-                        imagenAuxiliar = imagenFicha;
-                    }
-                }
-            }
-            if (x != 0 && imagenPrincipal != null && imagenAuxiliar != null) {
-                imagenPrincipal = imagenPrincipal.añadirImagenDerecha(imagenAuxiliar);
-            } else if (x != 0 && imagenAuxiliar == null) {
-                throw new Exception("Imagen auxiliar es null!? Iteracion " + x); // TODO remove, no deberia suceder nunca
+                // Añade las otras capas abajo de la primera
+                imagenFinal = imagenFinal.añadirImagenAbajo(imagenAuxiliar);
             }
         }
-        if (imagenPrincipal == null) {
-            throw new Exception("Error Fatal. Imagen principal es Nula.");
+        if (imagenFinal == null) { // No debería pasar NUNCA, pero da warning igual
+            throw new Exception("No se pudo exportar el tablero.");
+        }
+        imagenFinal.exportar(RUTA_EXPORTAR); // Crea el archivo .bmp de la imagen
+    }
+
+    //TODO pre-post
+    private Imagen crearCapa(int z) throws Exception {
+        Imagen imagenCapa = null;
+        for (int x = 0; x <= this.tamañoX; x++) {
+            // For loop de cada columna
+            // MenorIgual porque hay una columna extra
+            Imagen imagenAuxiliar = crearColumna(x, z);
+            if (imagenCapa == null) {
+                // Si es la primer columna
+                imagenCapa = imagenAuxiliar;
+            } else {
+                // Añade el resto de las columnas a la derecha de la primera
+                imagenCapa = imagenCapa.añadirImagenDerecha(imagenAuxiliar);
+            }
+        }
+        if (imagenCapa == null) {
+            // De nuevo, no debería suceder nunca, pero da warning igual.
+            throw new Exception("No se pudo crear la imagen de la capa " + z);
+        }
+        if (z == this.tamañoZ - 1) {
+            // Si es la última capa, no añade nada abajo
+            return imagenCapa;
         } else {
-            imagenPrincipal.exportar("TestTableroEntero");
+            // Añade una capa en blanco abajo de la capa si no es la última
+            return imagenCapa.añadirImagenAbajo(new Imagen((this.tamañoX + 1) * (TAMAÑO_IMAGENES * 2 + 2), TAMAÑO_IMAGENES));
+            /**
+             * Calculo de tamaño:
+             *
+             * this.tamañoX + 1 = Cada columna + La columna de numeros
+             *
+             * TAMAÑO_IMAGENES*2 = Los casilleros son el doble de ancho y alto
+             * que las imagenes numericas
+             *
+             * (TAMAÑO_IMAGENES *2) + 2 = El tamaño de cada casillero + los
+             * bordes
+             */
         }
     }
 
-    //TODO: VER SI SIRVE, CAMBIARLE EL NOMBRE
-    //TODO: DOCUMENTACION
-    private Imagen algo(int posicion) throws Exception {
-        Imagen digitoUno = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(posicion, 1) + ".bmp");
-        Imagen digitoDos = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(posicion, 0) + ".bmp");
-        Imagen numeroCompleto = digitoUno.añadirImagenDerecha(digitoDos);
-        Imagen espacioVacio = new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES);
-        numeroCompleto = numeroCompleto.añadirImagenAbajo(espacioVacio);
-        numeroCompleto.bordear(1, COLOR_BORDES);
-        return numeroCompleto;
+    //TODO pre-post
+    private Imagen crearColumna(int x, int z) throws Exception {
+        Imagen imagenColumna = null;
+        for (int y = 0; y <= this.tamañoY; y++) {
+            // <= porque hay una fila extra
+            Imagen imagenAuxiliar = crearCasillero(x, y, z);
+            if (imagenColumna == null) {
+                imagenColumna = imagenAuxiliar;
+            } else {
+                imagenColumna = imagenColumna.añadirImagenAbajo(imagenAuxiliar);
+            }
+        }
+        if (imagenColumna == null) {
+            throw new Exception("No se pudo crear la imagen de la columna " + x + "de la capa " + z);
+        }
+        return imagenColumna;
+    }
+
+    //TODO pre-post
+    private Imagen crearCasillero(int x, int y, int z) throws Exception {
+        Imagen imagenCasillero;
+        if (x == 0 && y == 0) {
+            // Caso esquina superior izquierda. Casilla vacía
+            imagenCasillero = new Imagen(this.TAMAÑO_IMAGENES * 2, this.TAMAÑO_IMAGENES * 2);
+        } else if (x == 0 && y != 0) {
+            // Caso primera columna. Numero de fila
+            Imagen digitoMayor = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 1) + ".bmp");
+            Imagen digitoMenor = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(y, 0) + ".bmp");
+            Imagen numeroCompleto = digitoMayor.añadirImagenDerecha(digitoMenor);
+            imagenCasillero = numeroCompleto.añadirImagenAbajo(new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES));
+        } else if (x != 0 && y == 0) {
+            // Caso primera fila. Numero de columna
+            Imagen digitoMayor = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 1) + ".bmp");
+            Imagen digitoMenor = new Imagen(RUTA_IMAGENES + "number_" + Herramientas.devolverDigito(x, 0) + ".bmp");
+            Imagen numeroCompleto = digitoMayor.añadirImagenDerecha(digitoMenor);
+            imagenCasillero = numeroCompleto.añadirImagenAbajo(new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES));
+        } else {
+            // Caso casillero normal. Ficha del usuario.
+            Jugador jugadorEnCasillero = this.getCasillero(x - 1, y - 1, z).getJugador(); // X e Y son -1 porque hay una fila y columna extra
+            if (jugadorEnCasillero == null) {
+                // Caso: Casillero no tiene usuario (Casillero vacío)
+                imagenCasillero = new Imagen(this.TAMAÑO_IMAGENES * 2, this.TAMAÑO_IMAGENES * 2);
+            } else {
+                Fichas fichaJugador = jugadorEnCasillero.getFichaImagen();
+                imagenCasillero = new Imagen(RUTA_IMAGENES + "shape_" + fichaJugador.ordinal() + ".bmp");
+                imagenCasillero.recolorizar(jugadorEnCasillero.getColor());
+            }
+        }
+        imagenCasillero.bordear(1, COLOR_BORDES); // Darle borde a la imagen
+        return imagenCasillero;
     }
 
     /**

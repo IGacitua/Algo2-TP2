@@ -6,8 +6,16 @@ public class Test {
         try {
             Tablero tablero = new Tablero(3, 3, 3);
             tablero.establecerEntornos();
-            tablero.colocarFicha(1, 1, 0, new Jugador(10, 9, 1));
-            tablero.exportar();
+            int rgbCircular = (255 << 16) | (64 << 8) | 64;
+            int rgbCuadrado = (64 << 16) | (255 << 8) | 64;
+            int rgbTriangulo = (64 << 16) | (64 << 8) | 255;
+            Jugador circular = new Jugador("Pepe", 1, 10, 10, Fichas.CIRCULO, 'A', rgbCircular);
+            Jugador cuadratico = new Jugador("Cuadratico", 2, 10, 10, Fichas.CUADRADO, 'B', rgbCuadrado);
+            Jugador triangulado = new Jugador("Triangulado", 1, 10, 10, Fichas.TRIANGULO, 'C', rgbTriangulo);
+            tablero.colocarFicha(0, 0, 0, circular);
+            tablero.colocarFicha(2, 2, 0, cuadratico);
+            tablero.colocarFicha(1, 1, 0, triangulado);
+            tablero.exportar("Tablero Exportado");
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

@@ -69,6 +69,20 @@ public class Imagen {
     }
 
     //TODO pre-post
+    // Convierte todos los pixeles no-vacios al valor rgb dado
+    public void recolorizar(int rgb) {
+        int[][] arrayAuxiliar = this.obtenerArray();
+        for (int i = 0; i < this.getAncho(); i++) {
+            for (int j = 0; j < this.getAlto(); j++) {
+                if (arrayAuxiliar[i][j] != -1) {
+                    // -1 es un pixel vacio
+                    imagen.setRGB(i, j, rgb);
+                }
+            }
+        }
+    }
+
+    //TODO pre-post
     // Convierte la imagen a un array de rgb
     private int[][] obtenerArray() {
         int[][] arrayImagen = new int[this.getAncho()][this.getAlto()];
