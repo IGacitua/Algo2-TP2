@@ -17,7 +17,8 @@ public class Imagen {
     public Imagen(String archivo) throws Exception {
         try {
             this.imagen = ImageIO.read(new File(archivo));
-        } catch (IOException ex) {
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new Exception("Archivo invalido.");
         }
     }
