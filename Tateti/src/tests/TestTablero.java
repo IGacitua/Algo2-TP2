@@ -1,5 +1,8 @@
 package tests;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Test;
 
@@ -8,13 +11,49 @@ import tateti.*;
 public class TestTablero {
 	//TODO: hacer los tests de cada ambito, tablero, jugador,carta, etc.
 	private Tablero tablero;
+    private Jugador jugador;
 	
-	@BeforeEach
-	public void incializarTablero() throws Exception {
-		Tablero tablero = new Tablero(3,3,3,3);
+	@Test
+	public void testTableroMenorACero() {
+		Exception exception = assertThrows(Exception.class, () -> {
+	        new Tablero(0, 0, 0);
+		});
+		String mensajeDeErrorEsperado = "Los tamaños del tablero y la condición de victoria deben ser mayores a 0.";
+	    String mensajeDeErrorRecibido = exception.getMessage();
+	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 	}
 	
 	@Test
+	public void testTableroInvalidoX() {
+		Exception exception = assertThrows(Exception.class, () -> {
+			new Tablero(0, 5, 5);
+		});
+		String mensajeDeErrorEsperado = "Los tamaños del tablero y la condición de victoria deben ser mayores a 0.";
+	    String mensajeDeErrorRecibido = exception.getMessage();
+	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+	}
+	
+	@Test
+	public void testTableroInvalidoY() {
+		Exception exception = assertThrows(Exception.class, () -> {
+			new Tablero(5, 0, 5);
+		});
+		String mensajeDeErrorEsperado = "Los tamaños del tablero y la condición de victoria deben ser mayores a 0.";
+	    String mensajeDeErrorRecibido = exception.getMessage();
+	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+	}
+	
+	@Test
+	public void testTableroInvalidoZ() {
+		Exception exception = assertThrows(Exception.class, () -> {
+			new Tablero(5, 5, 0);
+		});
+		String mensajeDeErrorEsperado = "Los tamaños del tablero y la condición de victoria deben ser mayores a 0.";
+	    String mensajeDeErrorRecibido = exception.getMessage();
+	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+	}
+	
+	/*@Test
 	public void Test() {
 		try {
             
@@ -31,5 +70,5 @@ public class TestTablero {
         } catch (Exception e) {
             System.out.println(e);
         }
-	}
+	}*/
 }
