@@ -84,17 +84,29 @@ public class TestTablero {
 	
 	@Test
 	public void testEntorno() {
+		//establecer entorno deberia estar en el test de casillero o tablero
+		//establecer entorno deberia ser automatico
 		try {
-			//establecer entorno deberia estar en el test de casillero o tablero
-			//establecer entorno deberia ser automatico
 		Tablero tablero= new Tablero(4,4,4);
 		tablero.establecerEntornos();
 		
-		Casillero casillero1=tablero.getCasillero(1, 1, 1);
-		Casillero[][][] casillero2=casillero1.getEntorno();
+		Casillero casillero=tablero.getCasillero(1, 1, 1);
+		Casillero[][][] entornoCasillero=casillero.getEntorno();
 		
-		tablero.imprimir();
-		
+		 Exception exception = assertThrows(Exception.class, () -> {
+		        for (int i = 0; i < 3; i++) {
+		            for (int j = 0; j < 3; j++) {
+		                for (int k = 0; k < 3; k++) {
+		                    if (entornoCasillero[i][j][k] == null) {
+		                        throw new Exception("No puedo no tener este vecino");
+		                    }
+		                }
+		            }
+		        }
+		    });
+		 String mensajeEsperado = "No puedo no tener este vecino";
+		 String mensajeReal = exception.getMessage();
+		 assertFalse(mensajeReal.contains(mensajeEsperado));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
