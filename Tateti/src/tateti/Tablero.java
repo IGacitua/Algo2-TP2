@@ -49,6 +49,7 @@ public class Tablero {
             }
             casilleros.agregarElemento(fila);
         }
+       establecerEntornos();
     }
 
     /**
@@ -167,7 +168,7 @@ public class Tablero {
     public boolean colocarFicha(int x, int y, int z, Jugador jugador) throws Exception {
         verificarValidezCasillero(x, y, z);
         if (this.getCasillero(x, y, z).isBloqueado()) {
-            throw new Exception("La casilla está bloqueada.");
+            throw new Exception("No se puede colocar una ficha en una casilla que está bloqueada.");
         }
         if (jugador == null) {
         	throw new Exception("El jugador que colocará la ficha no puede ser nulo.");
@@ -187,7 +188,7 @@ public class Tablero {
     public boolean moverFicha(int x, int y, int z, Casillero ubicacionOriginal) throws Exception {
         verificarValidezCasillero(x, y, z);
         if (this.getCasillero(x, y, z).isBloqueado()) {
-            throw new Exception("La casilla está bloqueada.");
+            throw new Exception("No se puede mover una ficha a una casilla que está bloqueada.");
         }
         if (ubicacionOriginal.estaVacio()) {
         	throw new Exception("No se puede mover una ficha que no está en la ubicación original");
@@ -196,7 +197,7 @@ public class Tablero {
         //verifica si está vacío el casillero destino y si es adyacente
         if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.estaVacio()) {
             casilleroDestino.setJugador(ubicacionOriginal.getJugador());
-            ubicacionOriginal.quitarJugador(ubicacionOriginal.getIdentificacionDeJugador());
+            ubicacionOriginal.quitarJugador();
             
         //si no es adyacente, lanza una excepción:
         } else if (!ubicacionOriginal.esAdyacente(casilleroDestino)) {
@@ -291,4 +292,3 @@ public class Tablero {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }
-
