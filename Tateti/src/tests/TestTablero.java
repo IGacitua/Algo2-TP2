@@ -27,7 +27,7 @@ public class TestTablero {
             tablero.moverFicha(2, 0, 0, tablero.getCasillero(2, 1, 0));
             tablero.colocarFicha(0, 1, 0, jugadorDos);
             tablero.moverFicha(1, 0, 0, tablero.getCasillero(0, 1, 0));
-            tablero.imprimirTablero();
+            tablero.imprimir();
         } catch (Exception e) {
             System.out.println(e);
         }
