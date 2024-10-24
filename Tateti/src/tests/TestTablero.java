@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 import tateti.*;
-
 public class TestTablero {
 	//TODO: hacer los tests de cada ambito, tablero, jugador,carta, etc.
 	//le agrego los unused asi deja de tirar los Warnigns
@@ -90,11 +89,10 @@ public class TestTablero {
 		//establecer entorno deberia ser automatico
 		try {
 		Tablero tablero= new Tablero(4,4,4);
-		tablero.establecerEntornos();
 		
 		Casillero casillero1=tablero.getCasillero(1, 1, 1);
 		Casillero[][][] entornoCasillero=casillero1.getEntorno();
-		//verifico que alguno de los vecinos de este casillero sea nulo, lo cual deberia no ser posible al ser uno de 			los casilleros interiores
+		//verifico que alguno de los vecinos de este casillero sea nulo, lo cual deberia no ser posible al ser uno de los casilleros interiores
 		        for (int i = 0; i < 3; i++) {
 		            for (int j = 0; j < 3; j++) {
 		                for (int k = 0; k < 3; k++) {
@@ -119,7 +117,7 @@ public class TestTablero {
 	@Test
 	public void testLimitesTablero() {
 		try {
-		Tablero tablero= new Tablero(4,4,4);
+		Tablero tablero = new Tablero(4,4,4);
 		
 		Exception exception = assertThrows(Exception.class, () -> {
 	       tablero.getCasillero(-1, 0, 0);
@@ -135,4 +133,88 @@ public class TestTablero {
 		}
 	}
 	
+	@Test
+	public void colocarFicha() {
+		try {
+			Tablero tablero = new Tablero(3,3,3);
+			Jugador jugador1 = new Jugador("Carlos", 1, 5, 4);
+			tablero.getCasillero(0, 0, 0).estaVacio();
+			assertTrue(tablero.getCasillero(0, 0, 0).estaVacio()); //sí está vacío
+			tablero.colocarFicha(0, 0, 0, jugador1);
+			assertFalse(tablero.getCasillero(0, 0, 0).estaVacio()); //no está vacío
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void colocarFichaEnCasilleroOcupado() {
+		try {
+			Tablero tablero = new Tablero(3,3,3);
+			Jugador jugador1 = new Jugador("Carlos", 1, 5, 4);
+			Jugador jugador2 = new Jugador("Pedro", 2, 5, 4);
+			tablero.colocarFicha(0, 0, 0, jugador1);
+			Exception exception = assertThrows(Exception.class, () -> {
+				tablero.colocarFicha(0, 0, 0, jugador2);
+			});
+			String mensajeDeErrorEsperado = "El casillero ya está ocupado por " + tablero.getCasillero(0, 0, 0).getJugador().getNombreJugador();
+		    String mensajeDeErrorRecibido = exception.getMessage();
+		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void bloquearCasillero() {
+		try {
+			Tablero tablero = new Tablero(3,3,3);
+			Jugador jugador1 = new Jugador("Carlos", 1, 5, 4);
+			tablero.colocarFicha(0, 0, 0, jugador1);
+			tablero.getCasillero(0, 0, 0).alternarBloqueo(); //pasa a estar bloqueado
+			assertTrue(tablero.getCasillero(0, 0, 0).isBloqueado());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void colocarFichaEnTableroBloqueado() {
+		try {
+			Tablero tablero = new Tablero(3,3,3);
+			Jugador jugador1 = new Jugador("Carlos", 1, 5, 4);
+			Jugador jugador2 = new Jugador("Pedro", 2, 5, 4);
+			tablero.colocarFicha(0, 0, 0, jugador1);
+			tablero.getCasillero(0, 0, 0).alternarBloqueo(); //pasa a estar bloqueado
+			Exception exception = assertThrows(Exception.class, () -> {
+				tablero.colocarFicha(0, 0, 0, jugador2);
+			});
+			String mensajeDeErrorEsperado = "No se puede colocar una ficha en una casilla que está bloqueada.";
+		    String mensajeDeErrorRecibido = exception.getMessage();
+		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void moverFicha() {
+		//TODO
+	}
+	
+	@Test
+	public void moverFichaDeUnJugadorInvalido() {
+		//TODO: mejorar nombre lol, la idea es q jugador 1 ponga una
+		//ficha y jugador 2 trate de moverla a ver qué pasa
+	}
+	
+	@Test
+	public void moverFichaBloqueada(){
+		//TODO
+	}
+	
+	@Test
+	public void moverFichaQueNoEsta() {
+		//TODO
+	}
 }
