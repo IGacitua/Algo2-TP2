@@ -1,7 +1,6 @@
 package tateti;
 import utilidades.Herramientas;
 import utilidades.Lista;
-
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
@@ -19,26 +18,25 @@ public class Tablero {
     /**
      * pre: -, post: crea el tablero
      *
-     * @param tamañoX: Debe estar entre 0 y 100, no inclusivo
-     * @param tamañoY: Debe estar entre 0 y 100, no inclusivo
-     * @param tamañoZ: Debe estar entre 0 y 100, no inclusivo
-     * @param condicionVictoria: Debe ser mayor a 0
+     * @param tamañoX, @param tamañoY, @param tamañoZ: Debe estar entre 0 y 100, no inclusivo
      * @throws Exception
      */
-    public Tablero(int tamañoX, int tamañoY, int tamañoZ, int condicionVictoria) throws Exception {
+    public Tablero(int tamañoX, int tamañoY, int tamañoZ) throws Exception {
         if ((!Herramientas.validarNumeroPositivoEstricto(tamañoX))
                 || (!Herramientas.validarNumeroPositivoEstricto(tamañoY))
-                || (!Herramientas.validarNumeroPositivoEstricto(tamañoZ))
-                || (!Herramientas.validarNumeroPositivoEstricto(condicionVictoria))) {
-            throw new Exception("Los tamaños del tablero y la condición de victoria deben ser mayores a 0.");
+                || (!Herramientas.validarNumeroPositivoEstricto(tamañoZ))) {
+            throw new Exception("Los tamaños del tablero deben ser mayores a 0.");
         }
-        if (tamañoX > 99 || tamañoY > 99 || tamañoZ > 99) {
+        if ((tamañoX != tamañoY) || (tamañoY != tamañoZ)) {
+        	throw new Exception("El tablero debe ser cuadrado.");
+        }
+        if (tamañoX > 99) {
             throw new Exception("Los tamaños del tablero deben ser menores a 100");
         }
         this.tamañoX = tamañoX;
         this.tamañoY = tamañoY;
         this.tamañoZ = tamañoZ;
-        this.condicionVictoria = condicionVictoria;
+        this.condicionVictoria = this.tamañoX;
         this.casilleros = new Lista<>();
         for (int x = 0; x < tamañoX; x++) {
             Lista<Lista<Casillero>> fila = new Lista<>();
