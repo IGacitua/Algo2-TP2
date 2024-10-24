@@ -9,8 +9,11 @@ import tateti.*;
 
 public class TestTablero {
 	//TODO: hacer los tests de cada ambito, tablero, jugador,carta, etc.
+	//le agrego los unused asi deja de tirar los Warnigns
+	@SuppressWarnings("unused")
 	private Tablero tablero;
-    private Jugador jugador;
+    @SuppressWarnings("unused")
+	private Jugador jugador;
 	
 	@Test
 	public void testTableroMenorACero() {
@@ -78,4 +81,23 @@ public class TestTablero {
 	    String mensajeDeErrorRecibido2 = exception2.getMessage();
 	    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
 	}
+	
+	@Test
+	public void testEntorno() {
+		try {
+			//establecer entorno deberia estar en el test de casillero o tablero
+			//establecer entorno deberia ser automatico
+		Tablero tablero= new Tablero(4,4,4);
+		tablero.establecerEntornos();
+		
+		Casillero casillero1=tablero.getCasillero(1, 1, 1);
+		Casillero[][][] casillero2=casillero1.getEntorno();
+		
+		tablero.imprimir();
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
