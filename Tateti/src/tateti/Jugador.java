@@ -163,6 +163,23 @@ public class Jugador {
     public int getCantidadCartas() {
     	return cartas.getLongitud();
     }
+    
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve un array con todas las cartas que tiene el jugador
+     */
+    public Carta[] getCartas() {
+    	Carta[] cartas = new Carta[getCantidadCartas()];
+    	for (int i = 0; i < getCantidadCartas(); i++) {
+    		try {
+				cartas[i] = this.cartas.obtenerDato(i+1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	return cartas;
+    }
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 
 }

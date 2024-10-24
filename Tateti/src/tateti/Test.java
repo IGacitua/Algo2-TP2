@@ -1,8 +1,37 @@
 package tateti;
 
+import cartas.Carta;
+import cartas.CartaAnularCasillero;
+import cartas.CartaBloquearFicha;
+import cartas.CartaPerderTurno;
+
 public class Test {
 
     public static void main(String[] args) {
+    	try {
+			Jugador jugador = new Jugador(1, 4, 10);
+			
+			Carta[] cartas = {
+					new CartaAnularCasillero(),
+					new CartaBloquearFicha(),
+					new CartaPerderTurno(),
+					new CartaAnularCasillero(),
+					new CartaBloquearFicha(),
+					new CartaPerderTurno()
+			};
+			Mazo mazo = new Mazo(cartas);
+			
+			jugador.robarCartas(1, mazo);
+			jugador.robarCartas(3, mazo);
+			
+			for (Carta carta : jugador.getCartas()) {
+				System.out.println(carta);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	/*
         try {
             Tablero tablero = new Tablero(5, 5, 1, 3);
             tablero.establecerEntornos();
