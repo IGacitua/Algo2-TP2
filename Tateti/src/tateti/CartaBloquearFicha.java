@@ -2,6 +2,10 @@ package tateti;
 
 public class CartaBloquearFicha extends Carta {
 
+	/**
+	 * pre: -, post: Inicializa la carta
+	 * @param tablero
+	 */
 	public CartaBloquearFicha(Tablero tablero) {
 		super(tablero);
 	}

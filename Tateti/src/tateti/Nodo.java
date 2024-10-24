@@ -8,7 +8,10 @@ public class Nodo<T> {
 	private Nodo<T> siguiente = null;
 	//CONSTRUCTORES -------------------------------------------------------------------------------------------
 	
-	// TODO pre-post
+	/**
+	 * pre: -, post: Inicializa el nodo
+	 * @param dato: puede ser cualquier tipo
+	 */
 	Nodo(T dato){
 		this.dato = dato;
 		this.siguiente = null;
@@ -22,24 +25,36 @@ public class Nodo<T> {
 	
 	//GETTERS SIMPLES -----------------------------------------------------------------------------------------
 	
-	// TODO pre-post
+	/**
+	 * pre: -, post: -
+	 * @return devuelve el dato
+	 */
 	public T getDato() {
 		return dato;
 	}
 	
-	// TODO pre-post
+	/**
+	 * pre: -, post: -
+	 * @return devuelve el siguiente nodo
+	 */
 	public Nodo<T> getSiguiente() {
 		return siguiente;
 	}
 	
 	//SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 	
-	// TODO pre-post
+	/**
+	 * pre: -, post: establece el dato
+	 * @param dato: puede ser cualquier tipo
+	 */
 	public void setDato(T dato) {
 		this.dato = dato;
 	}
 	
-	// TODO pre-post
+	/**
+	 * pre: -, post: -
+	 * @param siguiente: debe ser un nodo de cualquier dato
+	 */
 	public void setSiguiente(Nodo<T> siguiente) {
 		this.siguiente = siguiente;
 	}
