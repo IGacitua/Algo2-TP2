@@ -4,7 +4,7 @@ public class Test {
 
     public static void main(String[] args) {
         try {
-            Tablero tablero = new Tablero(5, 5, 1, 3);
+            Tablero tablero = new Tablero(3, 3, 3);
             tablero.establecerEntornos();
             tablero.colocarFicha(1, 1, 0, new Jugador(10, 9, 1));
             tablero.exportar();

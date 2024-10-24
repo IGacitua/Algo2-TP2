@@ -1,4 +1,5 @@
 package tateti;
+
 import utilidades.Herramientas;
 
 public class Casillero {
@@ -33,8 +34,7 @@ public class Casillero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: - 
-     * Alterna el bool de bloqueo para bloquear/desbloquear el
+     * pre: -, post: - Alterna el bool de bloqueo para bloquear/desbloquear el
      * casillero
      */
     public void alternarBloqueo() {
@@ -80,9 +80,10 @@ public class Casillero {
 
     /**
      * pre: recibe un casillero válido, post: -
+     *
      * @param casilla: debe ser válida //TODO: VALIDAR
-     * @return Devuelve un boolean correspondiente a si el casillero
-     * con el que se está trabajando es adyacente al propuesto
+     * @return Devuelve un boolean correspondiente a si el casillero con el que
+     * se está trabajando es adyacente al propuesto
      */
     public boolean esAdyacente(Casillero casilla) {
         for (int x = 0; x < 3; x++) {
@@ -96,11 +97,11 @@ public class Casillero {
         }
         return false;
     }
-    
+
     public void quitarJugador() throws Exception {
-    	this.jugador = null;
+        this.jugador = null;
     }
-    
+
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -115,6 +116,7 @@ public class Casillero {
 
     /**
      * pre: debe existir un jugador, post: -
+     *
      * @return Devuelve 0 si no hay un jugador en el casillero, o devuelve la
      * identificación del mismo
      */
@@ -175,13 +177,14 @@ public class Casillero {
     public boolean isBloqueado() {
         return bloqueado;
     }
-    
+
     public boolean estaVacio() {
-    	return this.jugador == null;
+        return this.jugador == null;
     }
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el entorno del casillero
      */
     public Casillero[][][] getEntorno() {
@@ -193,17 +196,16 @@ public class Casillero {
      * pre: debe existir el jugador, post: -
      *
      * @param jugador: no puede ser nulo
-     * @throws Exception 
+     * @throws Exception
      */
     public void setJugador(Jugador jugador) throws Exception {
         if (jugador == null) {
-        	throw new Exception("Ese jugador no existe");
+            throw new Exception("Ese jugador no existe");
         }
         if (!estaVacio()) {
-        	throw new Exception("El casillero ya está ocupado por " + this.jugador.getNombreJugador());
+            throw new Exception("El casillero ya está ocupado por " + this.jugador.getNombreJugador());
         }
         this.jugador = jugador;
     }
 
 }
-

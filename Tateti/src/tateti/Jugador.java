@@ -1,4 +1,5 @@
 package tateti;
+
 import cartas.Carta;
 import utilidades.Herramientas;
 import utilidades.Lista;
@@ -13,7 +14,8 @@ public class Jugador {
     private Fichas ficha; // TODO ni idea como funcionan los ENUM, q alguien lo haga. 
     private int maxCartas;
     private boolean pierdeTurno;
-    private Lista<Carta> cartas = new Lista<Carta>();
+    @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
+    private Lista<Carta> cartas = new Lista<>();
     //TODO: mano de cartas
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
@@ -73,30 +75,29 @@ public class Jugador {
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
-    
+
     /**
      * pre: -, post: - Roba cartas del mazo y las guarda en el jugador
-     * 
-     * @param cantidad: si es <= 0, no roba cartas
-     * @param mazo: mazo del que se roban las cartas
-     * @throws Exception 
+     *
+     * @param cantidad: si es <= 0, no roba cartas @param mazo: mazo del que se
+     * roban las cartas @throws Exception
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
-    	if (this.cartas.getLongitud()+cantidad > this.maxCartas) {
-    		throw new Exception("Maximo de cartas alcanzado");
-    	}
-    	
-    	if (mazo == null) {
-    		throw new Exception("No se indico un mazo");
-    	}
-    	
-    	for (int i = 0; i < cantidad; i++) {
-    		try {
-				this.cartas.agregarElemento(mazo.tomarCarta());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-    	}
+        if (this.cartas.getLongitud() + cantidad > this.maxCartas) {
+            throw new Exception("Maximo de cartas alcanzado");
+        }
+
+        if (mazo == null) {
+            throw new Exception("No se indico un mazo");
+        }
+
+        for (int i = 0; i < cantidad; i++) {
+            try {
+                this.cartas.agregarElemento(mazo.tomarCarta());
+            } catch (Exception e) {
+                throw new Exception(); //TODO Ponerle mensaje de error. Saqué el printstacktrace porque no se debe usar pero no me voy a fijar q va aca
+            }
+        }
     }
 
     /**
@@ -159,9 +160,9 @@ public class Jugador {
     public Fichas getFicha() {
         return ficha;
     }
-    
+
     public int getCantidadCartas() {
-    	return cartas.getLongitud();
+        return cartas.getLongitud();
     }
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 
