@@ -27,4 +27,16 @@ public class Herramientas {
     public static int devolverDigito(int numero, int posicion) {
         return (int) ((numero / (Math.pow(10, posicion))) % 10);
     }
+    
+    public static boolean validarRGB(int valor) {
+    	
+        int rojo = (valor >> 16) & 0xFF;
+        int verde = (valor >> 8) & 0xFF;
+        int azul = valor & 0xFF;
+
+        return (rojo >= 0 && rojo <= 255) &&
+               (verde >= 0 && verde <= 255) &&
+               (azul >= 0 && azul <= 255);
+    }
 }
+
