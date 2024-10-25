@@ -7,15 +7,15 @@ import utilidades.Lista;
 public class Jugador {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
+	private static int idActual = 0; // Numero de ID interno
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
     private String nombre = null; //TODO es necesario nombre?
-    private int identificacion; // Numero de ID interno
 
     private int cantidadDeFichas; // Cantidad de fichas que le quedan
     private int cartasMaximas; // Cantidad maxima de cartas en mano
     @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
     private Lista<Carta> cartas = new Lista<>();
-
+    private int identificacion;
     private Fichas fichaImagen; // Ficha que usa el usuario -> Para exportar tablero
     private char fichaCaracter; // Ficha que usa el usuario -> Para imprimir tablero
     private int color; // Valor RGB del usuario
@@ -33,13 +33,11 @@ public class Jugador {
      * @param identificacion, @param cantidadDeFichas: no puede ser <= 0
      * @throws Exception
      */
-    public Jugador(String nombre, int identificacion, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, char fichaCaracter, int color) throws Exception {
+    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, char fichaCaracter, int color) throws Exception {
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
-        if (!Herramientas.validarNumeroPositivoEstricto(identificacion)) {
-            throw new Exception("El valor de identificación del usuario debe ser mayor a 0");
-        }
+
         if (!Herramientas.validarNumeroPositivo(this.cartasMaximas)) {
             throw new Exception("El valor de cartas máximas debe ser mayor o igual que 0");
         }
@@ -49,16 +47,19 @@ public class Jugador {
         if (fichaImagen == null) {
             throw new Exception("La ficha debe existir");
         }
+        if (!Herramientas.validarRGB(color)) {
+        	throw new Exception("El color debe estar en rango RGB");
+        }
+
 
         this.nombre = nombre;
-        this.identificacion = identificacion;
-
         this.cantidadDeFichas = fichasMaximas;
         this.cartasMaximas = cartasMaximas;
-
+        
         this.fichaImagen = fichaImagen;
         this.fichaCaracter = fichaCaracter;
         this.color = color;
+        this.identificacion = ++idActual;
     }
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
