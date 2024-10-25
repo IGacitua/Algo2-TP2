@@ -5,7 +5,6 @@ public class Test {
     public static void main(String[] args) {
         try {
             Tablero tablero = new Tablero(3, 3, 3);
-            tablero.establecerEntornos();
             int rgbCircular = (255 << 16) | (64 << 8) | 64;
             int rgbCuadrado = (64 << 16) | (255 << 8) | 64;
             int rgbTriangulo = (64 << 16) | (64 << 8) | 255;
