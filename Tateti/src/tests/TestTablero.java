@@ -11,28 +11,24 @@ import tateti.*;
 public class TestTablero {
 	//TODO: hacer los tests de cada ambito, tablero, jugador,carta, etc.
 	//le agrego los unused asi deja de tirar los Warnigns
-	@SuppressWarnings("unused")
-	private Tablero tablero;
-    @SuppressWarnings("unused")
-	private Jugador jugador;
 	
 	@Test
 	public void testTableroMenorACero() {
 		Exception exception = assertThrows(Exception.class, () -> {
-	        new Tablero(0, 0, 0);
+	        new Tablero(2, 2, 2);
 		});
-		String mensajeDeErrorEsperado = "Los tamaños del tablero deben ser mayores a 0.";
+		String mensajeDeErrorEsperado = "Los tamaños del tablero deben ser mayores o iguales a 3.";
 	    String mensajeDeErrorRecibido = exception.getMessage();
 	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 	}
 	
 	@Test
 	public void testTableroInvalidoX() {
-		//Si es 0 en X
+		//Si es 2 en X
 		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(0, 5, 5);
+			new Tablero(2, 5, 5);
 		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores a 0.";
+		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
 	    String mensajeDeErrorRecibido1 = exception1.getMessage();
 	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
 	    
@@ -47,11 +43,11 @@ public class TestTablero {
 	
 	@Test
 	public void testTableroInvalidoY() {
-		//Si es 0 en Y
+		//Si es 2 en Y
 		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(5, 0, 5);
+			new Tablero(5, 2, 5);
 		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores a 0.";
+		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
 	    String mensajeDeErrorRecibido1 = exception1.getMessage();
 	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
 	    
@@ -66,11 +62,11 @@ public class TestTablero {
 	
 	@Test
 	public void testTableroInvalidoZ() {
-		//Si es 0 en Z
+		//Si es 20 en Z
 		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(5, 5, 0);
+			new Tablero(5, 5, 2);
 		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores a 0.";
+		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
 	    String mensajeDeErrorRecibido1 = exception1.getMessage();
 	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
 
