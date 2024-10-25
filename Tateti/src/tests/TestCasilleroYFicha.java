@@ -128,12 +128,6 @@ public class TestCasilleroYFicha {
 	}
 	
 	@Test
-	public void moverFichaDeUnJugadorInvalido() {
-		//TODO: mejorar nombre lol, la idea es q jugador 1 ponga una
-		//ficha y jugador 2 trate de moverla a ver qué pasa
-	}
-	
-	@Test
 	public void moverFichaBloqueada(){
 		try {
 			tablero.colocarFicha(0, 0, 0, jugador1);
