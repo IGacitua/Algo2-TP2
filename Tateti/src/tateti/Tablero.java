@@ -21,16 +21,12 @@ public class Tablero {
     /**
      * pre: -, post: Crea el tablero
      *
-     * @param tamañoX:Debe estar entre 0 y 100 no inclusivo
-     * @param tamañoY:Debe estar entre 0 y 100 no inclusivo
-     * @param tamañoZ:Debe estar entre 0 y 100 no inclusivo
+     * @param tamañoX, @param tamaño, @param tamañoZ: Debe estar entre 3 y 100 no inclusivo
      * @throws Exception
      */
     public Tablero(int tamañoX, int tamañoY, int tamañoZ) throws Exception {
-        if ((!Herramientas.validarNumeroPositivoEstricto(tamañoX))
-                || (!Herramientas.validarNumeroPositivoEstricto(tamañoY))
-                || (!Herramientas.validarNumeroPositivoEstricto(tamañoZ))) {
-            throw new Exception("Los tamaños del tablero deben ser mayores a 0.");
+        if ((tamañoX < 3) || (tamañoY < 3) || (tamañoZ < 3)) {
+            throw new Exception("Los tamaños del tablero deben ser mayores o iguales a 3.");
         }
         if ((tamañoX != tamañoY) || (tamañoY != tamañoZ)) {
             throw new Exception("El tablero debe ser cuadrado.");
@@ -55,7 +51,7 @@ public class Tablero {
             casilleros.agregarElemento(fila);
         }
         // TODO: Buscar una forma de establecer entornos luego de construir
-        // establecerEntornos();
+        establecerEntornos();
     }
 
     /**
@@ -210,8 +206,7 @@ public class Tablero {
      * coloca la ficha en el casillero
      *
      * @param x, @param y, @param z: No puede ser < 0 (verificarCasillero())
-     * @param jugador: no
-     * debe ser nulo
+     * @param jugador: no debe ser nulo
      * @retrurn devuelve si la jugada de dicho jugador es una victoria o no
      * @throws Exception
      */
@@ -232,8 +227,7 @@ public class Tablero {
      * mueve la ficha ya colocada
      *
      * @param x, @param y, @param z: no puede ser < 0 (verificarCasillero())
-     * @param ubicacionOr
-     * iginal: debe haber una ficha en dicha ubicación
+     * @param ubicacionOriginal: debe haber una ficha en dicha ubicación
      * @return devuelve si al mover la ficha se ganó o no
      * @throws Exception
      */
@@ -243,8 +237,12 @@ public class Tablero {
             throw new Exception("No se puede mover una ficha a una casilla que está bloqueada.");
         }
         if (ubicacionOriginal.estaVacio()) {
-            throw new Exception("No se puede mover una ficha que no está en la ubicación original");
+            throw new Exception("No se puede mover una ficha que no está en la ubicación original.");
         }
+        if (ubicacionOriginal.isBloqueado()) {
+        	throw new Exception("No se puede mover una ficha que se encuentra bloqueada en un casillero.");
+        }
+        
         Casillero casilleroDestino = this.getCasillero(x, y, z);
         //verifica si está vacío el casillero destino y si es adyacente
         if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.estaVacio()) {
@@ -320,7 +318,7 @@ public class Tablero {
     /**
      * pre: recibe la posición y la verifica, post: -
      *
-     * @param x, @param y, @param z: no puede ser <0
+     * @param x, @param y, @param z: no puede ser < 0
      * @throws Exception
      */
     private void verificarValidezCasillero(int x, int y, int z) throws Exception {
