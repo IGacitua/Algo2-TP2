@@ -79,13 +79,18 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY; y++) {
                 System.out.printf("\n");
                 for (int x = 0; x < this.tamañoX; x++) {
-                    System.out.printf("%2d ", getCasillero(x, y, z).getIdentificacionDeJugador());
+                	if (getCasillero(x, y, z).getJugador() != null) {
+                		System.out.printf("%c ", getCasillero(x, y, z).getJugador().getFichaCaracter());
+                		
+                	} else {
+                	System.out.printf("- ");
+                	}
                 }
             }
         }
         System.out.printf("\n");
     }
-
+    
     /** TODO: pre-post
      * pre:
      * @param RUTA_EXPORTAR: 
@@ -210,7 +215,7 @@ public class Tablero {
             } else {
                 Fichas fichaJugador = jugadorEnCasillero.getFichaImagen();
                 imagenCasillero = new Imagen(RUTA_IMAGENES + "shape_" + fichaJugador.ordinal() + ".bmp");
-                imagenCasillero.recolorizar(jugadorEnCasillero.getColor());
+                imagenCasillero.recolorizar(jugadorEnCasillero.getColor().getRGB());
             }
         }
         imagenCasillero.bordear(1, COLOR_BORDES); // Darle borde a la imagen
