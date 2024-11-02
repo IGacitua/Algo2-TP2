@@ -1,5 +1,6 @@
 package tateti;
 
+
 public enum Color {
 	ROJO,
 	VERDE,
@@ -52,9 +53,11 @@ public enum Color {
     	Color[] colores = Color.values();
     	for (int i = 0; i < colores.length; i++) {
     		coloresExistentes += colores[i].name();
+    		if (i < colores.length - 1) {
+    			coloresExistentes += ", "; //añade una coma y un espacio entre los colores
+            }
     	}
     	return coloresExistentes;
     }
     
 }
-
