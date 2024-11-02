@@ -11,7 +11,6 @@ import tateti.Fichas;
 import tateti.Jugador;
 import tateti.Tablero;
 
-
 public class TestCasilleroYFicha {
 	private Tablero tablero;
 	private Jugador jugador1;
@@ -21,8 +20,8 @@ public class TestCasilleroYFicha {
 	public void inicializarTableroYJugadores() {
 		try {
 			tablero = new Tablero(3,3,3);
-			jugador1 = new Jugador("Carlos", 1, 5, 4, Fichas.CIRCULO, 'O', 1);
-			jugador2 = new Jugador("Pedro", 2, 5, 4, Fichas.CRUZ, 'X', 2);
+			jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, Color.AMARILLO);
+			jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, Color.VERDE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -332,6 +331,7 @@ public class TestCasilleroYFicha {
 			assertFalse(tablero.colocarFicha(2, 0, 0, jugador1)); //coloca el uno en el extremo derecho de arriba
 																//de todo de la primera capa, no ganó
 			assertTrue(tablero.colocarFicha(0, 2, 2, jugador1)); //coloca el uno en el extremo izquierdo de la última capa, ganó
+			tablero.imprimir(); //TODO: borrar al final:)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
