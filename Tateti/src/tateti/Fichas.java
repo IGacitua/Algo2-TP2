@@ -1,4 +1,5 @@
 package tateti;
+
 public enum Fichas {
     CUADRADO,
     CIRCULO,
@@ -33,4 +34,20 @@ public enum Fichas {
 			return 'P'; //P de pausa
 		}
 	}
+	
+	/**
+     * pre: -, post: -
+     * @return devuelve un String con todas los tipos de ficha listados
+     */
+    public static String obtenerTiposFicha() {
+    	String tiposExistentes = "";
+    	Fichas[] fichas = Fichas.values();
+    	for (int i = 0; i < fichas.length; i++) {
+    		tiposExistentes += fichas[i].name();
+    		if (i < fichas.length - 1) {
+                tiposExistentes += ", "; //añade una coma y un espacio entre las fichas
+            }
+    	}
+    	return tiposExistentes;
+    }
 }
