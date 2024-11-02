@@ -4,10 +4,11 @@ import cartas.Carta;
 import utilidades.Herramientas;
 import utilidades.Lista;
 
+
 public class Jugador {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-	private static int idActual = 0; // Numero de ID interno
+	private static int idActual = 0; // Numero de ID interno  //TODO: ES NECESARIO???
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
     private String nombre = null;
 
@@ -46,10 +47,10 @@ public class Jugador {
             throw new Exception("El valor de cartas máximas debe ser mayor o igual que 0");
         }
         if (fichaImagen == null) { 
-            throw new Exception("La ficha debe existir");
+            throw new Exception("La ficha debe existir y estar dentro de las siguientes opciones: " + Fichas.obtenerTiposFicha());
         }
-        if (!Herramientas.validarRGB(color.getRGB())) {
-        	throw new Exception("El color debe estar dentro de las siguientes opciones: " + Color.obtenerColores());
+        if ((color == null) || (!Herramientas.validarRGB(color.getRGB()))) {
+        	throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + Color.obtenerColores());
         }
         this.nombre = nombre;
         this.cantidadDeFichas = fichasMaximas;
@@ -76,11 +77,11 @@ public class Jugador {
     		throw new Exception("Se debe robar por lo menos una carta");
     	}
         if (this.cartas.getLongitud() + cantidad > this.cartasMaximas) {
-            throw new Exception("Maximo de cartas alcanzado");
+            throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadCartas());
         }
 
         if (mazo == null) {
-            throw new Exception("No se indico un mazo");
+            throw new Exception("No se indicó un mazo del que robar");
         }
 
         for (int i = 0; i < cantidad; i++) {
@@ -99,14 +100,10 @@ public class Jugador {
     /**
      * pre: -, post: -
      *
-     * @return Devuelve el nombre del jugador si es que tiene uno asignado, sino
-     * devuelve que no se le asignó nada
+     * @return Devuelve el nombre del jugador
      */
     public String getNombreJugador() {
-        if (this.nombre == null) {
-            return "El jugador no tiene un nombre asignado";
-        }
-        return nombre;
+        return this.nombre;
     }
 
     /**
@@ -115,7 +112,7 @@ public class Jugador {
      * @return Devuelve la identificacion
      */
     public int getIdentificacion() {
-        return identificacion;
+        return this.identificacion;
     }
 
     /**
@@ -124,7 +121,7 @@ public class Jugador {
      * @return Devuelve la cantidad de fichas que posee el jugador
      */
     public int getCantidadDeFichas() {
-        return cantidadDeFichas;
+        return this.cantidadDeFichas;
     }
 
     /**
@@ -133,7 +130,7 @@ public class Jugador {
      * @return Devuelve el máximo de cartas en mano
      */
     public int getCartasMaximas() {
-        return cartasMaximas;
+        return this.cartasMaximas;
     }
 
     /**
@@ -142,7 +139,7 @@ public class Jugador {
      * @return Devuelve la cantidad de cartas en mano
      */
     public int getCantidadCartas() {
-        return cartas.getLongitud();
+        return this.cartas.getLongitud();
     }
 
     /**
@@ -151,7 +148,7 @@ public class Jugador {
      * @return Devuelve la ficha del usuario en forma de imagen
      */
     public Fichas getFichaImagen() {
-        return fichaImagen;
+        return this.fichaImagen;
     }
 
     /**
@@ -160,7 +157,7 @@ public class Jugador {
      * @return Devuelve la ficha del usuario en forma de caracter
      */
     public char getFichaCaracter() {
-        return fichaCaracter;
+        return this.fichaCaracter;
     }
 
     /**
@@ -169,7 +166,7 @@ public class Jugador {
      * @return Devuelve el color del usuario haciendo referencia al enum
      */
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     /**
@@ -178,9 +175,8 @@ public class Jugador {
      * @return Devuelve un boolean correspondiente a si pierde el turno o no
      */
     public boolean isPierdeTurno() {
-        return pierdeTurno;
+        return this.pierdeTurno;
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }
-
