@@ -61,13 +61,16 @@ public class Casillero {
         }
     }
 
-    // TODO delete
+    /**
+     * pre: -, post: imprime el entorno del casillero
+     * @throws Exception
+     */
     public void imprimirEntorno() throws Exception {
         for (int z = -1; z < 2; z++) {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (this.entorno[x + 1][y + 1][z + 1] != null) {
-                        System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador().getIdentificacion());
+                        System.out.printf("%2d ", this.entorno[x + 1][y + 1][z + 1].getJugador().getFichaCaracter());
                     } else {
                         System.out.printf("-1 ");
                     }
@@ -209,3 +212,4 @@ public class Casillero {
     }
 
 }
+
