@@ -10,7 +10,7 @@ public enum Color {
 	BLANCO;
 	
 	/**
-	 * pre -, pos: -
+	 * pre -, post: -
 	 * @return devuelve entero del color elegido
 	 */
 	public int getRGB() {
@@ -35,13 +35,26 @@ public enum Color {
 	}
 	
     /**
-     * pre: -, pos: -
-     * @return el nombre del color elegido.
+     * pre: -, post: -
+     * @return devuelve el nombre del color elegido.
      */
     @Override
     public String toString() {
         return "El color es " + name().toLowerCase();
     }
-	
+    
+    /**
+     * pre: -, post: -
+     * @return devuelve un String con todos los colores listados
+     */
+    public static String obtenerColores() {
+    	String coloresExistentes = "";
+    	Color[] colores = Color.values();
+    	for (int i = 0; i < colores.length; i++) {
+    		coloresExistentes += colores[i].name();
+    	}
+    	return coloresExistentes;
+    }
+    
 }
 
