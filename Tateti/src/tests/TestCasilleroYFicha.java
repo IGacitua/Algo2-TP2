@@ -7,7 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tateti.*;
+import tateti.Color;
+import tateti.Fichas;
+import tateti.Jugador;
+import tateti.Tablero;
 
 public class TestCasilleroYFicha {
 	private Tablero tablero;
@@ -18,9 +21,8 @@ public class TestCasilleroYFicha {
 	public void inicializarTableroYJugadores() {
 		try {
 			tablero = new Tablero(3,3,3);
-			tablero.establecerEntornos();
-			jugador1 = new Jugador("Carlos", 1, 5, 4, Fichas.CIRCULO, 'O', 1);
-			jugador2 = new Jugador("Pedro", 2, 5, 4, Fichas.CRUZ, 'X', 2);
+			jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, Color.AMARILLO);
+			jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, Color.VERDE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,12 +128,6 @@ public class TestCasilleroYFicha {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Test
-	public void moverFichaDeUnJugadorInvalido() {
-		//TODO: mejorar nombre lol, la idea es q jugador 1 ponga una
-		//ficha y jugador 2 trate de moverla a ver qué pasa
 	}
 	
 	@Test
@@ -244,13 +240,99 @@ public class TestCasilleroYFicha {
 	
 	@Test
 	public void moverDeUnaCapaAOtra() {
-		//TODO: TERMINAR CUANDO SE ARREGLE LO DE MOVER FICHA
 		try {
 			tablero.colocarFicha(0, 2, 0, jugador1);
-			//tablero.moverFicha(0, 0, 1, tablero.getCasillero(0, 2, 0));
-			//Las casillas indicadas [0, 2, 0] (ubicación original) y [0, 0, 1] (ubicación de destino) no son adyacentes
-			tablero.colocarFicha(0, 0, 1, jugador1);
-			tablero.imprimir();
+			tablero.moverFicha(0, 2, 1, tablero.getCasillero(0, 2, 0));
+			
+			assertTrue(tablero.getCasillero(0, 2, 0).estaVacio());
+			assertFalse(tablero.getCasillero(0, 2, 1).estaVacio());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void moverEnDiagonal() {
+		try {
+			tablero.colocarFicha(0, 0, 0, jugador1);
+			tablero.moverFicha(1, 1, 0, tablero.getCasillero(0, 0, 0));
+			assertTrue(tablero.getCasillero(0, 0, 0).estaVacio());
+			assertFalse(tablero.getCasillero(1, 1, 0).estaVacio());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void adyacenciaDeCapas() {
+		try {
+			tablero.colocarFicha(0, 0, 0, jugador2);
+			
+			//Intenta mover a capa correcta pero lugar incorrecto
+			Exception exception = assertThrows(Exception.class, () -> {
+				tablero.moverFicha(0, 2, 2, tablero.getCasillero(0, 0, 0));
+			});
+			String mensajeDeErrorEsperado = "Las casillas indicadas [0, 0, 0] (ubicación original) y [0, 2, 2] (ubicación de destino) no son adyacentes";
+		    String mensajeDeErrorRecibido = exception.getMessage();
+		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+			
+		    //verifica que el casilleroDestino no adyacente esté vacío
+		    assertTrue(tablero.getCasillero(0, 2, 2).estaVacio());
+			
+		    //Intenta mover a capa incorrecta pero lugar correcto
+			Exception exception2 = assertThrows(Exception.class, () -> {
+				tablero.moverFicha(0, 0, 2, tablero.getCasillero(0, 0, 0));
+			});
+			String mensajeDeErrorEsperado2 = "Las casillas indicadas [0, 0, 0] (ubicación original) y [0, 0, 2] (ubicación de destino) no son adyacentes";
+		    String mensajeDeErrorRecibido2 = exception2.getMessage();
+		    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
+		    
+		    //verifica que el casilleroDestino no adyacente esté vacío
+		    assertTrue(tablero.getCasillero(0, 0, 2).estaVacio());
+
+		    //Intenta mover a capa correcta y lugar correcto
+		    tablero.moverFicha(0, 0, 1, tablero.getCasillero(0, 0, 0));
+		    assertTrue(tablero.getCasillero(0, 0, 0).estaVacio());
+		    assertFalse(tablero.getCasillero(0, 0, 1).estaVacio());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testVictoriaEnUnaMismaCapa() {
+		try {
+			//En diagonal
+			assertFalse(tablero.colocarFicha(0, 0, 0, jugador1)); //false: no ganó
+			assertFalse(tablero.colocarFicha(1, 1, 0, jugador1)); //false: no ganó
+			assertTrue(tablero.colocarFicha(2, 2, 0, jugador1)); //true: ganó
+
+			
+			//En fila (además se hacen más testeos de movimientos)
+			assertFalse(tablero.moverFicha(1, 0, 0, tablero.getCasillero(1, 1, 0))); //mueve el uno de abajo a la derecha del (0,0,0), todavía no ganó
+			assertFalse(tablero.moverFicha(2, 1, 0, tablero.getCasillero(2, 2, 0))); //mueve el uno de abajo a la derecha del todo hacia arriba, no ganó
+			assertTrue(tablero.moverFicha(2, 0, 0, tablero.getCasillero(2, 1, 0))); //mueve el uno de la 2da fila hacia arriba, ganó
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testVictoriaEnCapasDistintas() {
+		try {
+			//Entre capas en fila
+			assertFalse(tablero.colocarFicha(2, 0, 0, jugador2)); //coloca el dos en la ezquina derecha de la 1era fila, no ganó
+			assertFalse(tablero.colocarFicha(2, 0, 1, jugador2)); //coloca el dos en la ezquina derecha de la 2era fila, no ganó
+			assertTrue(tablero.colocarFicha(2, 0, 2, jugador2)); //coloca el dos en la ezquina derecha de la 3era fila, ganó
+
+			
+			//Entre capas en diagonal
+			assertFalse(tablero.colocarFicha(1, 1, 1, jugador1)); //coloca el uno en el centro de la segunda capa, no ganó
+			tablero.moverFicha(1, 0, 0, tablero.getCasillero(2, 0, 0)); //muevo el dos a la izquierda
+			assertFalse(tablero.colocarFicha(2, 0, 0, jugador1)); //coloca el uno en el extremo derecho de arriba
+																//de todo de la primera capa, no ganó
+			assertTrue(tablero.colocarFicha(0, 2, 2, jugador1)); //coloca el uno en el extremo izquierdo de la última capa, ganó
+			tablero.imprimir(); //TODO: borrar al final:)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

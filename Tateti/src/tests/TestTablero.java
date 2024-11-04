@@ -1,17 +1,15 @@
 package tests;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import tateti.*;
+import tateti.Casillero;
+import tateti.Tablero;
+
+
 public class TestTablero {
-	//TODO: hacer los tests de cada ambito, tablero, jugador,carta, etc.
-	//le agrego los unused asi deja de tirar los Warnigns
-	
 	@Test
 	public void testTableroMenorACero() {
 		Exception exception = assertThrows(Exception.class, () -> {
@@ -62,7 +60,7 @@ public class TestTablero {
 	
 	@Test
 	public void testTableroInvalidoZ() {
-		//Si es 20 en Z
+		//Si es 2 en Z
 		Exception exception1 = assertThrows(Exception.class, () -> {
 			new Tablero(5, 5, 2);
 		});
@@ -81,14 +79,12 @@ public class TestTablero {
 	
 	@Test
 	public void testEntorno() {
-		//establecer entorno deberia estar en el test de casillero o tablero
-		//establecer entorno deberia ser automatico
 		try {
 		Tablero tablero= new Tablero(4,4,4);
 		
 		Casillero casillero1=tablero.getCasillero(1, 1, 1);
 		Casillero[][][] entornoCasillero=casillero1.getEntorno();
-		//verifico que alguno de los vecinos de este casillero sea nulo, lo cual deberia no ser posible al ser uno de los casilleros interiores
+		//verifica que alguno de los vecinos de este casillero sea nulo, lo cual deberia no ser posible al ser uno de los casilleros interiores
 		        for (int i = 0; i < 3; i++) {
 		            for (int j = 0; j < 3; j++) {
 		                for (int k = 0; k < 3; k++) {
