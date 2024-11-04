@@ -3,33 +3,39 @@ package utilidades;
 public class Herramientas {
 
     /**
-     * pre: -, pos: -
-     *
-     * @param valor puede ser cualquier valor numérico
-     * @return devuelve un booleano correspondiente a si el valor es >= 0
+     * pre: -, post: -
+     * @param valor: Puede ser cualquier valor numérico.
+     * @return Devuelve un booleano correspondiente a si el valor es >= 0.
      */
     public static boolean validarNumeroPositivo(Integer valor) {
         return valor >= 0;
     }
 
     /**
-     * pre: -, pos: -
-     *
-     * @param valor puede ser cualquier valor numérico
-     * @return devuelve un booleano correspondiente a si el valor es > 0
+     * pre: -, post: -
+     * @param valor: Puede ser cualquier valor numérico.
+     * @return Devuelve un booleano correspondiente a si el valor es > 0.
      */
     public static boolean validarNumeroPositivoEstricto(Integer valor) {
         return valor > 0;
     }
 
-    // TODO Pre-post
-    // Devuelve el digito en la posición dada, con 0 siendo el mas pequeño
+    /**
+     * pre: -, post: -
+     * @param numero, @param posicion: Pueden ser cualquier dígito.
+     * @return Devuelve el digito en la posición dada, con 0 siendo el mas pequeño.
+     */
     public static int devolverDigito(int numero, int posicion) {
         return (int) ((numero / (Math.pow(10, posicion))) % 10);
     }
     
+    /**
+     * pre: -, post: -
+     * @param valor: Puede ser cualquier valor.
+     * @return Devuelve un boolean correspondiente a si el RGB es
+     * válido o no, siendo false si no está entre los valores válidos.
+     */
     public static boolean validarRGB(int valor) {
-    	
         int rojo = (valor >> 16) & 0xFF;
         int verde = (valor >> 8) & 0xFF;
         int azul = valor & 0xFF;
