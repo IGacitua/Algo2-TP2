@@ -5,6 +5,6 @@
  * 
  */
 module Tateti {
-	requires org.junit.jupiter.api; //por favor no lo comenten más porq es para los testeos
+	//requires org.junit.jupiter.api;
 	requires java.desktop;
 }
