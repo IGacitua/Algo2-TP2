@@ -1,7 +1,6 @@
 package utilidades;
 
 public class Herramientas {
-
     /**
      * pre: -, post: -
      * @param valor: Puede ser cualquier valor numérico.
@@ -22,8 +21,9 @@ public class Herramientas {
 
     /**
      * pre: -, post: -
-     * @param numero, @param posicion: Pueden ser cualquier dígito.
-     * @return Devuelve el digito en la posición dada, con 0 siendo el mas pequeño.
+     * @param numero: Puede ser cualquier dígito.
+     * @param posicion: Puede ser cualquier dígito.
+     * @return Devuelve el dígito en la posición dada, con 0 siendo el más pequeño.
      */
     public static int devolverDigito(int numero, int posicion) {
         return (int) ((numero / (Math.pow(10, posicion))) % 10);
