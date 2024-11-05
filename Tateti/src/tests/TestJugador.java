@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import cartas.Carta;
-import tateti.Color;
+import tateti.ColoresDisponibles;
 import tateti.Fichas;
 import tateti.Jugador;
 import tateti.Mazo;
@@ -16,7 +16,7 @@ public class TestJugador {
 	@Test
 	public void testInicializarNombreInvalido() {
 		Exception exception = assertThrows(Exception.class, () -> {
-	        new Jugador(" ", 4, 5, Fichas.CIRCULO, Color.AMARILLO);
+	        new Jugador(" ", 4, 5, Fichas.CIRCULO, ColoresDisponibles.AMARILLO);
 		});
 		String mensajeDeErrorEsperado = "El nombre no es válido";
 	    String mensajeDeErrorRecibido = exception.getMessage();
@@ -26,14 +26,14 @@ public class TestJugador {
 	@Test
 	public void testInicializarCantidadesInvalidas() {
 		Exception exception1 = assertThrows(Exception.class, () -> {
-	        new Jugador("Pedro", 0, 5, Fichas.CIRCULO, Color.AMARILLO);
+	        new Jugador("Pedro", 0, 5, Fichas.CIRCULO, ColoresDisponibles.AMARILLO);
 		});
 		String mensajeDeErrorEsperado1 = "La cantidad de fichas debe ser positiva";
 	    String mensajeDeErrorRecibido1 = exception1.getMessage();
 	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
 	    
 	    Exception exception2 = assertThrows(Exception.class, () -> {
-	    	new Jugador("Pedro", 1, -1, Fichas.CIRCULO, Color.AMARILLO);
+	    	new Jugador("Pedro", 1, -1, Fichas.CIRCULO, ColoresDisponibles.AMARILLO);
 	    });
 	    String mensajeDeErrorEsperado2 = "El valor de cartas máximas debe ser mayor o igual que 0";
 	    String mensajeDeErrorRecibido2 = exception2.getMessage();
@@ -43,7 +43,7 @@ public class TestJugador {
 	@Test
 	public void testEnumFichas() {
 		Exception exception = assertThrows(Exception.class, () -> {
-	        new Jugador("Pedro", 4, 5, null, Color.AMARILLO);
+	        new Jugador("Pedro", 4, 5, null, ColoresDisponibles.AMARILLO);
 		});
 		String mensajeDeErrorEsperado = "La ficha debe existir y estar dentro de las siguientes opciones: CUADRADO, CIRCULO, TRIANGULO, CRUZ, RECTANGULO, ESTRELLA, ROMBO, PAUSA";
 	    String mensajeDeErrorRecibido = exception.getMessage();
@@ -63,7 +63,7 @@ public class TestJugador {
 	@Test
 	public void testRobarCartas() {
 		try {
-			Jugador jugador = new Jugador("Juancito", 4, 3, Fichas.CIRCULO, Color.AMARILLO); //3 es cant cartas MAX
+			Jugador jugador = new Jugador("Juancito", 4, 3, Fichas.CIRCULO, ColoresDisponibles.AMARILLO); //3 es cant cartas MAX
 			Carta[] cartas = new Carta[10];
 			Mazo mazo = new Mazo(cartas);
 			assertTrue(jugador.getCantidadCartas() == 0);
