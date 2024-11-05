@@ -3,7 +3,7 @@ package cartas;
 import tateti.Jugador;
 import tateti.Mazo;
 
-public class CartaRobarCartas {
+public class CartaRobarCartas extends Carta {
 
 	private final static int CANTIDAD_A_ROBAR = 2;
 
