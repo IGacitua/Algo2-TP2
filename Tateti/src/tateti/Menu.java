@@ -74,15 +74,6 @@ public class Menu {
         }
     }
             
-    public void seleccionarCarta(Jugador jugadorActual){
-        for (int i=1; i < jugador.cartas.getLongitud();i++){
-            System.out.println("En la posicion " + i + " se tiene la carta " + jugador.cartas.obtenerDato(i));
-        }
-        System.out.println("Ingrese el numero de la carta que desea utilizar: ");
-        Teclado.obtenerEntero(1,jugador.cartas.getLongitud());
-        
-    }
-
     public void generarMazoAleatorio(int cantidadCartas) throws Exception {
         Random random = new Random();
 
@@ -108,42 +99,60 @@ public class Menu {
         }
     }
      
+
+    private int seleccionarCarta(Jugador jugadorActual,Tablero tablero){
+        for (int i=1; i < jugador.cartas.getLongitud();i++){
+            System.out.println("En la posicion " + i + " se tiene la carta " + jugador.cartas.obtenerDato(i));
+        }
+        System.out.println("Ingrese el numero de la carta que desea utilizar: ");
+        Teclado.obtenerEntero(1,jugador.cartas.getLongitud());
+        Lista coordenadas = new Lista();
+        obtenerCoordenadas(coordenadas,tablero);
+        jugadorActual.getCartas().use(obtenerCasillero(coordenadas, tablero));
+        return i;
+    }
+
         
-    public void obtenerCoordenadas(Lista coordenadas,Tablero tablero) {
+    private void obtenerCoordenadas(Lista coordenadas,Tablero tablero) {
 	   System.out.println("Ingrese la coordenada X: ");
-	   int x=Teclado.pedirNumero(0,99);// faltaria donde esta hardtipeado ingresar un geter de tablero
+	   int x=Teclado.pedirNumero(0,tablero.getTamaño());
 	   coordenadas.agregarElemento(1,x);
 	   System.out.println("Ingrese la coordenada Y: ");
-	   int y=Teclado.pedirNumero(0,99);  //faltaria donde esta hardtipeado ingresar un geter de tablero
+	   int y=Teclado.pedirNumero(0,tablero.getTamaño());
 	   coordenadas.agregarElemento(2,y);
 	   System.out.println("Ingrese la coordenada Z: ");
-	   int z=Teclado.pedirNumero(0,99);  //faltaria donde esta hardtipeado ingresar un geter de tablero
+	   int z=Teclado.pedirNumero(0,tablero.getTamaño());
 	   coordenadas.agregarElemento(3,z);
     }
 
-    public Casillero obtenerCasillero(Lista coordenadas,Tablero tablero){
-        
+    private Casillero obtenerCasillero(Lista coordenadas,Tablero tablero){
+        this.obtenerCoordenadas(coordenadas,tablero);
+        Casillero casillero = new Casillero(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2));
         return casillero;
     }
     
     //limite cartas
-    public int limiteCartas(){
+    private int limiteCartas(){
         System.out.println("Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado: ");
         int cantCartas=Teclado.validarEntero(3,99);
         return cantCartas; 
     }
 
+    //jugar carta
+    private jugarCarta(Jugador jugadorActual){
+        seleccionarCarta(jugadorActual);
+        
+    }
+
     //tirar dado
-    public int tirarDado(){
+    private int tirarDado(){
         Random random = new Random();
         int numeroAleatorio = random.nextInt(6) + 1;
         return numeroAleatorio;
     }
-
-    //iniciar tablero
     
     // validar color
-    public static color obtenerColor(Teclado teclado,String nombre) {
+   /*  private static color obtenerColor(Teclado teclado,String nombre) {
         Color colorSeleccionado = null;
         boolean colorValido = false;
         while (!colorValido) {
@@ -158,6 +167,6 @@ public class Menu {
             }
         }
        return colorSeleccionado;
-    }
+    }                                                                                                       */
 
 }
