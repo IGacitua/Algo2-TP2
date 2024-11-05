@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tateti.Color;
+import tateti.ColoresDisponibles;
 import tateti.Fichas;
 import tateti.Jugador;
 import tateti.Tablero;
@@ -21,8 +21,8 @@ public class TestCasilleroYFicha {
 	public void inicializarTableroYJugadores() {
 		try {
 			tablero = new Tablero(3);
-			jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, Color.AMARILLO);
-			jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, Color.VERDE);
+			jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, ColoresDisponibles.AMARILLO);
+			jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, ColoresDisponibles.VERDE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
