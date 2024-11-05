@@ -1,6 +1,5 @@
 package tateti;
 
-
 public enum ColoresDisponibles {
     ROJO,
     VERDE,
@@ -13,6 +12,7 @@ public enum ColoresDisponibles {
 
     /**
      * pre -, post: -
+     *
      * @return Devuelve entero del color elegido.
      */
     public int getRGB() {
@@ -40,15 +40,18 @@ public enum ColoresDisponibles {
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el nombre del color elegido.
      */
     @Override
     public String toString() {
+        //TODO: Se usa realmente en el código?
         return name().toLowerCase();
-    } //TODO: Se usa realmente en el código?
+    }
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve un String con todos los colores listados.
      */
     public static String obtenerColores() {
