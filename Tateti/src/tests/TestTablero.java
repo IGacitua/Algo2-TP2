@@ -8,16 +8,14 @@ import org.junit.jupiter.api.Test;
 import tateti.Casillero;
 import tateti.Tablero;
 
-
 public class TestTablero {
 	@Test
 	public void testTableroInvalido() {
 		Exception exception = assertThrows(Exception.class, () -> {
 	        new Tablero(2);
 		});
-		String mensajeDeErrorEsperado = "El tamaño del tablero debe ser mayor a 0. (El ingresado fue 2)";
+		String mensajeDeErrorEsperado = "El tamaño del tablero debe ser mayor o igual a 3. (El ingresado fue 2)";
 	    String mensajeDeErrorRecibido = exception.getMessage();
-	    System.out.println(mensajeDeErrorRecibido);
 	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 	}
 	
