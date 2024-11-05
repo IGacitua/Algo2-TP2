@@ -135,7 +135,7 @@ public class Casillero {
      * @return Devuelve el jugador que está en ese casillero.
      * Si no hay jugador, devuelve null.
      */
-    public Jugador getJugador() throws Exception {
+    public Jugador getJugador() {
         return this.jugador;
     }
 
