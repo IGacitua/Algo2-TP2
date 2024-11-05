@@ -1,7 +1,7 @@
 package tateti;
 
-//TODO cambiar nombre. Java ya posee una clase con este nombre
-public enum Color {
+
+public enum ColoresDisponibles {
     ROJO,
     VERDE,
     AZUL,
@@ -13,8 +13,7 @@ public enum Color {
 
     /**
      * pre -, post: -
-     *
-     * @return devuelve entero del color elegido
+     * @return Devuelve entero del color elegido.
      */
     public int getRGB() {
         return switch (this) {
@@ -41,22 +40,20 @@ public enum Color {
 
     /**
      * pre: -, post: -
-     *
-     * @return devuelve el nombre del color elegido.
+     * @return Devuelve el nombre del color elegido.
      */
     @Override
     public String toString() {
         return name().toLowerCase();
-    }
+    } //TODO: Se usa realmente en el código?
 
     /**
      * pre: -, post: -
-     *
-     * @return devuelve un String con todos los colores listados
+     * @return Devuelve un String con todos los colores listados.
      */
     public static String obtenerColores() {
         String coloresExistentes = "";
-        Color[] colores = Color.values();
+        ColoresDisponibles[] colores = ColoresDisponibles.values();
         for (int i = 0; i < colores.length; i++) {
             coloresExistentes += colores[i].name();
             if (i < colores.length - 1) {
