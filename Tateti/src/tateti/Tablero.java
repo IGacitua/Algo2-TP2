@@ -20,18 +20,18 @@ public class Tablero {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe el tamaño post: Crea el tablero cubico, con condición de vi
-     * toria igual al tamaño
+     * pre: Recibe el tamaño,
+     * post: Crea el tablero de tamaño cuadrado, con condición de victoria igual al tamaño.
      *
-     * @param tamaño: Debe estar entre 0 y 100. No inclusive
-     * @throws Exception: Si el tamaño no es valido
+     * @param tamaño: Debe estar entre 0 y 100 (no inclusive).
+     * @throws Exception: Si el tamaño no es válido.
      */
     public Tablero(int tamaño) throws Exception {
         if (Herramientas.validarNumeroPositivoEstricto(tamaño)) {
-            throw new Exception("El tamaño del tablero debe ser mayor a 0. (Dado " + tamaño + ")");
+            throw new Exception("El tamaño del tablero debe ser mayor a 0. (El ingresado fue " + tamaño + ")");
         }
         if (tamaño > 99) {
-            throw new Exception("El tamaño del tablero debe ser menor a 100. (Dado " + tamaño + ")");
+            throw new Exception("El tamaño del tablero debe ser menor a 100. (El ingresado fue " + tamaño + ")");
         }
         this.tamañoX = tamaño;
         this.tamañoY = tamaño;
@@ -55,8 +55,7 @@ public class Tablero {
     }
 
     /**
-     * post: Establece el entorno de cada ficha del tablero.
-     *
+     * pre: -, post: Establece el entorno de cada ficha del tablero.
      * El entorno es un array con todas las fichas directamente adyacentes.
      */
     private void establecerEntornos() {
@@ -76,7 +75,7 @@ public class Tablero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * post: Imprime el tablero por consola
+     * pre: -, post: Imprime el tablero por consola.
      */
     public void imprimir() {
         for (int z = 0; z < this.tamañoZ; z++) {
@@ -103,13 +102,11 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe el nombre del archivo a exportar.
-     *
+     * pre: Recibe el nombre del archivo a exportar,
      * post: Crea un archivo .bmp con el nombre dado, mostrando el estado del
      * tablero.
      *
      * @param destino: No debe ser nulo.
-     *
      * @throws Exception: Si el destino es nulo.
      */
     public void exportar(String destino) throws Exception {
@@ -140,12 +137,11 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición Z de la capa
+     * pre: Recibe la posición Z de la capa,
+     * post: Crea una Imagen dependiendo del contenido de la capa.
      *
-     * post: Crea una Imagen dependiendo del contenido de la capa
-     *
-     * @param z: Debe estar contenido en el Tablero
-     * @return Devuelve la imagen creada
+     * @param z: Debe estar contenido en el Tablero.
+     * @return Devuelve la imagen creada.
      */
     private Imagen crearCapa(int z) {
         try {
@@ -190,14 +186,12 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Z de la columna
+     * pre: Recibe la posición X Z de la columna,
+     * post: Crea una Imagen dependiendo del contenido de la columna.
      *
-     * post: Crea una Imagen dependiendo del contenido de la columna
-     *
-     * @param x: Debe estar contenido en el Tablero
-     * @param z: Debe estar contenido en el Tablero
-     *
-     * @return Devuelve la imagen creada
+     * @param x: Debe estar contenido en el Tablero.
+     * @param z: Debe estar contenido en el Tablero.
+     * @return Devuelve la imagen creada.
      */
     private Imagen crearColumna(int x, int z) {
         Imagen imagenColumna = null;
@@ -220,15 +214,13 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Y Z del casillero
+     * pre: Recibe la posición X Y Z del casillero,
+     * post: Crea una Imagen dependiendo del contenido del casillero.
      *
-     * post: Crea una Imagen dependiendo del contenido del casillero
-     *
-     * @param x: Debe estar contenido en el Tablero
-     * @param y: Debe estar contenido en el Tablero
-     * @param z: Debe estar contenido en el Tablero
-     *
-     * @return Devuelve la imagen creada
+     * @param x: Debe estar contenido en el Tablero.
+     * @param y: Debe estar contenido en el Tablero.
+     * @param z: Debe estar contenido en el Tablero.
+     * @return Devuelve la imagen creada.
      */
     private Imagen crearCasillero(int x, int y, int z) {
         // El constructor de Imagen puede dar excepciones. 
@@ -272,15 +264,13 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una posición X Y Z y un Jugador
-     *
+     * pre: Recibe una posición X Y Z y un Jugador,
      * post: Coloca la ficha en la posicion indicada si no hay una todavía. O la
      * elimina si el jugador es nulo y ya existe una ficha.
      *
-     * @param x: Debe estar contenida dentro del tablero
-     * @param y: Debe estar contenida dentro del tablero
-     * @param z: Debe estar contenida dentro del tablero
-     *
+     * @param x: Debe estar contenida dentro del tablero.
+     * @param y: Debe estar contenida dentro del tablero.
+     * @param z: Debe estar contenida dentro del tablero.
      * @param jugador: Puede ser nulo.
      *
      * @return Devuelve si el movimiento resulta en una victoria.
@@ -302,20 +292,19 @@ public class Tablero {
 
     /**
      * pre: Recibe una ubicación X Y Z destino, y un puntero al casillero
-     * original
-     *
+     * original,
      * post: Mueve la ficha del casillero original a la posición adyacente dada.
      *
-     * @param x: Debe estar contenido en el tablero
-     * @param y: Debe estar contenido en el tablero
-     * @param z: Debe estar contenido en el tablero
-     *
+     * @param x: Debe estar contenido en el tablero.
+     * @param y: Debe estar contenido en el tablero.
+     * @param z: Debe estar contenido en el tablero.
      * @param casilleroOriginal: Debe estar contenido en el tablero, y poseer
      * una ficha.
      *
      * @return Devuelve si el movimiento resulta en una victoria.
+     * 
      * @throws Exception: Si alguno de los dos Casilleros no están contenidos en
-     * el tablero
+     * el tablero.
      * @throws Exception: Si la ubicación destino ya posee una ficha.
      * @throws Exception: Si la ubicación original no posee una ficha.
      * @throws Exception: Si las ubicaciones no son adyacentes.
@@ -345,14 +334,13 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una ubicación X Y Z
-     *
+     * pre: Recibe una ubicación X Y Z,
      * post: Revisa si la ficha en esa ubicación es parte de una linea que
      * resulta en victoria.
      *
-     * @param x: Debe estar contenido en el tablero
-     * @param y: Debe estar contenido en el tablero
-     * @param z: Debe estar contenido en el tablero
+     * @param x: Debe estar contenido en el tablero.
+     * @param y: Debe estar contenido en el tablero.
+     * @param z: Debe estar contenido en el tablero.
      *
      * @return Devuelve un boolean indicando si la ficha es parte de una
      * victoria o no.
@@ -381,18 +369,17 @@ public class Tablero {
 
     /**
      * pre: Recibe un desplazamiento separado en X Y Z y un casillero que
-     * contiene una ficha
+     * contiene una ficha,
+     * post: Revisa la cantidad de fichas en linea en la dirección dada.
      *
-     * post: Revisa la cantidad de fichas en linea en la dirección dada
-     *
-     * @param desplazamientoX: Debe ser -1, 0, o 1
-     * @param desplazamientoY: Debe ser -1, 0, o 1
-     * @param desplazamientoZ: Debe ser -1, 0, o 1
+     * @param desplazamientoX: Debe ser -1, 0, o 1.
+     * @param desplazamientoY: Debe ser -1, 0, o 1.
+     * @param desplazamientoZ: Debe ser -1, 0, o 1.
      *
      * @param casilleroModificado: No puede ser nula. No puede ser un casillero
-     * vacio
+     * vacio.
      *
-     * @return Devuelve la cantidad de fichas en hilera
+     * @return Devuelve la cantidad de fichas en hilera.
      * @throws Exception: Si el casillero dado es nulo o no contiene una ficha.
      */
     private int auxiliarVictoria(int desplazamientoX, int desplazamientoY, int desplazamientoZ, Casillero casilleroModificado) throws Exception {
@@ -417,11 +404,9 @@ public class Tablero {
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ubicación XYZ
-     *
+     * pre: Recibe una ubicación XYZ,
      * post: Verifica que esté contenida en el tablero.
-     *
-     * @throws Exception: Si la ubicación dada no está contenida en el tablero
+     * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     private void verificarCasillero(int x, int y, int z) throws Exception {
         if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
@@ -434,13 +419,11 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe un Casillero
-     *
+     * pre: Recibe un Casillero,
      * post: Verifica que esté contenido en el tablero.
-     *
      * @return Devuelve un boolean determinando si está o no contenido en el
      * tablero.
-     * @throws Exception: Si la ubicación dada no está contenida en el tablero
+     * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     public boolean verificarCasillero(Casillero casillero) throws Exception {
         for (int x = 0; x < this.tamañoX; x++) {
@@ -457,14 +440,14 @@ public class Tablero {
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ubicación X Y Z
+     * pre: Recibe una ubicación X Y Z, post: -
      *
-     * @param x: Debe estar contenido en el tablero
-     * @param y: Debe estar contenido en el tablero
-     * @param z: Debe estar contenido en el tablero
+     * @param x: Debe estar contenido en el tablero.
+     * @param y: Debe estar contenido en el tablero.
+     * @param z: Debe estar contenido en el tablero.
      *
-     * @return Devuelve un puntero al casillero en esa ubicación
-     * @throws Exception
+     * @return Devuelve un puntero al casillero en esa ubicación.
+     * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     public final Casillero getCasillero(int x, int y, int z) throws Exception {
         verificarCasillero(x + 1, y + 1, z + 1); // Listas son index 1
