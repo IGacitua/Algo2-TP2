@@ -2,6 +2,7 @@ package tateti;
 
 import utilidades.Herramientas;
 
+//TODO documentar las funciones
 public class Casillero {
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     //ATRIBUTOS -----------------------------------------------------------------------------------------------

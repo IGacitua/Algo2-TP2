@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import utilidades.Herramientas;
 
+//TODO documentar las funciones
 public class Imagen {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------

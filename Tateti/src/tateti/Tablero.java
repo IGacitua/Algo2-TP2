@@ -4,6 +4,7 @@ import java.util.Arrays;
 import utilidades.Herramientas;
 import utilidades.Lista;
 
+//TODO documentar las funciones
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
