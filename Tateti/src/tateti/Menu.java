@@ -8,12 +8,13 @@ import javax.imageio.ImageIO;
 
 public class Menu {
 	//atributos
-    private Scanner teclado; 
-    private Lista listaJugadores; 
+    private Teclado teclado; 
+    private Lista<Jugador> listaJugadores; 
 	
 	//constructor
-    public Menu(Scanner teclado, ListaJugadores listaJugadores) {
-        this.teclado = teclado;
+    public Menu(Lista<Jugador> listaJugadores) {
+        this.teclado = new Teclado();
+        // Quizas podriamos crear la lista aca mismo, debido a que se cargan los jugadores, asi que la estas creando 			practicamente
         this.listaJugadores = listaJugadores;
     }
 	
@@ -111,7 +112,7 @@ public class Menu {
         }
     return numero; 
     }
-    
+ /*   
     public static int obtenerEntero(Teclado teclado,int minimo,int limite) {
         int numero =0;
         boolean entero_valido = false;
@@ -131,7 +132,7 @@ public class Menu {
         }
     return numero; 
     }
-    
+*/    
     // validar color
     public static color obtenerColor(Teclado teclado,String nombre) {
         Color colorSeleccionado = null;
