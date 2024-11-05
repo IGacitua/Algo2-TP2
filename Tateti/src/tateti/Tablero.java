@@ -3,6 +3,7 @@ package tateti;
 import utilidades.Herramientas;
 import utilidades.Lista;
 
+
 //TODO cambiar loops que iteran por posiciones en la lista, por un while con avanzarCursor()
 public class Tablero {
 
@@ -23,7 +24,7 @@ public class Tablero {
      * pre: Recibe el tamaño,
      * post: Crea el tablero de tamaño cuadrado, con condición de victoria igual al tamaño.
      *
-     * @param tamaño: Debe estar entre 3 (inclusive) y 100 (no inclusive).
+     * @param tamaño: Debe estar entre 3 y 100 (no inclusive).
      * @throws Exception: Si el tamaño no es válido.
      */
     public Tablero(int tamaño) throws Exception {
@@ -325,7 +326,7 @@ public class Tablero {
         if (!casilleroDestino.estaVacio()) {
             throw new Exception("La casilla destino ya posee una ficha.");
         }
-        if (casilleroOriginal.esAdyacente(this.getCasillero(x, y, z))) {
+        if (!casilleroOriginal.esAdyacente(this.getCasillero(x, y, z))) {
             throw new Exception("Los casilleros dados no son adyacentes.");
         }
         casilleroDestino.setJugador(casilleroOriginal.getJugador());
