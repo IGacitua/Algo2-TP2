@@ -17,14 +17,12 @@ public class Casillero {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe la posición del casillero en los tres ejes
-     *
-     * post: Crea el casillero
-     *
-     * @param x: No puede ser menor a 0
-     * @param y: No puede ser menor a 0
-     * @param z: No puede ser menor a 0
-     *
+     * pre: Recibe la posición del casillero en los tres ejes,
+     * post: Crea el casillero.
+     * 
+     * @param x: No puede ser menor a 0.
+     * @param y: No puede ser menor a 0.
+     * @param z: No puede ser menor a 0.
      * @throws Exception: Excepción cuando alguno de los parámetros es >= 0
      */
     public Casillero(int x, int y, int z) throws Exception {
@@ -39,19 +37,17 @@ public class Casillero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * post: Alterna el bool de bloqueo para bloquear/desbloquear el casillero
+     * pre: -, post: Alterna el bool de bloqueo para bloquear/desbloquear el casillero.
      */
     public void alternarBloqueo() {
         this.bloqueado = !this.bloqueado;
     }
 
     /**
-     * pre: Recibe el tablero en el que se encuentra el casillero
-     *
-     * post: Crea el array entorno del casillero
-     *
+     * pre: Recibe el tablero en el que se encuentra el casillero,
+     * post: Crea el array entorno del casillero.
+     * 
      * @param tablero: Debe no ser nulo. Debe contener al casillero.
-     *
      * @throws Exception: Si el tablero es nulo, o no contiene al casillero.
      */
     public void establecerEntorno(Tablero tablero) throws Exception {
@@ -80,8 +76,8 @@ public class Casillero {
     }
 
     /**
-     * post: Imprime el entorno del casillero por consola. Utilizado para
-     * debugging.
+     * pre: -, post: Imprime el entorno del casillero por consola.
+     * Utilizado para debugging.
      */
     public void imprimirEntorno() {
         for (int z = -1; z < 2; z++) {
@@ -107,15 +103,12 @@ public class Casillero {
     }
 
     /**
-     * pre: Recibe un casillero
-     *
-     * post: Devuelve si es adyacente a este casillero
-     *
-     * @param casillero: No debe ser nulo
-     *
+     * pre: Recibe un casillero,
+     * post: Devuelve un boolean correspondiente a si es adyacente a este casillero.
+     * 
+     * @param casillero: No debe ser nulo.
      * @return Devuelve un boolean correspondiente a si el casillero con el que
-     * se está trabajando es adyacente al propuesto
-     *
+     * se está trabajando es adyacente al propuesto.
      * @throws Exception: Si el casillero es nulo.
      */
     public boolean esAdyacente(Casillero casillero) throws Exception {
@@ -138,16 +131,18 @@ public class Casillero {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * @return Devuelve el jugador que está en ese casillero. Null si no hay
-     * jugador.
+     * pre: -, post: -
+     * @return Devuelve el jugador que está en ese casillero.
+     * Si no hay jugador, devuelve null.
      */
     public Jugador getJugador() throws Exception {
         return this.jugador;
     }
 
     /**
+     * pre: -, post: -
      * @return Devuelve 0 si no hay un jugador en el casillero, o devuelve la
-     * identificación del mismo
+     * identificación del mismo.
      */
     public int getIdentificacionDeJugador() {
         //TODO probablemente sea eliminado
@@ -159,29 +154,33 @@ public class Casillero {
     }
 
     /**
-     * @return Devuelve la posición x del casillero
+     * pre: -, post: -
+     * @return Devuelve la posición x del casillero.
      */
     public int getPosicionX() {
         return posicionX;
     }
 
     /**
-     * @return Devuelve la posición y del casillero
+     * pre: -, post: -
+     * @return Devuelve la posición y del casillero.
      */
     public int getPosicionY() {
         return posicionY;
     }
 
     /**
-     * @return Devuelve la posición z del casillero
+     * pre: -, post: -
+     * @return Devuelve la posición z del casillero.
      */
     public int getPosicionZ() {
         return posicionZ;
     }
 
     /**
-     * @return Devuelve las coordenadas completas del casillero como un array
-     * ordenado X-Y-Z
+     * pre: -, post: -
+     * @return Devuelve las coordenadas completas del casillero como un arreglo
+     * ordenado X-Y-Z.
      */
     public int[] getCoordenadas() {
         int[] coordenadas = new int[3];
@@ -192,6 +191,7 @@ public class Casillero {
     }
 
     /**
+     * pre: -, post: -
      * @return Devuelve un booleano correspondiente a si el casillero está
      * bloqueado o no.
      */
@@ -200,6 +200,7 @@ public class Casillero {
     }
 
     /**
+     * pre: -, post: -
      * @return Devuelve un booleano correspondiente a si el casillero está vacío
      * o no.
      */
@@ -208,7 +209,8 @@ public class Casillero {
     }
 
     /**
-     * @return Devuelve el entorno del casillero
+     * pre: -, post: -
+     * @return Devuelve el entorno del casillero.
      */
     public Casillero[][][] getEntorno() {
         return entorno;
@@ -216,12 +218,11 @@ public class Casillero {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe un jugador o null
+     * pre: Recibe un jugador o null,
+     * post: Si el jugador no es null, se lo establece como el jugador del casillero. Si es null se
+     * elimina el jugador de la casilla.
      *
-     * post: Si el jugador no es null, se vuelve de ese jugador. Si es null se
-     * elimina el jugador de la casilla
-     *
-     * @param jugador: Puede ser nulo
+     * @param jugador: Puede ser nulo.
      * @throws Exception: Si se intenta cambiar el jugador sin antes eliminarlo,
      * o eliminar un jugador cuando ya es nulo.
      */
