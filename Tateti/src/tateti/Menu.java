@@ -8,12 +8,13 @@ import javax.imageio.ImageIO;
 
 public class Menu {
 	//atributos
-    private Scanner teclado; 
-    private Lista listaJugadores; 
+    private Teclado teclado; 
+    private Lista<Jugador> listaJugadores; 
 	
 	//constructor
-    public Menu(Scanner teclado, ListaJugadores listaJugadores) {
-        this.teclado = teclado;
+    public Menu(Lista<Jugador> listaJugadores) {
+        this.teclado = new Teclado();
+        // Quizas podriamos crear la lista aca mismo, debido a que se cargan los jugadores, asi que la estas creando 			practicamente
         this.listaJugadores = listaJugadores;
     }
 	

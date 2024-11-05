@@ -1,7 +1,6 @@
 package tateti;
 
 import java.util.Scanner;
-import java.io.IOException;
 
 public class Teclado {
     // Declarar el Scanner como atributo estático
