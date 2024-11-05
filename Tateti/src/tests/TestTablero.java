@@ -11,12 +11,19 @@ import tateti.Tablero;
 public class TestTablero {
 	@Test
 	public void testTableroInvalido() {
-		Exception exception = assertThrows(Exception.class, () -> {
+		Exception exception1 = assertThrows(Exception.class, () -> {
 	        new Tablero(2);
 		});
-		String mensajeDeErrorEsperado = "El tamaño del tablero debe ser mayor o igual a 3. (El ingresado fue 2)";
-	    String mensajeDeErrorRecibido = exception.getMessage();
-	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
+		String mensajeDeErrorEsperado1 = "El tamaño del tablero debe ser mayor o igual a 3. (El ingresado fue 2)";
+	    String mensajeDeErrorRecibido1 = exception1.getMessage();
+	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
+	    
+	    Exception exception2 = assertThrows(Exception.class, () -> {
+	        new Tablero(100);
+		});
+		String mensajeDeErrorEsperado2 = "El tamaño del tablero debe ser menor a 100. (El ingresado fue 100)";
+	    String mensajeDeErrorRecibido2 = exception2.getMessage();
+	    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
 	}
 	
 	@Test
