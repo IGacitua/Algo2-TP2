@@ -112,7 +112,7 @@ public class Menu {
         }
     return numero; 
     }
-    
+ /*   
     public static int obtenerEntero(Teclado teclado,int minimo,int limite) {
         int numero =0;
         boolean entero_valido = false;
@@ -132,7 +132,7 @@ public class Menu {
         }
     return numero; 
     }
-    
+*/    
     // validar color
     public static color obtenerColor(Teclado teclado,String nombre) {
         Color colorSeleccionado = null;
