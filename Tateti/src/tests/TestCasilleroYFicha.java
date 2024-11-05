@@ -48,7 +48,7 @@ public class TestCasilleroYFicha {
 			Exception exception = assertThrows(Exception.class, () -> {
 				tablero.colocarFicha(0, 0, 0, jugador2);
 			});
-			String mensajeDeErrorEsperado = "El casillero ya está ocupado por " + tablero.getCasillero(0, 0, 0).getJugador().getNombreJugador();
+			String mensajeDeErrorEsperado = "Se intentó colocar una ficha en un casillero que ya tiene.";
 		    String mensajeDeErrorRecibido = exception.getMessage();
 		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 		} catch (Exception e) {
@@ -119,7 +119,7 @@ public class TestCasilleroYFicha {
 			Exception exception = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(2, 0, 0, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado = "Las casillas indicadas [0, 0, 0] (ubicación original) y [2, 0, 0] (ubicación de destino) no son adyacentes";
+			String mensajeDeErrorEsperado = "Los casilleros dados no son adyacentes.";
 		    String mensajeDeErrorRecibido = exception.getMessage();
 		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 
@@ -138,7 +138,7 @@ public class TestCasilleroYFicha {
 			Exception exception = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(1, 0, 0, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado = "No se puede mover una ficha que se encuentra bloqueada en un casillero.";
+			String mensajeDeErrorEsperado = "La casilla original está bloqueada.";
 		    String mensajeDeErrorRecibido = exception.getMessage();
 		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 		    
@@ -160,7 +160,7 @@ public class TestCasilleroYFicha {
 			Exception exception = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(1, 0, 0, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado = "No se puede mover una ficha que no está en la ubicación original.";
+			String mensajeDeErrorEsperado = "La casilla original no posee una ficha.";
 		    String mensajeDeErrorRecibido = exception.getMessage();
 		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 		    
@@ -182,7 +182,7 @@ public class TestCasilleroYFicha {
 		Exception exception = assertThrows(Exception.class, () -> {
 			tablero.moverFicha(1, 0, 0, tablero.getCasillero(0, 0, 0));
 		});
-		String mensajeDeErrorEsperado = "El casillero [1, 0, 0] (ubicacion de destino) ya tiene una ficha colocada.";
+		String mensajeDeErrorEsperado = "La casilla destino ya posee una ficha.";
 	    String mensajeDeErrorRecibido = exception.getMessage();
 	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 		
@@ -201,7 +201,7 @@ public class TestCasilleroYFicha {
 			Exception exception1 = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(-1, 0, 0, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado1 = "La posición del casillero debe ser válida.";
+			String mensajeDeErrorEsperado1 = "La posición del casillero no es válida.";
 		    String mensajeDeErrorRecibido1 = exception1.getMessage();
 		    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
 		    
@@ -209,7 +209,7 @@ public class TestCasilleroYFicha {
 		    Exception exception2 = assertThrows(Exception.class, () -> {
 		    	tablero.moverFicha(0, -1, 0, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado2 = "La posición del casillero debe ser válida.";
+			String mensajeDeErrorEsperado2 = "La posición del casillero no es válida.";
 		    String mensajeDeErrorRecibido2 = exception2.getMessage();
 		    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
 		    
@@ -218,7 +218,7 @@ public class TestCasilleroYFicha {
 		    Exception exception3 = assertThrows(Exception.class, () -> {
 		    	tablero.moverFicha(3, 2, 2, tablero.getCasillero(2, 2, 2));
 			});
-			String mensajeDeErrorEsperado3 = "La posicion debe estar entre 1 y tamaño. (Es 4)";
+			String mensajeDeErrorEsperado3 = "La posición dada no está contenida en el tablero.";
 		    String mensajeDeErrorRecibido3 = exception3.getMessage();
 		    assertTrue(mensajeDeErrorRecibido3.equals(mensajeDeErrorEsperado3));
 		    
@@ -226,7 +226,7 @@ public class TestCasilleroYFicha {
 		    Exception exception4 = assertThrows(Exception.class, () -> {
 		    	tablero.moverFicha(2, 2, 3, tablero.getCasillero(2, 2, 2));
 			});
-			String mensajeDeErrorEsperado4 = "La posicion debe estar entre 1 y tamaño. (Es 4)";
+			String mensajeDeErrorEsperado4 = "La posición dada no está contenida en el tablero.";
 		    String mensajeDeErrorRecibido4 = exception4.getMessage();
 		    assertTrue(mensajeDeErrorRecibido4.equals(mensajeDeErrorEsperado4));
 		    
@@ -272,7 +272,7 @@ public class TestCasilleroYFicha {
 			Exception exception = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(0, 2, 2, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado = "Las casillas indicadas [0, 0, 0] (ubicación original) y [0, 2, 2] (ubicación de destino) no son adyacentes";
+			String mensajeDeErrorEsperado = "Los casilleros dados no son adyacentes.";
 		    String mensajeDeErrorRecibido = exception.getMessage();
 		    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 			
@@ -283,7 +283,7 @@ public class TestCasilleroYFicha {
 			Exception exception2 = assertThrows(Exception.class, () -> {
 				tablero.moverFicha(0, 0, 2, tablero.getCasillero(0, 0, 0));
 			});
-			String mensajeDeErrorEsperado2 = "Las casillas indicadas [0, 0, 0] (ubicación original) y [0, 0, 2] (ubicación de destino) no son adyacentes";
+			String mensajeDeErrorEsperado2 = "Los casilleros dados no son adyacentes.";
 		    String mensajeDeErrorRecibido2 = exception2.getMessage();
 		    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
 		    
