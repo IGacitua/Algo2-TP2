@@ -12,7 +12,7 @@ public enum Fichas {
 
 	/**
 	 * pre: -, post: -
-	 * @return devuelve un char correspondiente a la seleccion
+	 * @return Devuelve un char correspondiente a la seleccion.
 	 */
 	public char getFichaCaracter() {
 		switch (this) {
@@ -37,7 +37,7 @@ public enum Fichas {
 	
 	/**
      * pre: -, post: -
-     * @return devuelve un String con todas los tipos de ficha listados
+     * @return Devuelve un String con todas los tipos de ficha listados.
      */
     public static String obtenerTiposFicha() {
     	String tiposExistentes = "";
