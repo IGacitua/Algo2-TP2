@@ -7,7 +7,7 @@ public class PilaGenerica<T> {
 	
 	//CONSTRUCTOR -------------------------------------------
 	/**
-	 * pre: -, post: inicializa la pila
+	 * pre: -, post: Inicializa la pila.
 	 */
 	public PilaGenerica() {
 		this.tope=null;
@@ -16,8 +16,8 @@ public class PilaGenerica<T> {
 	
 	//Apilar ---------------------------------------------------
 	/**
-	 * pre: -, post: añade un nuevo elemento a la pila
-	 * @param elemento: puede ser cualquier tipo
+	 * pre: -, post: Añade un nuevo elemento a la pila.
+	 * @param elemento: Puede ser cualquier tipo.
 	 */
 	public void agregar(T elemento) {
 		Nodo<T> nuevo= new Nodo<T>(elemento);
@@ -27,9 +27,9 @@ public class PilaGenerica<T> {
 	}
 	
 	/**
-	 * pre: -, post: añade un nuevo elemento a la lista
-	 * @param lista: no debe estar vacía
-	 * @throws Exception
+	 * pre: -, post: Añade un nuevo elemento a la lista.
+	 * @param lista: No debe estar vacía.
+	 * @throws Exception: Si la lista es nula o está vacía.
 	 */
 	public void agregar(Lista<T> lista) throws Exception {
 		if(lista==null || 
@@ -43,8 +43,8 @@ public class PilaGenerica<T> {
 	
 	//GETTERS ----------------------------------------------------
 	/**
-	 * pre: -, post: verifica si la pila está vacía
-	 * @return devuelve un booleano correspondiente a si la pila está vacía o no
+	 * pre: -, post: Verifica si la pila está vacía.
+	 * @return Devuelve un booleano correspondiente a si la pila está vacía o no.
 	 */
 	public boolean estaVacia() {
 		return this.longitud==0;
@@ -52,15 +52,15 @@ public class PilaGenerica<T> {
 	
 	/**
 	 * pre: -, post: -
-	 * @return devuelve la cantidad de elementos de la pila
+	 * @return Devuelve la cantidad de elementos de la pila.
 	 */
 	public int getCantidadElementos() {
 		return this.longitud;
 	}
 	
 	/**
-	 * pre: no debe estar vacía, post: -
-	 * @return devuelve el elemento correspondiente al tope de la pila
+	 * pre: No debe estar vacía, post: -
+	 * @return Devuelve el elemento correspondiente al tope de la pila.
 	 */
 	public T verTope() {
 		T elemento =null;
@@ -72,8 +72,8 @@ public class PilaGenerica<T> {
 	
 	//Desapilar -------------------------------------------------
 	/**
-	 * pre: no debe estar vacía, post: -
-	 * @return devuelve el elemento quitado de la pila
+	 * pre: No debe estar vacía, post: -
+	 * @return Devuelve el elemento quitado de la pila.
 	 */
 	public T quitar() {
 		T elemento=null;
@@ -89,8 +89,8 @@ public class PilaGenerica<T> {
 	
 	//MÉTODOS DE COMPORTAMIENTO ----------------------------------
 	/**
-	 * pre. no debe estar vacía, post: -
-	 * @return devuelve la pila invertida
+	 * pre: No debe estar vacía, post: -
+	 * @return Devuelve la pila invertida.
 	 */
 	public PilaGenerica<T> invertirPila(){
 		PilaGenerica<T> resultado=new PilaGenerica<T>();
@@ -102,3 +102,4 @@ public class PilaGenerica<T> {
 	
 	
 }
+
