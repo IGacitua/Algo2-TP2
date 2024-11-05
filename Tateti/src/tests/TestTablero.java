@@ -11,9 +11,9 @@ import tateti.Tablero;
 
 public class TestTablero {
 	@Test
-	public void testTableroMenorACero() {
+	public void testTableroInvalido() {
 		Exception exception = assertThrows(Exception.class, () -> {
-	        new Tablero(2, 2, 2);
+	        new Tablero(2);
 		});
 		String mensajeDeErrorEsperado = "Los tamaños del tablero deben ser mayores o iguales a 3.";
 	    String mensajeDeErrorRecibido = exception.getMessage();
@@ -21,66 +21,9 @@ public class TestTablero {
 	}
 	
 	@Test
-	public void testTableroInvalidoX() {
-		//Si es 2 en X
-		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(2, 5, 5);
-		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
-	    String mensajeDeErrorRecibido1 = exception1.getMessage();
-	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
-	    
-	    //Si no es cuadrado en X
-  		Exception exception2 = assertThrows(Exception.class, () -> {
-  			new Tablero(3, 5, 5);
-  		});
-  		String mensajeDeErrorEsperado2 = "El tablero debe ser cuadrado.";
-  	    String mensajeDeErrorRecibido2 = exception2.getMessage();
-  	    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
-	}
-	
-	@Test
-	public void testTableroInvalidoY() {
-		//Si es 2 en Y
-		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(5, 2, 5);
-		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
-	    String mensajeDeErrorRecibido1 = exception1.getMessage();
-	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
-	    
-	    //Si no es cuadrado en Y
-  		Exception exception2 = assertThrows(Exception.class, () -> {
-  			new Tablero(5, 3, 5);
-  		});
-  		String mensajeDeErrorEsperado2 = "El tablero debe ser cuadrado.";
-  	    String mensajeDeErrorRecibido2 = exception2.getMessage();
-  	    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
-	}
-	
-	@Test
-	public void testTableroInvalidoZ() {
-		//Si es 2 en Z
-		Exception exception1 = assertThrows(Exception.class, () -> {
-			new Tablero(5, 5, 2);
-		});
-		String mensajeDeErrorEsperado1 = "Los tamaños del tablero deben ser mayores o iguales a 3.";
-	    String mensajeDeErrorRecibido1 = exception1.getMessage();
-	    assertTrue(mensajeDeErrorRecibido1.equals(mensajeDeErrorEsperado1));
-
-	    //Si no es cuadrado en Z
-		Exception exception2 = assertThrows(Exception.class, () -> {
-			new Tablero(5, 5, 3);
-		});
-		String mensajeDeErrorEsperado2 = "El tablero debe ser cuadrado.";
-	    String mensajeDeErrorRecibido2 = exception2.getMessage();
-	    assertTrue(mensajeDeErrorRecibido2.equals(mensajeDeErrorEsperado2));
-	}
-	
-	@Test
 	public void testEntorno() {
 		try {
-		Tablero tablero= new Tablero(4,4,4);
+		Tablero tablero= new Tablero(4);
 		
 		Casillero casillero1=tablero.getCasillero(1, 1, 1);
 		Casillero[][][] entornoCasillero=casillero1.getEntorno();
@@ -109,7 +52,7 @@ public class TestTablero {
 	@Test
 	public void testLimitesTablero() {
 		try {
-		Tablero tablero = new Tablero(4,4,4);
+		Tablero tablero = new Tablero(4);
 		
 		Exception exception = assertThrows(Exception.class, () -> {
 	       tablero.getCasillero(-1, 0, 0);
