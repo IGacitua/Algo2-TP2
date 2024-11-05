@@ -55,7 +55,7 @@ public class TestJugador {
 		Exception exception = assertThrows(Exception.class, () -> {
 	        new Jugador("Pedro", 4, 5, Fichas.CIRCULO, null);
 		});
-		String mensajeDeErrorEsperado = "El color debe existir estar dentro de las siguientes opciones: ROJO, VERDE, AZUL, AMARILLO, ROSA, CELESTE, BLANCO";
+		String mensajeDeErrorEsperado = "El color debe existir estar dentro de las siguientes opciones: ROJO, VERDE, AZUL, AMARILLO, ROSA, CELESTE, BLANCO, NEGRO";
 	    String mensajeDeErrorRecibido = exception.getMessage();
 	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 	}
