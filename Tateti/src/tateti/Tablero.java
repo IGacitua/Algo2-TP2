@@ -3,7 +3,6 @@ package tateti;
 import utilidades.Herramientas;
 import utilidades.Lista;
 
-
 //TODO cambiar loops que iteran por posiciones en la lista, por un while con avanzarCursor()
 public class Tablero {
 
@@ -14,15 +13,13 @@ public class Tablero {
 
     //ATRIBUTOS --------------------------------------------- ------------------------------------------------
     private Lista<Lista<Lista<Casillero>>> casilleros = null; // Matriz tridimensional con punteros a todos los casilleros
-    private int tamañoX;
-    private int tamañoY;
-    private int tamañoZ;
+    private int tamaño;
     private int condicionVictoria; // Cuantas fichas en hilera debe haber para ganar
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe el tamaño,
-     * post: Crea el tablero de tamaño cuadrado, con condición de victoria igual al tamaño.
+     * pre: Recibe el tamaño, post: Crea el tablero de tamaño cuadrado, con
+     * condición de victoria igual al tamaño.
      *
      * @param tamaño: Debe estar entre 3 y 100 (no inclusive).
      * @throws Exception: Si el tamaño no es válido.
@@ -34,18 +31,16 @@ public class Tablero {
         if (tamaño > 99) {
             throw new Exception("El tamaño del tablero debe ser menor a 100. (El ingresado fue " + tamaño + ")");
         }
-        this.tamañoX = tamaño;
-        this.tamañoY = tamaño;
-        this.tamañoZ = tamaño;
+        this.tamaño = tamaño;
         this.condicionVictoria = tamaño;
 
         this.casilleros = new Lista<>(); // Nota: No es necesario poner nada entre <> luego del =
         // Crea todos los casilleros y los añade a la lista
-        for (int x = 0; x < tamañoX; x++) {
+        for (int x = 0; x < tamaño; x++) {
             Lista<Lista<Casillero>> fila = new Lista<>();
-            for (int y = 0; y < tamañoY; y++) {
+            for (int y = 0; y < tamaño; y++) {
                 Lista<Casillero> columna = new Lista<>();
-                for (int z = 0; z < tamañoZ; z++) {
+                for (int z = 0; z < tamaño; z++) {
                     columna.agregarElemento(new Casillero(x, y, z));
                 }
                 fila.agregarElemento(columna);
@@ -56,13 +51,13 @@ public class Tablero {
     }
 
     /**
-     * pre: -, post: Establece el entorno de cada ficha del tablero.
-     * El entorno es un array con todas las fichas directamente adyacentes.
+     * pre: -, post: Establece el entorno de cada ficha del tablero. El entorno
+     * es un array con todas las fichas directamente adyacentes.
      */
     private void establecerEntornos() {
-        for (int x = 0; x < this.tamañoX; x++) {
-            for (int y = 0; y < this.tamañoY; y++) {
-                for (int z = 0; z < this.tamañoZ; z++) {
+        for (int x = 0; x < this.tamaño; x++) {
+            for (int y = 0; y < this.tamaño; y++) {
+                for (int z = 0; z < this.tamaño; z++) {
                     // Al ser llamado dentro de un loop, la excepción de getCasillero() no debería suceder nunca
                     try {
                         this.getCasillero(x, y, z).establecerEntorno(this);
@@ -79,11 +74,11 @@ public class Tablero {
      * pre: -, post: Imprime el tablero por consola.
      */
     public void imprimir() {
-        for (int z = 0; z < this.tamañoZ; z++) {
+        for (int z = 0; z < this.tamaño; z++) {
             System.out.printf("\n");
-            for (int y = 0; y < this.tamañoY; y++) {
+            for (int y = 0; y < this.tamaño; y++) {
                 System.out.printf("\n");
-                for (int x = 0; x < this.tamañoX; x++) {
+                for (int x = 0; x < this.tamaño; x++) {
                     // Al ser llamado dentro de un loop, la excepción de getCasillero() no debería suceder nunca
                     try {
                         Jugador jugadorActual = getCasillero(x, y, z).getJugador();
@@ -103,9 +98,8 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe el nombre del archivo a exportar,
-     * post: Crea un archivo .bmp con el nombre dado, mostrando el estado del
-     * tablero.
+     * pre: Recibe el nombre del archivo a exportar, post: Crea un archivo .bmp
+     * con el nombre dado, mostrando el estado del tablero.
      *
      * @param destino: No debe ser nulo.
      * @throws Exception: Si el destino es nulo.
@@ -115,7 +109,7 @@ public class Tablero {
             throw new Exception("El archivo debe tener nombre.");
         }
         Imagen imagenFinal = null;
-        for (int z = 0; z < this.tamañoZ; z++) {
+        for (int z = 0; z < this.tamaño; z++) {
             // For loop que crea cada capa
             Imagen imagenAuxiliar = crearCapa(z);
             if (imagenFinal == null) {
@@ -138,8 +132,8 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición Z de la capa,
-     * post: Crea una Imagen dependiendo del contenido de la capa.
+     * pre: Recibe la posición Z de la capa, post: Crea una Imagen dependiendo
+     * del contenido de la capa.
      *
      * @param z: Debe estar contenido en el Tablero.
      * @return Devuelve la imagen creada.
@@ -147,7 +141,7 @@ public class Tablero {
     private Imagen crearCapa(int z) {
         try {
             Imagen imagenCapa = null;
-            for (int x = 0; x <= this.tamañoX; x++) {
+            for (int x = 0; x <= this.tamaño; x++) {
                 // For loop de cada columna
                 // <= porque hay una columna extra
                 Imagen imagenAuxiliar = crearColumna(x, z);
@@ -159,7 +153,7 @@ public class Tablero {
                     imagenCapa = imagenCapa.añadirImagenDerecha(imagenAuxiliar);
                 }
             }
-            if (z == this.tamañoZ - 1) {
+            if (z == this.tamaño - 1) {
                 // Si es la última capa, no añade nada abajo
                 return imagenCapa;
             } else {
@@ -167,7 +161,7 @@ public class Tablero {
                 /**
                  * Calculo de tamaño final:
                  *
-                 * this.tamañoX + 1 = Cada columna + La columna de numeros
+                 * this.tamaño + 1 = Cada columna + La columna de numeros
                  *
                  * TAMAÑO_IMAGENES*2 = Los casilleros son el doble de ancho y
                  * alto que las imagenes numericas
@@ -176,7 +170,7 @@ public class Tablero {
                  * bordes
                  */
                 if (imagenCapa != null) {
-                    return imagenCapa.añadirImagenAbajo(new Imagen((this.tamañoX + 1) * (TAMAÑO_IMAGENES * 2 + 2), TAMAÑO_IMAGENES));
+                    return imagenCapa.añadirImagenAbajo(new Imagen((this.tamaño + 1) * (TAMAÑO_IMAGENES * 2 + 2), TAMAÑO_IMAGENES));
                 }
             }
         } catch (Exception e) {
@@ -187,8 +181,8 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Z de la columna,
-     * post: Crea una Imagen dependiendo del contenido de la columna.
+     * pre: Recibe la posición X Z de la columna, post: Crea una Imagen
+     * dependiendo del contenido de la columna.
      *
      * @param x: Debe estar contenido en el Tablero.
      * @param z: Debe estar contenido en el Tablero.
@@ -196,7 +190,7 @@ public class Tablero {
      */
     private Imagen crearColumna(int x, int z) {
         Imagen imagenColumna = null;
-        for (int y = 0; y <= this.tamañoY; y++) {
+        for (int y = 0; y <= this.tamaño; y++) {
             // <= porque hay una fila extra
             Imagen imagenAuxiliar = crearCasillero(x, y, z);
             if (imagenColumna == null) {
@@ -215,8 +209,8 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Y Z del casillero,
-     * post: Crea una Imagen dependiendo del contenido del casillero.
+     * pre: Recibe la posición X Y Z del casillero, post: Crea una Imagen
+     * dependiendo del contenido del casillero.
      *
      * @param x: Debe estar contenido en el Tablero.
      * @param y: Debe estar contenido en el Tablero.
@@ -226,6 +220,7 @@ public class Tablero {
     private Imagen crearCasillero(int x, int y, int z) {
         // El constructor de Imagen puede dar excepciones. 
         // Las excepciones no pueden suceder nunca en esta función.
+        // TODO Constructor en Imagen en base a casillero para simplificar
         try {
             Imagen imagenCasillero;
             if (x == 0 && y == 0) {
@@ -265,9 +260,9 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una posición X Y Z y un Jugador,
-     * post: Coloca la ficha en la posicion indicada si no hay una todavía. O la
-     * elimina si el jugador es nulo y ya existe una ficha.
+     * pre: Recibe una posición X Y Z y un Jugador, post: Coloca la ficha en la
+     * posicion indicada si no hay una todavía. O la elimina si el jugador es
+     * nulo y ya existe una ficha.
      *
      * @param x: Debe estar contenida dentro del tablero.
      * @param y: Debe estar contenida dentro del tablero.
@@ -293,8 +288,8 @@ public class Tablero {
 
     /**
      * pre: Recibe una ubicación X Y Z destino, y un puntero al casillero
-     * original,
-     * post: Mueve la ficha del casillero original a la posición adyacente dada.
+     * original, post: Mueve la ficha del casillero original a la posición
+     * adyacente dada.
      *
      * @param x: Debe estar contenido en el tablero.
      * @param y: Debe estar contenido en el tablero.
@@ -303,7 +298,7 @@ public class Tablero {
      * una ficha.
      *
      * @return Devuelve si el movimiento resulta en una victoria.
-     * 
+     *
      * @throws Exception: Si alguno de los dos Casilleros no están contenidos en
      * el tablero.
      * @throws Exception: Si la ubicación destino ya posee una ficha.
@@ -335,9 +330,8 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una ubicación X Y Z,
-     * post: Revisa si la ficha en esa ubicación es parte de una linea que
-     * resulta en victoria.
+     * pre: Recibe una ubicación X Y Z, post: Revisa si la ficha en esa
+     * ubicación es parte de una linea que resulta en victoria.
      *
      * @param x: Debe estar contenido en el tablero.
      * @param y: Debe estar contenido en el tablero.
@@ -370,8 +364,8 @@ public class Tablero {
 
     /**
      * pre: Recibe un desplazamiento separado en X Y Z y un casillero que
-     * contiene una ficha,
-     * post: Revisa la cantidad de fichas en linea en la dirección dada.
+     * contiene una ficha, post: Revisa la cantidad de fichas en linea en la
+     * dirección dada.
      *
      * @param desplazamientoX: Debe ser -1, 0, o 1.
      * @param desplazamientoY: Debe ser -1, 0, o 1.
@@ -405,8 +399,9 @@ public class Tablero {
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ubicación XYZ,
-     * post: Verifica que esté contenida en el tablero.
+     * pre: Recibe una ubicación XYZ, post: Verifica que esté contenida en el
+     * tablero.
+     *
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     private void verificarCasillero(int x, int y, int z) throws Exception {
@@ -414,22 +409,23 @@ public class Tablero {
                 || (!Herramientas.validarNumeroPositivo(z))) {
             throw new Exception("La posición del casillero no es válida.");
         }
-        if (x > this.tamañoX || y > this.tamañoY || z > this.tamañoZ) {
+        if (x > this.tamaño || y > this.tamaño || z > this.tamaño) {
             throw new Exception("La posición dada no está contenida en el tablero.");
         }
     }
 
     /**
-     * pre: Recibe un Casillero,
-     * post: Verifica que esté contenido en el tablero.
+     * pre: Recibe un Casillero, post: Verifica que esté contenido en el
+     * tablero.
+     *
      * @return Devuelve un boolean determinando si está o no contenido en el
      * tablero.
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     public boolean verificarCasillero(Casillero casillero) throws Exception {
-        for (int x = 0; x < this.tamañoX; x++) {
-            for (int y = 0; y < this.tamañoY; y++) {
-                for (int z = 0; z < this.tamañoZ; z++) {
+        for (int x = 0; x < this.tamaño; x++) {
+            for (int y = 0; y < this.tamaño; y++) {
+                for (int z = 0; z < this.tamaño; z++) {
                     if (casillero == this.getCasillero(x, y, z)) {
                         return true;
                     }
@@ -453,6 +449,13 @@ public class Tablero {
     public final Casillero getCasillero(int x, int y, int z) throws Exception {
         verificarCasillero(x + 1, y + 1, z + 1); // Listas son index 1
         return this.casilleros.obtenerDato(x + 1).obtenerDato(y + 1).obtenerDato(z + 1);
+    }
+
+    /**
+     * @return El tamaño de cada eje del tablero
+     */
+    public int getTamaño() {
+        return tamaño;
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
