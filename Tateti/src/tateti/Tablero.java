@@ -23,12 +23,12 @@ public class Tablero {
      * pre: Recibe el tamaño,
      * post: Crea el tablero de tamaño cuadrado, con condición de victoria igual al tamaño.
      *
-     * @param tamaño: Debe estar entre 0 y 100 (no inclusive).
+     * @param tamaño: Debe estar entre 3 (inclusive) y 100 (no inclusive).
      * @throws Exception: Si el tamaño no es válido.
      */
     public Tablero(int tamaño) throws Exception {
-        if (Herramientas.validarNumeroPositivoEstricto(tamaño)) {
-            throw new Exception("El tamaño del tablero debe ser mayor a 0. (El ingresado fue " + tamaño + ")");
+        if (tamaño < 3) {
+            throw new Exception("El tamaño del tablero debe ser mayor o igual a 3. (El ingresado fue " + tamaño + ")");
         }
         if (tamaño > 99) {
             throw new Exception("El tamaño del tablero debe ser menor a 100. (El ingresado fue " + tamaño + ")");
