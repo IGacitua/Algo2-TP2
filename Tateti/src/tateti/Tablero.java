@@ -11,7 +11,7 @@ public class Tablero {
     private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de donde ejecutes el programa
     private final int TAMAÑO_IMAGENES = 8; // Dimensiones de las imagenes. Deben ser cuadradas
     private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R, G, B
-    
+
     //ATRIBUTOS --------------------------------------------- ------------------------------------------------
     private Lista<Lista<Lista<Casillero>>> casilleros = null;
     private int tamañoX;
@@ -22,7 +22,9 @@ public class Tablero {
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
      * pre: -, post: Crea el tablero
-     * @param tamañoX, @param tamaño, @param tamañoZ: Debe estar entre 3 y 100 no inclusivo
+     *
+     * @param tamañoX, @param tamaño, @param tamañoZ: Debe estar entre 3 y 100
+     * no inclusivo
      * @throws Exception
      */
     public Tablero(int tamañoX, int tamañoY, int tamañoZ) throws Exception {
@@ -55,8 +57,9 @@ public class Tablero {
     }
 
     /**
-     * pre: -, post: Establece el entorno de cada ficha del tablero.
-     * El entorno es un array con todas las fichas directamente adyacentes.
+     * pre: -, post: Establece el entorno de cada ficha del tablero. El entorno
+     * es un array con todas las fichas directamente adyacentes.
+     *
      * @throws Exception
      */
     private void establecerEntornos() throws Exception {
@@ -72,6 +75,7 @@ public class Tablero {
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
      * pre: -, post: Imprime el tablero por pantalla
+     *
      * @throws Exception
      */
     public void imprimir() throws Exception {
@@ -80,21 +84,22 @@ public class Tablero {
             for (int y = 0; y < this.tamañoY; y++) {
                 System.out.printf("\n");
                 for (int x = 0; x < this.tamañoX; x++) {
-                	if (getCasillero(x, y, z).getJugador() != null) {
-                		System.out.printf("%c ", getCasillero(x, y, z).getJugador().getFichaCaracter());
-                		
-                	} else {
-                	System.out.printf("- ");
-                	}
+                    if (getCasillero(x, y, z).getJugador() != null) {
+                        System.out.printf("%c ", getCasillero(x, y, z).getJugador().getFichaCaracter());
+
+                    } else {
+                        System.out.printf("- ");
+                    }
                 }
             }
         }
         System.out.printf("\n");
     }
-    
-    /** TODO: pre-post
-     * pre:
-     * @param RUTA_EXPORTAR: 
+
+    /**
+     * TODO: pre-post pre:
+     *
+     * @param RUTA_EXPORTAR:
      * @throws Exception
      */
     public void exportar(String RUTA_EXPORTAR) throws Exception {
@@ -116,9 +121,9 @@ public class Tablero {
         imagenFinal.exportar(RUTA_EXPORTAR); // Crea el archivo .bmp de la imagen
     }
 
-
-    /** TODO pre-post
-     * pre:
+    /**
+     * TODO pre-post pre:
+     *
      * @param z:
      * @return devuelve
      * @throws Exception
@@ -161,10 +166,11 @@ public class Tablero {
         }
     }
 
-    /** TODO: pre-post
-     * pre:
+    /**
+     * TODO: pre-post pre:
+     *
      * @param x, @param z:
-     * @return devuelve 
+     * @return devuelve
      * @throws Exception
      */
     private Imagen crearColumna(int x, int z) throws Exception {
@@ -184,8 +190,9 @@ public class Tablero {
         return imagenColumna;
     }
 
-    /** TODO: pre-post
-     * pre: 
+    /**
+     * TODO: pre-post pre:
+     *
      * @param x, @param y, @param z:
      * @return devuelve
      * @throws Exception
@@ -225,10 +232,12 @@ public class Tablero {
 
     /**
      * pre: recibe la posicion (x,y,z) y el jugador para colocar la ficha post:
-     * coloca la ficha en el casillero
-     * post: devuelve un boolean correspondiente a si se ganó o no.
+     * coloca la ficha en el casillero post: devuelve un boolean correspondiente
+     * a si se ganó o no.
+     *
      * @param x, @param y, @param z: No puede ser < 0 (verificarCasillero())
-     * @param jugador: no debe ser nulo
+     * @param jugador: no
+     * debe ser nulo
      * @retrurn devuelve si la jugada de dicho jugador es una victoria o no
      * @throws Exception
      */
@@ -246,10 +255,12 @@ public class Tablero {
 
     /**
      * pre: (x,y,z) deben ser válidos y debe existir ubicacionOriginal post:
-     * mueve la ficha ya colocada
-     * post: devuelve un boolean correspondiente a si se ganó o no.
+     * mueve la ficha ya colocada post: devuelve un boolean correspondiente a si
+     * se ganó o no.
+     *
      * @param x, @param y, @param z: no puede ser < 0 (verificarCasillero())
-     * @param ubicacionOriginal: debe haber una ficha en dicha ubicación
+     * @param ubicacionOr
+     * iginal: debe haber una ficha en dicha ubicación
      * @return devuelve si al mover la ficha se ganó o no
      * @throws Exception
      */
@@ -262,17 +273,16 @@ public class Tablero {
             throw new Exception("No se puede mover una ficha que no está en la ubicación original.");
         }
         if (ubicacionOriginal.isBloqueado()) {
-        	throw new Exception("No se puede mover una ficha que se encuentra bloqueada en un casillero.");
+            throw new Exception("No se puede mover una ficha que se encuentra bloqueada en un casillero.");
         }
-        
+
         Casillero casilleroDestino = this.getCasillero(x, y, z);
         //verifica si está vacío el casillero destino y si es adyacente
         if (ubicacionOriginal.esAdyacente(casilleroDestino) && casilleroDestino.estaVacio()) {
             casilleroDestino.setJugador(ubicacionOriginal.getJugador());
-            ubicacionOriginal.quitarJugador();
-
-            //si no es adyacente, lanza una excepción:
+            ubicacionOriginal.setJugador(null); // Set jugador null -> Eliminar jugador
         } else if (!ubicacionOriginal.esAdyacente(casilleroDestino)) {
+            // Si no es adyacente, lanza una excepción
             throw new Exception("Las casillas indicadas " + Arrays.toString(ubicacionOriginal.getCoordenadas())
                     + " (ubicación original) y " + Arrays.toString(casilleroDestino.getCoordenadas()) + " (ubicación de destino) no son adyacentes");
 
@@ -284,11 +294,12 @@ public class Tablero {
     }
 
     /**
-     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha
-     * post: devuelve un boolean correspondiente a si se ganó o no
+     * pre: recibe la posicion (x,y,z), que es donde se colocó una ficha post:
+     * devuelve un boolean correspondiente a si se ganó o no
+     *
      * @param x, @param y, @param z: No puede ser < 0
-     * @return devuelve un boolean dependiendo de si la jugada fue de victoria
-     * o no
+     * @return devuelve un boolean dependiendo de si la jugada fue de victoria o
+     * no
      * @throws Exception
      */
     private boolean revisarVictoria(int posicionX, int posicionY, int posicionZ) throws Exception {
@@ -312,6 +323,7 @@ public class Tablero {
     /**
      * pre: los desplazamientos ingresados deben ser válidos y la ficha también
      * post: devuelve la cantidad de fichas en hilera
+     *
      * @param desplazamientoX, @param desplazamientoY, @param desplazamientoZ
      * @param fichaColocada: no puede ser nula
      * @return devuelve la cantidad de fichas en hilera
@@ -337,6 +349,7 @@ public class Tablero {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
      * pre: recibe la posición y la verifica, post: -
+     *
      * @param x, @param y, @param z: no puede ser < 0
      * @throws Exception
      */
@@ -347,11 +360,25 @@ public class Tablero {
         }
     }
 
+    //TODO pre-post
+    public boolean verificarExistenciaCasillero(Casillero casillero) throws Exception {
+        for (int x = 0; x < this.tamañoX; x++) {
+            for (int y = 0; y < this.tamañoY; y++) {
+                for (int z = 0; z < this.tamañoZ; z++) {
+                    if (casillero == this.getCasillero(x, y, z)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: debe existir la ficha
-     * post: devuelve el casillero con las posiciones:
-     * [x][y][z]
+     * pre: debe existir la ficha post: devuelve el casillero con las
+     * posiciones: [x][y][z]
+     *
      * @param x, @param y, @param z: no puede ser < 0
      * @return Devuelve un puntero a la ficha
      * @throws Exception
