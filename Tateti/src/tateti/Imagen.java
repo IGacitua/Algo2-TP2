@@ -13,11 +13,10 @@ public class Imagen {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ruta al archivo con la imagen .bmp
-     *
-     * post: Crea la Imagen
-     *
-     * @param archivo: Debe ser una ruta a un archivo .bmp
+     * pre: Recibe una ruta al archivo con la imagen .bmp,
+     * post: Crea la Imagen.
+     * 
+     * @param archivo: Debe ser una ruta a un archivo .bmp.
      * @throws Exception: Si la ruta dada o el archivo en ésta no son válidos.
      */
     public Imagen(String archivo) throws Exception {
@@ -28,12 +27,11 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una BufferedImage
-     *
-     * post: Crea la Imagen
-     *
-     * @param imagen: No debe ser null
-     * @throws Exception
+     * pre: Recibe una BufferedImage,
+     * post: Crea la Imagen.
+     * 
+     * @param imagen: No debe ser nulo.
+     * @throws Exception: Si la BufferedImage recibida es nula.
      */
     public Imagen(BufferedImage imagen) throws Exception {
         if (imagen == null) {
@@ -43,14 +41,12 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe un ancho y un alto
-     *
+     * pre: Recibe un ancho y un alto,
      * post: Crea una imagen en blanco de las dimensiones dadas.
-     *
-     * @param ancho: Debe ser > 0
-     * @param alto: Debe ser > 0
-     *
-     * @throws Exception: Cuando alguno de los parametros no es mayor a 0
+     * 
+     * @param ancho: Debe ser > 0.
+     * @param alto: Debe ser > 0.
+     * @throws Exception: Cuando alguno de los parametros no es mayor a 0.
      */
     public Imagen(int ancho, int alto) throws Exception {
         if (!Herramientas.validarNumeroPositivoEstricto(ancho)) {
@@ -59,7 +55,7 @@ public class Imagen {
         if (!Herramientas.validarNumeroPositivoEstricto(alto)) {
             throw new Exception("El alto debe ser mayor a cero. (Es " + alto + ")");
         }
-        int rgb = Color.BLANCO.getRGB();
+        int rgb = ColoresDisponibles.BLANCO.getRGB();
         this.imagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < alto; j++) {
@@ -70,12 +66,11 @@ public class Imagen {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe un nombre de archivo. (Sin extensión)
-     *
+     * pre: Recibe un nombre de archivo (Sin extensión),
      * post: Convierte la imagen a un .bmp en destino.
-     *
+     * 
      * @param destino: No debe ser nulo.
-     * @throws Exception: Cuando el nombre de archivo dado no es válido
+     * @throws Exception: Cuando el nombre de archivo dado no es válido.
      */
     public void exportar(String destino) throws Exception {
         if ((destino == null) || (destino.trim().isEmpty())) {
@@ -86,10 +81,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe color separado en R G B
-     *
+     * pre: Recibe color separado en R G B,
      * post: Convierte todos los pixeles no-vacios al valor RGB dado.
-     *
+     * 
      * @param r: Debe estar entre 0 y 255, inclusive.
      * @param g: Debe estar entre 0 y 255, inclusive.
      * @param b: Debe estar entre 0 y 255, inclusive.
@@ -114,10 +108,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe color RGB
-     *
+     * pre: Recibe un color RGB,
      * post: Convierte todos los pixeles no-vacios al valor RGB dado.
-     *
+     * 
      * @param RGB: Debe estar entre 0x0 y 0xFFFFFF, inclusive.
      * @throws Exception: Si el valor RGB dado es inválido.
      */
@@ -137,8 +130,7 @@ public class Imagen {
     }
 
     /**
-     * post: Convierte la imagen a una matriz RGB.
-     *
+     * pre: -, post: Convierte la imagen a una matriz RGB.
      * @return Devuelve una matriz de pixeles correspondiente a la imagen.
      */
     private int[][] obtenerMatriz() {
@@ -152,10 +144,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una matriz de pixeles
-     *
+     * pre: Recibe una matriz de pixeles,
      * post: Devuelve una BufferedImage en base a la matriz dada.
-     *
+     * 
      * @param matriz: Debe ser una matriz de pixeles válida.
      * @return Devuelve la imagen del tipo BufferedImage.
      * @throws Exception: Si la matriz dada no es válida.
@@ -175,13 +166,11 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una imagen de la misma altura a esta.
-     *
+     * pre: Recibe una imagen de la misma altura a esta,
      * post: Añade la imagen adicional a la derecha de esta imagen. No modifica
      * ninguna de las imagenes.
-     *
-     * @param adicional: Debe existir, y ser de la misma altura que esta imagen
-     *
+     * 
+     * @param adicional: Debe existir, y ser de la misma altura que esta imagen.
      * @return Devuelve una imagen compuesta. Con la imagen adicional a la
      * derecha de esta, sin separación.
      * @throws Exception: Si la imagen adicional es nula, o no tiene la misma
@@ -215,17 +204,15 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una imagen del mismo ancho a esta.
-     *
+     * pre: Recibe una imagen del mismo ancho a esta,
      * post: Añade la imagen adicional abajo de esta imagen. No modifica ninguna
      * de las imagenes.
      *
-     * @param adicional: Debe existir, y ser del mismo ancho que esta imagen
-     *
+     * @param adicional: Debe existir, y ser del mismo ancho que esta imagen.
      * @return Devuelve una imagen compuesta. Con la imagen adicional abajo de
      * esta, sin separación.
      * @throws Exception: Si la imagen adicional es nula, o no tiene el mismo
-     * ancho
+     * ancho.
      */
     public Imagen añadirImagenAbajo(Imagen adicional) throws Exception {
         if (adicional == null) {
@@ -254,12 +241,10 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color separado en R G B
-     *
+     * pre: Recibe el grosor de los bordes, y el color separado en R G B,
      * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
-     *
      * @param r: Debe estar entre 0 y 255, inclusive.
      * @param g: Debe estar entre 0 y 255, inclusive.
      * @param b: Debe estar entre 0 y 255, inclusive.
@@ -295,12 +280,10 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color RGB
-     *
+     * pre: Recibe el grosor de los bordes, y el color RGB,
      * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
-     *
      * @param RGB: Debe estar entre 0x0 y 0xFFFFFF, inclusive.
      * @throws Exception: Si alguno de los valores RGB es invalido.
      */
@@ -334,6 +317,7 @@ public class Imagen {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
+     * pre: -, post: -
      * @return Devuelve el ancho de la imagen.
      */
     public int getAncho() {
@@ -341,6 +325,7 @@ public class Imagen {
     }
 
     /**
+     * pre: -, post: -
      * @return Devuelve el alto de la imagen.
      */
     public int getAlto() {
@@ -349,9 +334,8 @@ public class Imagen {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
-     * pre: Recibe una BufferedImage
-     *
-     * post: Reemplaza la imagen por la dada
+     * pre: Recibe una BufferedImage,
+     * post: Reemplaza la imagen por la dada.
      *
      * @param imagen: No debe ser nula.
      * @throws Exception: Si la imagen dada es nula.
