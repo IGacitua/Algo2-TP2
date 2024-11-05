@@ -80,7 +80,8 @@ public class Casillero {
     }
 
     /**
-     * post: Imprime el entorno del casillero. Utilizado para debugging.
+     * post: Imprime el entorno del casillero por consola. Utilizado para
+     * debugging.
      */
     public void imprimirEntorno() {
         for (int z = -1; z < 2; z++) {
