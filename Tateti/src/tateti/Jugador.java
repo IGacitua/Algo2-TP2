@@ -40,7 +40,7 @@ public class Jugador {
      * @throws Exception: Si la ficha imagen es nula.
      * @throws Exception: Si el color es nulo o su RGB es inválido.
      */
-    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color) throws Exception {
+    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color,Lista<Carta> cartas) throws Exception {
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
@@ -63,6 +63,7 @@ public class Jugador {
         this.fichaCaracter = fichaImagen.getFichaCaracter();
         this.color = color;
         this.identificacion = ++idActual;
+        this.cartas = cartas;
     }
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
@@ -197,5 +198,13 @@ public class Jugador {
         return this.pierdeTurno;
     }
 
+    /**
+     * pre-, post -
+     * 
+     * @return Devuelve las cartas del jugador.
+     */
+    public Lista<Carta> getCartas() {
+        return cartas;
+    }
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }
