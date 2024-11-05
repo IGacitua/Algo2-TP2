@@ -58,7 +58,7 @@ public class Casillero {
         if (tablero == null) {
             throw new Exception("El tablero no es válido.");
         }
-        if (!tablero.verificarExistenciaCasillero(this)) {
+        if (!tablero.verificarCasillero(this)) {
             throw new Exception("El tablero no contiene este casillero.");
         }
         this.entorno = new Casillero[3][3][3];
