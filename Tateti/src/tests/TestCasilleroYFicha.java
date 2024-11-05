@@ -20,7 +20,7 @@ public class TestCasilleroYFicha {
 	@BeforeEach
 	public void inicializarTableroYJugadores() {
 		try {
-			tablero = new Tablero(3,3,3);
+			tablero = new Tablero(3);
 			jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, Color.AMARILLO);
 			jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, Color.VERDE);
 		} catch (Exception e) {
