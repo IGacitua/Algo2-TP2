@@ -10,19 +10,21 @@ public class Mazo {
     private PilaGenerica<Carta> cartas = new PilaGenerica<>();
 
     /**
-     * pre: -, post: - Genera un array de largo "largo" con numeros aleatorios
-     * sin repetir
+     * pre: El largo debe ser válido,
+     * post: Genera un arreglo de largo "largo" con numeros aleatorios
+     * sin repetir.
+     * 
+     * @param largo: Debe ser >= 0.
+     * @return Devuelve un arreglo con números aleatorios sin repetir.
      */
     private int[] indicesAleatorios(int largo) {
-
         Random generadorRandom = new Random();
         int[] resultado = new int[largo];
         int[] restante = new int[largo];
-
+        
         for (int i = 0; i < largo; i++) {
             restante[i] = i;
         }
-
         while (largo > 0) {
             int indiceHacia = restante.length - largo;
             int indiceDesde = generadorRandom.nextInt(largo);
@@ -32,14 +34,12 @@ public class Mazo {
             }
             largo--;
         }
-
         return resultado;
     }
 
     /**
-     * pre: -, post: - Agrega las cartas mezcladas
-     *
-     * @param cartas: array de cartas que contendra el mazo
+     * pre: -, post: Agrega las cartas mezcladas.
+     * @param cartas: Es el arreglo de cartas que contendrá el mazo.
      */
     public Mazo(Carta[] cartas) {
         if (cartas == null) {
@@ -53,11 +53,10 @@ public class Mazo {
         }
     }
 
-    /*
-	 * pre: -, post: -
-	 * Elimina la carta del tope del mazo y la devuelve
-	 * 
-	 * @throws Exception 
+    /**
+	 * pre: -, post: Elimina la carta del tope del mazo y la devuelve.
+	 * @return Devuelve la Carta que se quitó.
+	 * @throws Exception: Si el mazo está vacío.
      */
     public Carta tomarCarta() throws Exception {
         if (this.cartas.getCantidadElementos() == 0) {
