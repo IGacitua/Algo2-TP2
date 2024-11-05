@@ -106,12 +106,6 @@ public class Jugador {
      * @throws Exception: Si el mazo es nulo.
      */
     public void robarCarta(Mazo mazo) throws Exception {
-    	if (this.cartas.getLongitud() + 1 > this.cartasMaximas) {
-            throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadCartas());
-        }
-        if (mazo == null) {
-            throw new Exception("No se indicó un mazo del que robar");
-        }
     	robarCartas(1, mazo);
     }
 
