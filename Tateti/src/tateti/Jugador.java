@@ -88,6 +88,16 @@ public class Jugador {
                 this.cartas.agregarElemento(mazo.tomarCarta());
         }
     }
+    
+    /**
+     * pre: -, post: si tiene espacio, el jugador recibe una carta del mazo indicado
+     * 
+     * @param mazo: no puede ser nulo
+     * @throws Exception
+     */
+    public void robarCarta(Mazo mazo) throws Exception {
+    	robarCartas(1, mazo);
+    }
 
     /**
      * pre: -, post: invierte el estado del turno
