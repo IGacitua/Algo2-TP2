@@ -137,8 +137,6 @@ public class Casillero {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el jugador que está en ese casillero. Null si no hay
      * jugador.
      */
@@ -147,8 +145,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve 0 si no hay un jugador en el casillero, o devuelve la
      * identificación del mismo
      */
@@ -162,8 +158,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición x del casillero
      */
     public int getPosicionX() {
@@ -171,8 +165,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición y del casillero
      */
     public int getPosicionY() {
@@ -180,8 +172,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición z del casillero
      */
     public int getPosicionZ() {
@@ -189,8 +179,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve las coordenadas completas del casillero como un array
      * ordenado X-Y-Z
      */
@@ -203,8 +191,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve un booleano correspondiente a si el casillero está
      * bloqueado o no.
      */
@@ -213,8 +199,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve un booleano correspondiente a si el casillero está vacío
      * o no.
      */
@@ -223,8 +207,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el entorno del casillero
      */
     public Casillero[][][] getEntorno() {
