@@ -19,7 +19,7 @@ public class Jugador {
     private int identificacion;
     private Fichas fichaImagen; // Ficha que usa el usuario -> Para exportar tablero
     private char fichaCaracter; // Ficha que usa el usuario -> Para imprimir tablero
-    private Color color; // Valor RGB del usuario
+    private ColoresDisponibles color; // Valor RGB del usuario
 
     private boolean pierdeTurno;
 
@@ -27,17 +27,23 @@ public class Jugador {
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
 
     /**
-     * pre: -, post: inicializa Jugador y establece los valores de los
-     * atributos
-     * @param nombre: no puede estar vacío
-     * @param fichasMaximas: debe ser > 0
-     * @param cartasMaximas: debe ser >= 0
-     * @param fichaImagen: debe existir, no puede ser nulo/vacío
-     * @param color: debe estar dentro de las opciones de color del enum
-     * @throws Exception
+     * pre: Todos los parámetros deben ser válidos,
+     * post: Inicializa Jugador y establece los valores de los atributos.
+     * 
+     * @param nombre: No debe estar vacío ni ser nulo.
+     * @param fichasMaximas: Debe ser > 0.
+     * @param cartasMaximas: Debe ser >= 0
+     * @param fichaImagen: No debe estar vacío ni ser nulo.
+     * @param color: Debe estar dentro de las opciones de color del enum.
+     * 
+     * @throws Exception: Si el nombre está vacío o es nulo.
+     * @throws Exception: Si la cantidad de fichas es menor o igual a cero.
+     * @throws Exception: Si las cartas máximas son menores a cero.
+     * @throws Exception: Si la ficha imagen es nula.
+     * @throws Exception: Si el color es nulo o su RGB es inválido.
      */
-    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, Color color) throws Exception {
-        if (nombre.trim().isEmpty()) {
+    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color) throws Exception {
+        if ((nombre.trim().isEmpty()) || (nombre == null)) {
             throw new Exception("El nombre no es válido");
         }
         if (!Herramientas.validarNumeroPositivoEstricto(fichasMaximas)) {
@@ -50,12 +56,11 @@ public class Jugador {
             throw new Exception("La ficha debe existir y estar dentro de las siguientes opciones: " + Fichas.obtenerTiposFicha());
         }
         if ((color == null) || (!Herramientas.validarRGB(color.getRGB()))) {
-        	throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + Color.obtenerColores());
+        	throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + ColoresDisponibles.obtenerColores());
         }
         this.nombre = nombre;
         this.cantidadDeFichas = fichasMaximas;
         this.cartasMaximas = cartasMaximas;
-        
         this.fichaImagen = fichaImagen;
         this.fichaCaracter = fichaImagen.getFichaCaracter();
         this.color = color;
@@ -66,11 +71,15 @@ public class Jugador {
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
-     * pre: -, post: roba cartas del mazo y las guarda en el jugador
+     * pre: cantidad y mazo deben ser válidos,
+     * post: Roba múltiples cartas del mazo y las guarda en el jugador.
      *
-     * @param cantidad: si es <= 0 o ya alcanzó el máximo de cartas, no roba cartas
-     * @param mazo: no puede ser nulo
-     * @throws Exception
+     * @param cantidad: Si es <= 0 o ya alcanzó el máximo de cartas, no roba cartas.
+     * @param mazo: No debe ser nulo.
+     * @throws Exception: Si se cantidad es menor o igual a cero.
+     * @throws Exception: Si las cartas que ya se tienen más la cantidad superan
+     * la cantidad de cartas máxima establecida.
+     * @throws Exception: Si el mazo es nulo.
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
     	if (cantidad <= 0) {
@@ -79,28 +88,35 @@ public class Jugador {
         if (this.cartas.getLongitud() + cantidad > this.cartasMaximas) {
             throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadCartas());
         }
-
         if (mazo == null) {
             throw new Exception("No se indicó un mazo del que robar");
         }
-
         for (int i = 0; i < cantidad; i++) {
                 this.cartas.agregarElemento(mazo.tomarCarta());
         }
     }
     
     /**
-     * pre: -, post: si tiene espacio, el jugador recibe una carta del mazo indicado
+     * pre: mazo debe ser válido,
+     * post: Roba una carta del mazo y la guarda en el jugador.
      * 
-     * @param mazo: no puede ser nulo
-     * @throws Exception
+     * @param mazo: No debe ser nulo.
+     * @throws Exception: Si las cartas que ya se tienen más uno superan
+     * la cantidad de cartas máxima establecida.
+     * @throws Exception: Si el mazo es nulo.
      */
     public void robarCarta(Mazo mazo) throws Exception {
+    	if (this.cartas.getLongitud() + 1 > this.cartasMaximas) {
+            throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadCartas());
+        }
+        if (mazo == null) {
+            throw new Exception("No se indicó un mazo del que robar");
+        }
     	robarCartas(1, mazo);
     }
 
     /**
-     * pre: -, post: invierte el estado del turno
+     * pre: -, post: Invierte el estado del turno.
      */
     public void alternarPierdeTurno() {
         this.pierdeTurno = !this.pierdeTurno;
@@ -109,8 +125,7 @@ public class Jugador {
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve el nombre del jugador
+     * @return Devuelve el nombre del jugador.
      */
     public String getNombreJugador() {
         return this.nombre;
@@ -118,8 +133,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve la identificacion
+     * @return Devuelve la identificacion.
      */
     public int getIdentificacion() {
         return this.identificacion;
@@ -127,8 +141,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de fichas que posee el jugador
+     * @return Devuelve la cantidad de fichas que posee el jugador.
      */
     public int getCantidadDeFichas() {
         return this.cantidadDeFichas;
@@ -136,8 +149,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve el máximo de cartas en mano
+     * @return Devuelve el máximo de cartas en mano.
      */
     public int getCartasMaximas() {
         return this.cartasMaximas;
@@ -145,8 +157,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de cartas en mano
+     * @return Devuelve la cantidad de cartas en mano.
      */
     public int getCantidadCartas() {
         return this.cartas.getLongitud();
@@ -154,8 +165,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve la ficha del usuario en forma de imagen
+     * @return Devuelve la ficha del usuario en forma de imagen.
      */
     public Fichas getFichaImagen() {
         return this.fichaImagen;
@@ -163,8 +173,7 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve la ficha del usuario en forma de caracter
+     * @return Devuelve la ficha del usuario en forma de caracter.
      */
     public char getFichaCaracter() {
         return this.fichaCaracter;
@@ -172,17 +181,15 @@ public class Jugador {
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve el color del usuario haciendo referencia al enum
+     * @return Devuelve el color del usuario haciendo referencia al enum.
      */
-    public Color getColor() {
+    public ColoresDisponibles getColor() {
         return this.color;
     }
 
     /**
      * pre: -, post: -
-     *
-     * @return Devuelve un boolean correspondiente a si pierde el turno o no
+     * @return Devuelve un boolean correspondiente a si pierde el turno o no.
      */
     public boolean isPierdeTurno() {
         return this.pierdeTurno;
