@@ -3,9 +3,15 @@ package tateti;
 import java.util.Random;
 
 import cartas.Carta;
+import cartas.CartaAnularCasillero;
+import cartas.CartaBloquearFicha;
+import cartas.CartaPerderTurno;
+import cartas.CartaRobarCartas;
 import utilidades.PilaGenerica;
 
 public class Mazo {
+	
+	private static final int CANTIDAD_TIPO_CARTAS = 4;
 
 	private PilaGenerica<Carta> cartas = new PilaGenerica<Carta>();
 	
@@ -36,21 +42,62 @@ public class Mazo {
 		return resultado;
 	}
 	
+	// TODO
+	private int[] mezclarInt(int[] array) {
+		
+		int[] resultado = new int[array.length]; 
+		int[] indices = indicesAleatorios(array.length);
+		
+		for (int i = 0; i < array.length; i++) {
+			resultado[indices[i]] = array[i];
+		}
+		
+		return resultado;
+	}
+	
+	// TODO
+	private Carta crearCartaPorId(int id) {
+		
+		Carta resultado = null;
+		
+		switch (id) {
+			case 0:
+				resultado = new CartaAnularCasillero();
+				break;
+			case 1:
+				resultado = new CartaBloquearFicha();
+				break;
+			case 2:
+				resultado = new CartaPerderTurno();
+				break;
+			case 3:
+				resultado = new CartaRobarCartas();
+				break;
+		}
+		
+		return resultado;
+	}
+	
 	/**
      * pre: -, post: -
-     * Agrega las cartas mezcladas
+     * Crea el mazo con las cartas mezcladas
      *
-     * @param cartas: array de cartas que contendra el mazo
+     * @param cantidadCartasPorTipo: cantidad de cartas que se van a crear de cada tipo
      */
-	public Mazo(Carta[] cartas) {
-		if (cartas == null) {
-			cartas = new Carta[0];
-		}
-
-		int[] indices = indicesAleatorios(cartas.length);
+	public Mazo(int cantidadCartasPorTipo) {
 		
-		for (int indice : indices) {
-			this.cartas.agregar(cartas[indice]);
+		int[] idMezclados = new int[cantidadCartasPorTipo*CANTIDAD_TIPO_CARTAS];
+		
+		for (int i = 0; i < CANTIDAD_TIPO_CARTAS; i++) {
+			for (int j = 0; j < cantidadCartasPorTipo; j++) {
+				idMezclados[i*cantidadCartasPorTipo+j] = i;
+			}
+		}
+		
+		idMezclados = mezclarInt(idMezclados);
+		
+		for (int id : idMezclados) {
+			this.cartas.agregar(crearCartaPorId(id));
 		}
 	}
 	
