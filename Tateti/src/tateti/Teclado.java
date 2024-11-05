@@ -57,6 +57,28 @@ public class Teclado {
        }
        return numero;
     }
+
+    public static int pedirNumero(int min,int max) {
+        boolean terminado=false;
+        int numero=0;
+        System.out.println("Ingrese un numero por consola");
+        
+        while(!terminado) {
+            try {
+                numero=teclado.nextInt();
+                if(numero>= min && numero<=max){
+                    terminado=true;
+                    teclado.next();
+                } else {
+                    System.out.println("No ingresaste un numero en el rango permitido, reintente");
+                }
+            }catch(Exception e) {
+                System.out.println("No ingresaste un numero entero por consola, reintente");
+                teclado.next();
+            }
+        }
+        return numero;
+     }
     
     /**
      * pre: abrir previamente el teclado
