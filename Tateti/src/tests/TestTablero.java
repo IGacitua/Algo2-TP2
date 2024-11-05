@@ -15,8 +15,9 @@ public class TestTablero {
 		Exception exception = assertThrows(Exception.class, () -> {
 	        new Tablero(2);
 		});
-		String mensajeDeErrorEsperado = "Los tamaños del tablero deben ser mayores o iguales a 3.";
+		String mensajeDeErrorEsperado = "El tamaño del tablero debe ser mayor a 0. (El ingresado fue 2)";
 	    String mensajeDeErrorRecibido = exception.getMessage();
+	    System.out.println(mensajeDeErrorRecibido);
 	    assertTrue(mensajeDeErrorRecibido.equals(mensajeDeErrorEsperado));
 	}
 	
@@ -68,3 +69,4 @@ public class TestTablero {
 		}
 	}
 }
+
