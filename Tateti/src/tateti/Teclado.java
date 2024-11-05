@@ -6,21 +6,64 @@ import java.io.IOException;
 public class Teclado {
     // Declarar el Scanner como atributo estático
     private static final Scanner teclado = new Scanner(System.in);
-
-    // Método para pedir el nombre
+    
+    /**
+     * pre: Iniciar previamente el teclado
+     * post: Pide por consola un nombre de usuario, hasta que no ponga un nombre valido, no sale del metodo
+     * @return un String con el nombre ingresado por consola 
+     */
     public static String pedirNombre() {
-        System.out.print("Por favor, ingrese el nombre del jugador: ");
-        return scanner.nextLine();
+        boolean terminado=false;
+        String nombre=null;
+        System.out.println("Ingrese un nombre:");
+        
+        while(!terminado) {
+        	try {
+        		nombre=teclado.nextLine();
+        		
+        		if(nombre.trim().isEmpty()) {
+        			throw new Exception("nombre invalido, reintente");
+        		}else {
+        			terminado=true;
+        			teclado.next();
+        		}
+        		
+        	}catch(Exception e) {
+        		
+        	}
+        }
+        return nombre;       
     }
 
-    // Otros métodos que también utilizan el Scanner
+    /**
+     * pre: iniciar previamente el teclado
+     * post: devuelve un numero entero ingresado por consola, hasta que lo ingresado sea un numero entero valido sigue
+     *		 pidiendo numeros
+     * @return
+     */
     public static int pedirNumero() {
-        System.out.print("Por favor, ingrese un número: ");
-        return scanner.nextInt();
+       boolean terminado=false;
+       int numero=0;
+       System.out.println("Ingrese un numero por consola");
+       
+       while(!terminado) {
+    	   try {
+    		   numero=teclado.nextInt();
+    		   terminado=true;
+    		   teclado.next();
+    	   }catch(Exception e) {
+    		   System.out.println("No ingresaste un numero entero por consola, reintente");
+    		   teclado.next();
+    	   }
+       }
+       return numero;
     }
-
-    // Método para cerrar el Scanner al final del programa
+    
+    /**
+     * pre: abrir previamente el teclado
+     * post: cierra el teclado y no permite ingresar mas inputs
+     */
     public static void cerrarScanner() {
-        scanner.close();
+        teclado.close();
     }
 }
