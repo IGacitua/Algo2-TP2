@@ -118,10 +118,12 @@ public class Jugador {
 
     /** 
      * pre: que exista la posicion de la que se descarta la carta, post: Elimina la carta de dicha posicion.
-     */ 
-    public void descartarCarta(int posicion){
+          * @throws Exception: Si las posicion que se intenta eliminar no existe
+          */ 
+    public void descartarCarta(int posicion) throws Exception{
         this.cartas.remover(posicion);
     }
+    
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
@@ -150,6 +152,16 @@ public class Jugador {
     public int getCantidadDeFichas() {
         return this.cantidadDeFichas;
     }
+
+        /**
+     * pre: -, post: -
+     *
+     * @return Devuelve la cantidad de cartas que posee el jugador.
+     */
+    public int getCantidadDeCartas() {
+        return this.cartas.getLongitud();
+    }
+
 
     /**
      * pre: -, post: -
