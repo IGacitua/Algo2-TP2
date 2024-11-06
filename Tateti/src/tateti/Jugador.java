@@ -116,6 +116,13 @@ public class Jugador {
         this.pierdeTurno = !this.pierdeTurno;
     }
 
+    /** 
+     * pre: que exista la posicion de la que se descarta la carta, post: Elimina la carta de dicha posicion.
+     */ 
+    public void descartarCarta(int posicion){
+        this.cartas.remover(posicion);
+    }
+
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
      * pre: -, post: -
