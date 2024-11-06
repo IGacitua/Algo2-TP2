@@ -54,20 +54,21 @@ public class Menu {
             //Colocar ficha
             Lista<Integer> coordAgregar = new Lista();
             System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
-            this.obtenerCoordenadas(coordenadas,tablero); // q haces
+            this.obtenerCoordenadas(coordAgregar,tablero); // q haces
             while(!colocarFicha){
-                tablero.colocarFicha(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2), jugadorActual);
+                tablero.colocarFicha(coordAgregar.obtenerDato(0),coordAgregar.obtenerDato(1),coordAgregar.obtenerDato(2), jugadorActual);
             }
             //Mover ficha
             Lista<Integer> coordMover1 = new Lista();
             System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
             obtenerCoordenadas(coordMover1,tablero);
-            Casillero coordOrigen = new Casillero(coordMover1.obtenederDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
+            Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
             System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
             Lista<Integer> coordMover2 = new Lista();
-            obtenerCoordenadas(coordMover2,tablero);
+            obtenerCoordenadas(coordMover2,tablero);]
+            //origen = coordmover1
             while(!moverFicha){
-                tablero.moverFicha(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2), coordOrigen);
+                tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
             }
             jugarCarta(jugadorActual, tablero);
             
@@ -104,7 +105,7 @@ public class Menu {
             System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.cartas.obtenerDato(i));
         }
         System.out.println("Ingrese el numero de la carta que desea utilizar: ");
-        int nroCarta = Teclado.obtenerEntero(1,jugador.cartas.getLongitud());
+        int nroCarta = Teclado.obtenerEntero(1,jugadorActual.cartas.getLongitud());
         Lista<Integer> coordenadas = new Lista();
         obtenerCoordenadas(coordenadas,tablero);
         try {
@@ -123,7 +124,7 @@ public class Menu {
     }
 
         
-    private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) {
+    private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) throws Exception {
 	   System.out.println("Ingrese la coordenada X: ");
 	   int x=Teclado.pedirNumero(0,tablero.getTamaño());
 	   coordenadas.agregarElemento(1,x);
@@ -135,7 +136,7 @@ public class Menu {
 	   coordenadas.agregarElemento(3,z);
     }
 
-    private Casillero obtenerCasillero(Lista<Integer> coordenadas,Tablero tablero){
+    private Casillero obtenerCasillero(Lista<Integer> coordenadas,Tablero tablero) throws Exception{
         this.obtenerCoordenadas(coordenadas,tablero);
         Casillero casillero = new Casillero(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2));
         return casillero;
