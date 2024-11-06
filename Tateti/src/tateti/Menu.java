@@ -69,7 +69,7 @@ public class Menu {
             while(!moverFicha){
                 tablero.moverFicha(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2), coordOrigen);
             }
-            // Jugar carta
+            jugarCarta(jugadorActual, tablero);
             
         }
     }
@@ -100,16 +100,27 @@ public class Menu {
     }
      
 
-    private int seleccionarCarta(Jugador jugadorActual,Tablero tablero){
+    private void jugarCarta(Jugador jugadorActual,Tablero tablero){
         for (int i=1; i < jugador.cartas.getLongitud();i++){
             System.out.println("En la posicion " + i + " se tiene la carta " + jugador.cartas.obtenerDato(i));
         }
         System.out.println("Ingrese el numero de la carta que desea utilizar: ");
-        Teclado.obtenerEntero(1,jugador.cartas.getLongitud());
+        int nroCarta = Teclado.obtenerEntero(1,jugador.cartas.getLongitud());
         Lista coordenadas = new Lista();
         obtenerCoordenadas(coordenadas,tablero);
-        jugadorActual.getCartas().use(obtenerCasillero(coordenadas, tablero));
-        return i;
+        try {
+            Carta carta = jugadorActual.getCartas().obtenerDato(nroCarta);
+            if (carta instanceof CartaAnularCasillero) {
+                System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Anular Casillero.");
+                ((CartaAnularCasillero) carta).usar(obtenerCasillero(coordenadas, tablero));
+            } else if (carta instanceof CartaBloquearFicha) {
+                System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta BLoquear Ficha.");
+                ((CartaBloquearFicha) carta).usar(obtenerCasillero(coordenadas, tablero));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //jugadorActual.getCartas().use(obtenerCasillero(coordenadas, tablero)); no funciono
     }
 
         
@@ -136,12 +147,6 @@ public class Menu {
         System.out.println("Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado: ");
         int cantCartas=Teclado.validarEntero(3,99);
         return cantCartas; 
-    }
-
-    //jugar carta
-    private jugarCarta(Jugador jugadorActual){
-        seleccionarCarta(jugadorActual);
-        
     }
 
     //tirar dado
