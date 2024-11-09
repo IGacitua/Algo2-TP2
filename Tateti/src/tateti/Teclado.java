@@ -57,8 +57,20 @@ public class Teclado {
        }
        return numero;
     }
-
+    
+    /**
+     * pre: pasar por parametro dos enteros un minimo y un maximo, y se pide por consola un numero entero entre ambos 	   	 *      valores
+     * post: devuelve el numero ingresado por consola
+     * @param min
+     * @param max
+     * @return
+     */
     public static int pedirNumero(int min,int max) {
+    	if(min>max) {
+    		int aux=min;
+    		min=max;
+    		max=aux;
+    	}
         boolean terminado=false;
         int numero=0;
         System.out.println("Ingrese un numero por consola");

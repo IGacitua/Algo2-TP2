@@ -1,26 +1,27 @@
 package tateti;
 
-import java.util.Scanner;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import utilidades.Lista;
 
 public class JuegoTateti{
-    public static void main(String[] args){
-    	Scanner teclado = new Scanner(System.in);
+    public static void main(String[] args) throws Exception{
+    	//ahora el teclado se abre asi
+    	Teclado teclado =new Teclado();
+    	
         //iniciamos los objetos
     	Lista<Jugador> jugadores = new Lista<>();
-    	Mazo mazo = new mazo();
-    	Menu menu = new menu();
+    	Mazo mazo = new Mazo(null);
+    	Menu menu = new Menu(jugadores);
+    	//iniciamos mazo
+    	menu.generarMazoAleatorio(mazo,menu.limiteCartas());
     	//obtenemos los jugadores
-    	jugadores=menu.cargarJugadores();
-        //obtenemos los parametros para el tablero
+    	menu.cargarJugadores();
+    	
+        //obtenemos el parametro para el tablero
         System.out.println("Elija la cantidad de casillas NxN que tendra el tablero: ");
-        int tamanio_n= validarEntero(teclado);
-        System.out.println("Elija la cantidad de dimensiones del tablero: ");
-        int dim=validarEnteros(teclado);
-        Tablero tablero = new Tablero(tamanio_n,tamanio_n,dimensiones);
-        //iniciamos el mazo
-        menu.generarMazoAleatorio(menu.limiteCartas());
+        int tamañoTablero = Teclado.pedirNumero(1, 99);       
+        Tablero tablero = new Tablero(tamañoTablero);
+
+        
         
 
         //turnos
