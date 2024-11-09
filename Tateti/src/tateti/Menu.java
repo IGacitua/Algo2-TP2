@@ -27,7 +27,7 @@ public class Menu {
 //------------------------------------------------------------------------------------------------------------------
 	public void cargarJugadores(){
 		int cant_jugadores;
-		System.out.println("Ingrese el numero de jugadores: ");
+		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
 		cant_jugadores = Teclado.pedirNumero(2,8); //
 		for (int i=1; i <= cant_jugadores ; i++) {
 			System.out.println("Ingrese el nombre del jugador nro" + i + ": ");
@@ -38,21 +38,28 @@ public class Menu {
 			this.listaJugadores.agregarElemento(jugador);
 	        //preguntar numero limite de cartas
 
-	        //preguntar colores
+	        // preguntar colores
 	        // Bucle para pedir el color hasta que el usuario ingrese uno válido	
 		}
 		}
 	
 	
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
+		//TODO:validar todos los parametros
+		//TODO: Modularizar los metodos de jugar ficha y mover carta}
+		//FIXME: Si podes Trata de usar nombres enteros y no acortados, se menciona en el enunciado del tp
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
+        
         while (jugadores.avanzarCursor()) {
             boolean colocarFicha = false;
             boolean moverFicha = false;
+            
             Jugador jugadorActual = jugadores.obtenerCursor();
+            //FIXME:las cartas se levantan antes del turno, para todos los jugadores
             int numeroAleatorio = this.tirarDado();
             jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
             System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
+            
             //Colocar ficha
             Lista<Integer> coordAgregar = new Lista<>();
             System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
@@ -63,6 +70,7 @@ public class Menu {
             //Mover ficha
             Lista<Integer> coordMover1 = new Lista<>();
             System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
+            //FIXME:ahora tenemos un teclado para hacer esto:
             this.obtenerCoordenadas(coordMover1,tablero);
             Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
             System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
@@ -77,7 +85,7 @@ public class Menu {
         }
     }
 
-    public void generarMazoAleatorio(Lista<Carta> cartas,int cantidadCartas) throws Exception {
+    public void generarMazoAleatorio(Mazo cartas,int cantidadCartas) throws Exception {
         Random random = new Random();
 
         for (int i = 0; i < cantidadCartas; i++) {
@@ -111,6 +119,7 @@ public class Menu {
         Lista<Integer> coordenadas = new Lista<>();
         obtenerCoordenadas(coordenadas,tablero);
         try {
+        	//FIXME: cada carta tiene su funcionamiento en usar(), el try cath deberia ser usado para en caso de que la 				carta no pueda usarse otro tema, le deje al usuario usar otra carta, ejemplo: bloquear un casillero 				bloqueado
             Carta carta = jugadorActual.getCartas().obtenerDato(nroCarta);
             if (carta instanceof CartaAnularCasillero) {
                 System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Anular Casillero.");
