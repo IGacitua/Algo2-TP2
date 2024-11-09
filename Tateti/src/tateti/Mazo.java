@@ -44,7 +44,13 @@ public class Mazo {
         return resultado;
     }
     
-    // TODO
+    /**
+     * pre: -, post: -
+     * Bloquea un casillero no vacio y no bloqueado
+     * 
+     * @param Casillero: no puede ser null, estar vacio o bloqueado
+     * @throws Exception
+     */
  	private int[] mezclarInt(int[] array) {
 
  		int[] resultado = new int[array.length]; 
@@ -57,8 +63,13 @@ public class Mazo {
  		return resultado;
  	}
 
- 	// TODO
- 	private Carta crearCartaPorId(int id) {
+ 	/**
+     * pre: -, post: Devuelve una nueva carta, en base al id
+     * 
+     * @param id: id de la carta a crear, debe ser un id valido
+     * @throws Exception
+     */
+ 	private Carta crearCartaPorId(int id) throws Exception {
 
  		Carta resultado = null;
 
@@ -75,6 +86,8 @@ public class Mazo {
  			case 3:
  				resultado = new CartaRobarCartas();
  				break;
+ 			default:
+ 				throw new Exception("El id no es valido");
  		}
 
  		return resultado;
@@ -98,7 +111,11 @@ public class Mazo {
 		idMezclados = mezclarInt(idMezclados);
 		
 		for (int id : idMezclados) {
-			this.cartas.agregar(crearCartaPorId(id));
+			try {
+				this.cartas.agregar(crearCartaPorId(id));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
     }
 

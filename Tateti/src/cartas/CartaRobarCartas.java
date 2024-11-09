@@ -11,7 +11,8 @@ public class CartaRobarCartas extends Carta {
      * pre: -, post: -
      * 
      * 
-     * @param jugador: jugador que recibira las cartas
+     * @param jugador: jugador que recibira las cartas, no puede ser null
+     * @param mazo: mazo del que se tomaran las cartas, no puede ser null
 	 * @throws Exception 
      */
 	public void usar(Jugador jugador, Mazo mazo) throws Exception {
