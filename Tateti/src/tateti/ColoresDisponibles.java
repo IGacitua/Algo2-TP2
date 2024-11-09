@@ -38,6 +38,29 @@ public enum ColoresDisponibles {
         };
     }
 
+    public String getPrintfColor() {
+        return switch (this) {
+            case ROJO ->
+                "\u001B[31m";
+            case VERDE ->
+                "\u001B[32m";
+            case AZUL ->
+                "\u001B[34m";
+            case AMARILLO ->
+                "\u001B[33m";
+            case ROSA ->
+                "\u001B[35m";
+            case CELESTE ->
+                "\u001B[36m";
+            case BLANCO ->
+                "\u001B[37m";
+            case NEGRO ->
+                "\u001B[30m";
+            default ->
+                "\u001B[0m"; // Reset
+        };
+    }
+
     /**
      * pre: -, post: -
      *
