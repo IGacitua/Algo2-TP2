@@ -1,7 +1,6 @@
 package cartas;
 
 import tateti.Casillero;
-import tateti.Tablero;
 
 public class CartaBloquearFicha extends Carta {
 
@@ -9,10 +8,15 @@ public class CartaBloquearFicha extends Carta {
      * pre: -, post: -
      * Bloquea un casillero no vacio y no bloqueado
      * 
-     * @param Casillero: no puede estar vacio o bloqueado
+     * @param Casillero: no puede ser null, estar vacio o bloqueado
      * @throws Exception
      */
 	public void usar(Casillero casillero) throws Exception {
+		
+		if (casillero == null) {
+			throw new Exception("Casillero no puede ser null");
+		}
+		
 		if (!casillero.estaVacio() &&
 			!casillero.isBloqueado()) {
 			casillero.alternarBloqueo();

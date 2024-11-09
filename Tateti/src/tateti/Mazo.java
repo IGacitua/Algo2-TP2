@@ -1,13 +1,21 @@
 package tateti;
 
 import cartas.Carta;
+import cartas.CartaAnularCasillero;
+import cartas.CartaBloquearFicha;
+import cartas.CartaPerderTurno;
+import cartas.CartaRobarCartas;
+
 import java.util.Random;
 import utilidades.PilaGenerica;
 
 public class Mazo {
+	@SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
+	
+	private static final int CANTIDAD_TIPO_CARTAS = 4;
+	
+	private PilaGenerica<Carta> cartas = new PilaGenerica<Carta>();
 
-    @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
-    private PilaGenerica<Carta> cartas = new PilaGenerica<>();
 
     /**
      * pre: El largo debe ser válido, post: Genera un arreglo de largo "largo"
@@ -35,22 +43,80 @@ public class Mazo {
         }
         return resultado;
     }
+    
+    /**
+     * pre: -, post: -
+     * Bloquea un casillero no vacio y no bloqueado
+     * 
+     * @param Casillero: no puede ser null, estar vacio o bloqueado
+     * @throws Exception
+     */
+ 	private int[] mezclarInt(int[] array) {
+
+ 		int[] resultado = new int[array.length]; 
+ 		int[] indices = indicesAleatorios(array.length);
+
+ 		for (int i = 0; i < array.length; i++) {
+ 			resultado[indices[i]] = array[i];
+ 		}
+
+ 		return resultado;
+ 	}
+
+ 	/**
+     * pre: -, post: Devuelve una nueva carta, en base al id
+     * 
+     * @param id: id de la carta a crear, debe ser un id valido
+     * @throws Exception
+     */
+ 	private Carta crearCartaPorId(int id) throws Exception {
+
+ 		Carta resultado = null;
+
+ 		switch (id) {
+ 			case 0:
+ 				resultado = new CartaAnularCasillero();
+ 				break;
+ 			case 1:
+ 				resultado = new CartaBloquearFicha();
+ 				break;
+ 			case 2:
+ 				resultado = new CartaPerderTurno();
+ 				break;
+ 			case 3:
+ 				resultado = new CartaRobarCartas();
+ 				break;
+ 			default:
+ 				throw new Exception("El id no es valido");
+ 		}
+
+ 		return resultado;
+ 	}
 
     /**
      * pre: -, post: Agrega las cartas mezcladas.
      *
      * @param cartas: Es el arreglo de cartas que contendrá el mazo.
      */
-    public Mazo(Carta[] cartas) {
-        if (cartas == null) {
-            cartas = new Carta[0];
-        }
-
-        int[] indices = indicesAleatorios(cartas.length);
-
-        for (int indice : indices) {
-            this.cartas.agregar(cartas[indice]);
-        }
+    public Mazo(int cantidadCartasPorTipo) {
+    	
+    	int[] idMezclados = new int[cantidadCartasPorTipo*CANTIDAD_TIPO_CARTAS];
+		
+		for (int i = 0; i < CANTIDAD_TIPO_CARTAS; i++) {
+			for (int j = 0; j < cantidadCartasPorTipo; j++) {
+				idMezclados[i*cantidadCartasPorTipo+j] = i;
+			}
+		}
+		
+		idMezclados = mezclarInt(idMezclados);
+		
+		for (int id : idMezclados) {
+			try {
+				this.cartas.agregar(crearCartaPorId(id));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
     }
 
     /**
