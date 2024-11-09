@@ -1,9 +1,5 @@
 package cartas;
 
-
-public class CartaPerderTurno extends Carta{
-	
-
+public class CartaPerderTurno extends Carta {
 	// TODO
-
 }
