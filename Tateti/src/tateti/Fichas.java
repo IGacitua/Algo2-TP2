@@ -20,7 +20,7 @@ public enum Fichas {
             case CUADRADO ->
                 '■';
             case CIRCULO ->
-                'O';
+                '⬤';
             case TRIANGULO ->
                 '▲';
             case CRUZ ->
