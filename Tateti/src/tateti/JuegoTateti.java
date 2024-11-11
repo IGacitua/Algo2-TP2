@@ -4,29 +4,22 @@ import utilidades.Lista;
 
 public class JuegoTateti{
     public static void main(String[] args) throws Exception{
-    	//ahora el teclado se abre asi
-    	Teclado teclado =new Teclado();
+    	Teclado teclado =new Teclado(); // scanner
+    	Lista<Jugador> jugadores = new Lista<>(); //iniciamos la lista de jugadores
+    	Menu menu = new Menu(jugadores); // iniciamos al menu con la lista vacia
+    	Mazo mazo = new Mazo(null); //iniciamos mazo !!!!!!!!!! !! ! ! !!!!!!!! !! ! ! 
+    	menu.generarMazoAleatorio(mazo,menu.limiteCartas()); //iniciamos mazo !!!!!!!!!! !! ! ! !!!!!!!! !! ! ! 
     	
-        //iniciamos los objetos
-    	Lista<Jugador> jugadores = new Lista<>();
-    	Mazo mazo = new Mazo(null);
-    	Menu menu = new Menu(jugadores);
-    	//iniciamos mazo
-    	menu.generarMazoAleatorio(mazo,menu.limiteCartas());
-    	//obtenemos los jugadores
-    	menu.cargarJugadores();
+    	menu.cargarJugadores(); //obtenemos los jugadores
     	
-        //obtenemos el parametro para el tablero
-        System.out.println("Elija la cantidad de casillas NxN que tendra el tablero: ");
-        int tamañoTablero = Teclado.pedirNumero(1, 99);       
-        Tablero tablero = new Tablero(tamañoTablero);
-
         
+        Tablero tablero = new Tablero(menu.obtenerTamonioTablero()); //obtenemos el tamaño del tablero
+		menu.gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo)
         
 
         //turnos
         
         
-        
+        teclado.cerrarScanner();
     }
 }
