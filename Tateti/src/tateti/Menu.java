@@ -1,11 +1,12 @@
 package tateti;
 
 import utilidades.Lista;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
+import java.util.Scanner;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import cartas.Carta;
+import tateti.ColoresDisponibles;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
 import cartas.CartaPerderTurno;
@@ -25,21 +26,20 @@ public class Menu {
         
     ///metodos
 //------------------------------------------------------------------------------------------------------------------
-	public void cargarJugadores(){
+	public void cargarJugadores() throws Exception{
 		int cant_jugadores;
+        Fichas[] fichasDisponibles = Fichas.values();
+        Lista<Carta> cartas = new Lista<>();
 		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
 		cant_jugadores = Teclado.pedirNumero(2,8); //
-		for (int i=1; i <= cant_jugadores ; i++) {
-			System.out.println("Ingrese el nombre del jugador nro" + i + ": ");
+		for (int i=0; i < cant_jugadores ; i++) {
+			System.out.println("Ingrese el nombre del jugador nro" + i+1 + ": ");
 			String nombre = Teclado.pedirNombre();
-			//color = Teclado.obtenerColor(); VER TEMA CARTAS,  teclado hay que pasarlo a utilidades
-		
-			Jugador jugador = new Jugador(nombre,i,100,10,Fichas.CIRCULO,'X',color);
+            ColoresDisponibles color = this.solicitarColor();
+            Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
+			Jugador jugador = new Jugador(nombre,100,10,fichaAsignada,color,cartas);
 			this.listaJugadores.agregarElemento(jugador);
-	        //preguntar numero limite de cartas
-
-	        // preguntar colores
-	        // Bucle para pedir el color hasta que el usuario ingrese uno válido	
+	        //preguntar numero limite de cartas , fichas maximas sujeto a tablero y jugadores_???	
 		}
 		}
 	
@@ -85,7 +85,7 @@ public class Menu {
         }
     }
 
-    public void generarMazoAleatorio(Mazo cartas,int cantidadCartas) throws Exception {
+    public void generarMazoAleatorio(Lista<Carta> cartas,int cantidadCartas) throws Exception {
         Random random = new Random();
 
         for (int i = 0; i < cantidadCartas; i++) {
@@ -110,7 +110,7 @@ public class Menu {
         }
     }
      
-    private void jugarCarta(Jugador jugadorActual,Tablero tablero){
+    private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
             System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.cartas.obtenerDato(i));
         }
@@ -166,6 +166,33 @@ public class Menu {
         int numeroAleatorio = random.nextInt(6) + 1;
         return numeroAleatorio;
     }
+    
+    private ColoresDisponibles solicitarColor() {
+        try (Scanner teclado = new Scanner(System.in)) {
+            ColoresDisponibles colorElegido = null;
+            // Muestra lista de colores
+            System.out.println("Elija el color de la lista que desees utilizar: ");
+            System.out.println(ColoresDisponibles.obtenerColores());
+            boolean colorValido = false;
+            while (!colorValido) {
+                System.out.print("Ingresa el color: ");
+                String input = teclado.nextLine().toUpperCase(); // converitmos a mayus para que coincda con el enum
+                try {
+                    // Intentamos convertir la entrada del usuario a un valor de ColoresDisponibles
+                    colorElegido = ColoresDisponibles.valueOf(input);
+                    colorValido = true; // Si llega aquí, la entrada fue válida
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Este color no es valido, intentar de nuevo.");
+                }
+            }
+
+            System.out.println("Eligiste el color: " + colorElegido);
+            teclado.close();
+            return colorElegido;
+        }
+    }
+
+
     
     // validar color
    /*  private static color obtenerColor(Teclado teclado,String nombre) {
