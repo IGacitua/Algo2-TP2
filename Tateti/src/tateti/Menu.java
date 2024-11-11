@@ -27,12 +27,12 @@ public class Menu {
     ///metodos
 //------------------------------------------------------------------------------------------------------------------
 	public void cargarJugadores() throws Exception{
-		int cant_jugadores;
+		int cantidadJugadores;
         Fichas[] fichasDisponibles = Fichas.values();
         Lista<Carta> cartas = new Lista<>();
 		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
-		cant_jugadores = Teclado.pedirNumero(2,8); //
-		for (int i=0; i < cant_jugadores ; i++) {
+		cantidadJugadores = Teclado.pedirNumero(2,8); //
+		for (int i=0; i < cantidadJugadores ; i++) {
 			System.out.println("Ingrese el nombre del jugador nro" + i+1 + ": ");
 			String nombre = Teclado.pedirNombre();
             ColoresDisponibles color = this.solicitarColor();
@@ -191,6 +191,22 @@ public class Menu {
             return colorElegido;
         }
     }
+
+    public int obtenerTamonioTablero(){
+        int tamañoTablero;
+        int cantidadJugadores = this.listaJugadores.getLongitud();
+        System.out.println("Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores. ");
+        System.out.println("Este minimo para 2-4 jugadores es de 4, para 5-6 es de 5 y para 7-8 es de 6. ");
+        if (cantidadJugadores<5){
+            tamañoTablero = Teclado.pedirNumero(4, 99);   
+        } else if (cantidadJugadores<7){
+            tamañoTablero = Teclado.pedirNumero(5, 99);   
+        } else {
+            tamañoTablero = Teclado.pedirNumero(6, 99);
+        }
+        return tamañoTablero;
+
+    } 
 
 
     
