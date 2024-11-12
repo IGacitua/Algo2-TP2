@@ -36,51 +36,59 @@ public class Menu {
             Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
 			Jugador jugador = new Jugador(nombre,100,10,fichaAsignada,color,cartas);
 			this.listaJugadores.agregarElemento(jugador);
-	        //preguntar numero limite de cartas , fichas maximas sujeto a tablero y jugadores_???	
 		}
 		}
 	
 	
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
-		//TODO: Modularizar los metodos de jugar ficha y mover carta}
+        jugadoresRobanCartas(jugadores, mazo); //todos los jugadores roban cartas
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
-        
         while (jugadores.avanzarCursor()) {
-            boolean colocarFicha = false;
-            boolean moverFicha = false;
-            
             Jugador jugadorActual = jugadores.obtenerCursor();
-            //FIXME:las cartas se levantan antes del turno, para todos los jugadores
+            colocarFicha(jugadorActual,tablero); // el jugador coloca ficha
+            moverFicha(jugadorActual,tablero); // el jugador mueve ficha
+            jugarCarta(jugadorActual, tablero);
+            jugadores.avanzarCursor();
+        }
+    }
+
+    private void jugadoresRobanCartas(Lista<Jugador> jugadores,Mazo mazo) throws Exception{
+        jugadores.iniciarCursor();
+        while (jugadores.avanzarCursor()){
+            Jugador jugadorActual = jugadores.obtenerCursor();
             int numeroAleatorio = this.tirarDado();
             jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
             System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
-            
-            //Colocar ficha
-            Lista<Integer> coordAgregar = new Lista<>();
-            System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
-            this.obtenerCoordenadas(coordAgregar,tablero); // q haces
-            while(!colocarFicha){
-                tablero.colocarFicha(coordAgregar.obtenerDato(0),coordAgregar.obtenerDato(1),coordAgregar.obtenerDato(2), jugadorActual);
-            }
-            //Mover ficha
-            Lista<Integer> coordMover1 = new Lista<>();
-            System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
-            //FIXME:ahora tenemos un teclado para hacer esto:
-            this.obtenerCoordenadas(coordMover1,tablero);
-            Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
-            System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
-            Lista<Integer> coordMover2 = new Lista<>();
-            this.obtenerCoordenadas(coordMover2,tablero);
-            //origen = coordmover1
-            while(!moverFicha){
-                tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
-            }
-            jugarCarta(jugadorActual, tablero);
-            
+            jugadores.avanzarCursor();
+        }
+        
+    }
+    private void moverFicha (Jugador jugadorActual,Tablero tablero) throws Exception{
+        boolean moverFicha = false;
+        Lista<Integer> coordMover1 = new Lista<>();
+        System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
+        //FIXME:ahora tenemos un teclado para hacer esto:
+        this.obtenerCoordenadas(coordMover1,tablero);
+        Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
+        System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
+        Lista<Integer> coordMover2 = new Lista<>();
+        this.obtenerCoordenadas(coordMover2,tablero);
+        //origen = coordmover1
+        while(!moverFicha){
+            tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
         }
     }
     
+    private void colocarFicha (Jugador jugadorActual, Tablero tablero) throws Exception{
+        boolean colocarFicha = false;
+        Lista<Integer> coordAgregar = new Lista<>();
+        System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
+        this.obtenerCoordenadas(coordAgregar,tablero);
+        while(!colocarFicha){
+            tablero.colocarFicha(coordAgregar.obtenerDato(0),coordAgregar.obtenerDato(1),coordAgregar.obtenerDato(2), jugadorActual);
+        }
+    }
     public int consultarCantidadCartas() throws Exception{
         System.out.println("Ingrese la cantidad maxima de cartas que podra tener cada jugador: ");
         int cantidadCartas=Teclado.pedirNumero(3,100);
