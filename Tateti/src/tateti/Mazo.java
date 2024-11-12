@@ -7,24 +7,49 @@ import cartas.CartaPerderTurno;
 import cartas.CartaRobarCartas;
 
 import java.util.Random;
+
+import utilidades.Herramientas;
 import utilidades.PilaGenerica;
 
 public class Mazo {
 	@SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
-	
 	private static final int CANTIDAD_TIPO_CARTAS = 4;
-	
 	private PilaGenerica<Carta> cartas = new PilaGenerica<Carta>();
 
 
     /**
-     * pre: El largo debe ser válido, post: Genera un arreglo de largo "largo"
-     * con numeros aleatorios sin repetir.
+     * pre: -, post: Inicializa el mazo agregando las cartas mezcladas.
+     *
+     * @param cartas: Es el arreglo de cartas que contendrá el mazo.
+     * @throws Exception: Si la cantidadCartasPorTipo es < 0.
+     */
+    public Mazo(int cantidadCartasPorTipo) throws Exception {
+    	if (!Herramientas.validarNumeroPositivo(cantidadCartasPorTipo)) {
+    		throw new Exception("La cantidad de cartas por tipo establecidas debe ser mayor o igual a 0.");
+    	}
+    	int[] idMezclados = new int[cantidadCartasPorTipo*CANTIDAD_TIPO_CARTAS];
+		for (int i = 0; i < CANTIDAD_TIPO_CARTAS; i++) {
+			for (int j = 0; j < cantidadCartasPorTipo; j++) {
+				idMezclados[i*cantidadCartasPorTipo+j] = i;
+			}
+		}
+		idMezclados = mezclarArreglo(idMezclados);
+		for (int id : idMezclados) {
+				this.cartas.agregar(crearCartaPorId(id));
+		}
+    }
+	
+    /**
+     * pre: El largo debe ser válido,
+     * post: Genera un arreglo de largo "largo" con números aleatorios sin repetir.
      *
      * @param largo: Debe ser >= 0.
      * @return Devuelve un arreglo con números aleatorios sin repetir.
      */
-    private int[] indicesAleatorios(int largo) {
+    //TODO: validarían acá que largo sea >= 0? no sé si es necesario porque
+    //solo la usa mezclarArreglo() y esa le pasa la longitud del arreglo
+    //y el arreglo puede estar vacío o no (len 0 o len > 0), pero sí valida q no sea null.
+    private int[] crearArregloConIndicesAleatorios(int largo) {
         Random generadorRandom = new Random();
         int[] resultado = new int[largo];
         int[] restante = new int[largo];
@@ -45,34 +70,34 @@ public class Mazo {
     }
     
     /**
-     * pre: -, post: -
-     * Bloquea un casillero no vacio y no bloqueado
+     * pre: El arreglo no debe estar vacío,
+     * post: Devuelve el arreglo mezclado.
      * 
-     * @param Casillero: no puede ser null, estar vacio o bloqueado
-     * @throws Exception
+     * @param array: No debe ser nulo.
+     * @throws Exception: Si el arreglo es inválido.
      */
- 	private int[] mezclarInt(int[] array) {
-
+ 	private int[] mezclarArreglo(int[] array) throws Exception {
+ 		if (array == null) {
+ 			throw new Exception("El arreglo a mezclar no debe ser nulo.");
+ 		}
  		int[] resultado = new int[array.length]; 
- 		int[] indices = indicesAleatorios(array.length);
-
+ 		int[] indices = crearArregloConIndicesAleatorios(array.length);
  		for (int i = 0; i < array.length; i++) {
  			resultado[indices[i]] = array[i];
  		}
-
  		return resultado;
  	}
 
  	/**
-     * pre: -, post: Devuelve una nueva carta, en base al id
+     * pre: -, post: Devuelve una nueva carta, en base al id (tipo).
      * 
-     * @param id: id de la carta a crear, debe ser un id valido
-     * @throws Exception
+     * @param id: id de la carta a crear, debe ser un válido
+     * (estar entre los tipos de cartas disponibles).
+     * @return Devuelve la carta creada.
+     * @throws Exception: Si el id no corresponde a ninguna carta.
      */
  	private Carta crearCartaPorId(int id) throws Exception {
-
  		Carta resultado = null;
-
  		switch (id) {
  			case 0:
  				resultado = new CartaAnularCasillero();
@@ -87,37 +112,11 @@ public class Mazo {
  				resultado = new CartaRobarCartas();
  				break;
  			default:
- 				throw new Exception("El id no es valido");
+ 				throw new Exception("El id no es válido.");
  		}
 
  		return resultado;
  	}
-
-    /**
-     * pre: -, post: Agrega las cartas mezcladas.
-     *
-     * @param cartas: Es el arreglo de cartas que contendrá el mazo.
-     */
-    public Mazo(int cantidadCartasPorTipo) {
-    	
-    	int[] idMezclados = new int[cantidadCartasPorTipo*CANTIDAD_TIPO_CARTAS];
-		
-		for (int i = 0; i < CANTIDAD_TIPO_CARTAS; i++) {
-			for (int j = 0; j < cantidadCartasPorTipo; j++) {
-				idMezclados[i*cantidadCartasPorTipo+j] = i;
-			}
-		}
-		
-		idMezclados = mezclarInt(idMezclados);
-		
-		for (int id : idMezclados) {
-			try {
-				this.cartas.agregar(crearCartaPorId(id));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-    }
 
     /**
      * pre: -, post: Elimina la carta del tope del mazo y la devuelve.
@@ -131,5 +130,4 @@ public class Mazo {
         }
         return this.cartas.quitar();
     }
-
 }
