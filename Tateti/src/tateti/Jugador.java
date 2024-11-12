@@ -5,7 +5,6 @@ import utilidades.Herramientas;
 import utilidades.Lista;
 
 public class Jugador {
-
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     private static int idActual = 0; // Numero de ID interno, usado para verificar fichas
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
@@ -41,6 +40,8 @@ public class Jugador {
      * @throws Exception: Si el color es nulo o su RGB es inválido.
      */
     public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color,Lista<Carta> cartas) throws Exception {
+    	//TODO: cartas deberia ir al constructor? porque en realidad se puede inicializar en 0 (no necesita ir al constructor) y en el menu
+    	//le cargamos a cada jugador x cantidad de cartas para empezar.
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
@@ -108,6 +109,15 @@ public class Jugador {
     public void robarCarta(Mazo mazo) throws Exception {
         robarCartas(1, mazo);
     }
+    
+    /** 
+     * pre: La posicion de la que se descarta la carta debe ser válida,
+     * post: Elimina la carta de dicha posicion.
+     * @throws Exception: Si las posicion que se intenta eliminar no existe.
+     */ 
+    public void descartarCarta(int posicion) throws Exception{
+        this.cartas.remover(posicion);
+    }
 
     /**
      * pre: -, post: Invierte el estado del turno.
@@ -115,15 +125,6 @@ public class Jugador {
     public void alternarPierdeTurno() {
         this.pierdeTurno = !this.pierdeTurno;
     }
-
-    /** 
-     * pre: que exista la posicion de la que se descarta la carta, post: Elimina la carta de dicha posicion.
-          * @throws Exception: Si las posicion que se intenta eliminar no existe
-          */ 
-    public void descartarCarta(int posicion) throws Exception{
-        this.cartas.remover(posicion);
-    }
-    
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
