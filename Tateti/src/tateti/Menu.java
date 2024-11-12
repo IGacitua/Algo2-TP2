@@ -1,12 +1,11 @@
 package tateti;
 
-import utilidades.Lista;
-import java.util.Random;
-import java.util.Scanner;
 import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
-import cartas.CartaPerderTurno;
+import java.util.Random;
+import java.util.Scanner;
+import utilidades.Lista;
 import utilidades.Teclado;
 
 public class Menu {
@@ -45,7 +44,6 @@ public class Menu {
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
 		//TODO: Modularizar los metodos de jugar ficha y mover carta}
-		//FIXME: Si podes Trata de usar nombres enteros y no acortados, se menciona en el enunciado del tp
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
         
         while (jugadores.avanzarCursor()) {
@@ -82,12 +80,19 @@ public class Menu {
             
         }
     }
+    
+    public int consultarCantidadCartas() throws Exception{
+        System.out.println("Ingrese la cantidad maxima de cartas que podra tener cada jugador: ");
+        int cantidadCartas=Teclado.pedirNumero(3,100);
+        return cantidadCartas;
+    }
 
-    public void generarMazoAleatorio(Lista<Carta> cartas,int cantidadCartas) throws Exception {
+    /** estaba hecho con lista de cartas !!!
+    private void generarMazoAleatorio(Lista<Carta> cartas,int cantidadCartas) throws Exception {
         Random random = new Random();
 
         for (int i = 0; i < cantidadCartas; i++) {
-            int tipoCarta = random.nextInt(3); // 0, 1 o 2 para los tres tipos de carta
+            int tipoCarta = random.nextInt(3); // 0, 1 o 2 para los tres tipos de carta , van a haber mas?
 
             Carta carta;
             switch (tipoCarta) {
@@ -107,6 +112,7 @@ public class Menu {
             cartas.agregarElemento(carta); // Agrega la carta generada a la lista de cartas
         }
     }
+    */
      
     private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
@@ -203,27 +209,6 @@ public class Menu {
             tamañoTablero = Teclado.pedirNumero(6, 99);
         }
         return tamañoTablero;
-
-    } 
-
-
-    
-    // validar color
-   /*  private static color obtenerColor(Teclado teclado,String nombre) {
-        Color colorSeleccionado = null;
-        boolean colorValido = false;
-        while (!colorValido) {
-            System.out.print("Ingrese el color que va a utilizar "+ nombre + ": ");
-            String inputColor = teclado.nextLine().toUpperCase();
-
-            try {
-                colorSeleccionado = Color.valueOf(inputColor);  // Convertir el input al enum
-                colorValido = true;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: El color ingresado no es válido. Inténtalo nuevamente. ");
-            }
-        }
-       return colorSeleccionado;
-    }                                                                                                       */
+    }
 
 }
