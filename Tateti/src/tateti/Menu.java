@@ -3,13 +3,11 @@ package tateti;
 import utilidades.Lista;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Scanner;
-import java.io.IOException;
 import cartas.Carta;
-import tateti.ColoresDisponibles;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
 import cartas.CartaPerderTurno;
+import utilidades.Teclado;
 
 public class Menu {
 	//atributos
@@ -112,7 +110,7 @@ public class Menu {
      
     private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
-            System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.cartas.obtenerDato(i));
+            System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
         }
         System.out.println("Ingrese el numero de la carta que desea utilizar: ");
         int nroCarta = Teclado.pedirNumero(1,jugadorActual.getCantidadCartas());
@@ -154,9 +152,9 @@ public class Menu {
     }
     
     //limite cartas
-    public int limiteCartas(){
+    public int limiteCartas() throws Exception{
         System.out.println("Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado: ");
-        int cantCartas=Teclado.pedirNumero(3,99);
+        int cantCartas = Teclado.pedirNumero(3,99);
         return cantCartas; 
     }
 
@@ -192,7 +190,7 @@ public class Menu {
         }
     }
 
-    public int obtenerTamonioTablero(){
+    public int obtenerTamonioTablero() throws Exception{
         int tamañoTablero;
         int cantidadJugadores = this.listaJugadores.getLongitud();
         System.out.println("Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores. ");
