@@ -3,7 +3,6 @@ package tateti;
 import utilidades.Herramientas;
 import utilidades.Lista;
 
-//TODO cambiar loops que iteran por posiciones en la lista, por un while con avanzarCursor()
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
@@ -83,8 +82,8 @@ public class Tablero {
                     try {
                         Jugador jugadorActual = getCasillero(x, y, z).getJugador();
                         if (jugadorActual != null) {
-                            System.out.printf("%c ", jugadorActual.getFichaCaracter());
-
+                            System.out.printf("%s%c ", jugadorActual.getColor().getPrintfColor(), jugadorActual.getFichaCaracter());
+                            Herramientas.reiniciarColor();
                         } else {
                             System.out.printf("- ");
                         }
@@ -278,7 +277,7 @@ public class Tablero {
      * @throws Exception: Si el jugador es nulo y la casilla no tiene una ficha.
      */
     public boolean colocarFicha(int x, int y, int z, Jugador jugador) throws Exception {
-        verificarCasillero(x, y, z);
+        validarCasillero(x, y, z);
         if (this.getCasillero(x, y, z).isBloqueado()) {
             throw new Exception("No se puede colocar una ficha en una casilla que está bloqueada.");
         }
@@ -306,8 +305,8 @@ public class Tablero {
      * @throws Exception: Si las ubicaciones no son adyacentes.
      */
     public boolean moverFicha(int x, int y, int z, Casillero casilleroOriginal) throws Exception {
-        verificarCasillero(x, y, z);
-        verificarCasillero(casilleroOriginal);
+        validarCasillero(x, y, z);
+        casilleroExiste(casilleroOriginal);
         Casillero casilleroDestino = this.getCasillero(x, y, z);
         if (casilleroDestino.isBloqueado()) {
             throw new Exception("La casilla destino está bloqueada.");
@@ -404,7 +403,7 @@ public class Tablero {
      *
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
-    private void verificarCasillero(int x, int y, int z) throws Exception {
+    private void validarCasillero(int x, int y, int z) throws Exception {
         if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
                 || (!Herramientas.validarNumeroPositivo(z))) {
             throw new Exception("La posición del casillero no es válida.");
@@ -415,14 +414,15 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe un Casillero, post: Verifica que esté contenido en el
-     * tablero.
+     * pre: Recibe un Casillero
+     *
+     * post: Verifica que esté contenido en el tablero.
      *
      * @return Devuelve un boolean determinando si está o no contenido en el
      * tablero.
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
-    public boolean verificarCasillero(Casillero casillero) throws Exception {
+    public boolean casilleroExiste(Casillero casillero) throws Exception {
         for (int x = 0; x < this.tamaño; x++) {
             for (int y = 0; y < this.tamaño; y++) {
                 for (int z = 0; z < this.tamaño; z++) {
@@ -447,7 +447,7 @@ public class Tablero {
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
     public final Casillero getCasillero(int x, int y, int z) throws Exception {
-        verificarCasillero(x + 1, y + 1, z + 1); // Listas son index 1
+        validarCasillero(x + 1, y + 1, z + 1); // Listas son index 1
         return this.casilleros.obtenerDato(x + 1).obtenerDato(y + 1).obtenerDato(z + 1);
     }
 

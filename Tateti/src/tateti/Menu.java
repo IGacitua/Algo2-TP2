@@ -1,14 +1,12 @@
 package tateti;
 
-import utilidades.Lista;
-import java.util.Scanner;
-import java.util.Random;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
-import cartas.CartaPerderTurno;
+import java.util.Random;
+import java.util.Scanner;
+import utilidades.Lista;
+import utilidades.Teclado;
 
 public class Menu {
 	//atributos
@@ -25,71 +23,84 @@ public class Menu {
         
     ///metodos
 //------------------------------------------------------------------------------------------------------------------
-	public void cargarJugadores(){
-		int cant_jugadores;
+	public void cargarJugadores() throws Exception{
+		int cantidadJugadores;
+        Fichas[] fichasDisponibles = Fichas.values();
+        Lista<Carta> cartas = new Lista<>();
 		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
-		cant_jugadores = Teclado.pedirNumero(2,8); //
-		for (int i=1; i <= cant_jugadores ; i++) {
-			System.out.println("Ingrese el nombre del jugador nro" + i + ": ");
+		cantidadJugadores = Teclado.pedirNumero(2,8); //
+		for (int i=0; i < cantidadJugadores ; i++) {
+			System.out.println("Ingrese el nombre del jugador nro" + i+1 + ": ");
 			String nombre = Teclado.pedirNombre();
-			//color = Teclado.obtenerColor(); VER TEMA CARTAS,  teclado hay que pasarlo a utilidades
-		
-			Jugador jugador = new Jugador(nombre,i,100,10,Fichas.CIRCULO,'X',color);
+            ColoresDisponibles color = this.solicitarColor();
+            Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
+			Jugador jugador = new Jugador(nombre,100,10,fichaAsignada,color,cartas);
 			this.listaJugadores.agregarElemento(jugador);
-	        //preguntar numero limite de cartas
-
-	        // preguntar colores
-	        // Bucle para pedir el color hasta que el usuario ingrese uno válido	
 		}
 		}
 	
 	
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
-		//TODO: Modularizar los metodos de jugar ficha y mover carta}
-		//FIXME: Si podes Trata de usar nombres enteros y no acortados, se menciona en el enunciado del tp
+        jugadoresRobanCartas(jugadores, mazo); //todos los jugadores roban cartas
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
-        
         while (jugadores.avanzarCursor()) {
-            boolean colocarFicha = false;
-            boolean moverFicha = false;
-            
             Jugador jugadorActual = jugadores.obtenerCursor();
-            //FIXME:las cartas se levantan antes del turno, para todos los jugadores
-            int numeroAleatorio = this.tirarDado();
-            jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
-            System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
-            
-            //Colocar ficha
-            Lista<Integer> coordAgregar = new Lista<>();
-            System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
-            this.obtenerCoordenadas(coordAgregar,tablero); // q haces
-            while(!colocarFicha){
-                tablero.colocarFicha(coordAgregar.obtenerDato(0),coordAgregar.obtenerDato(1),coordAgregar.obtenerDato(2), jugadorActual);
-            }
-            //Mover ficha
-            Lista<Integer> coordMover1 = new Lista<>();
-            System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
-            //FIXME:ahora tenemos un teclado para hacer esto:
-            this.obtenerCoordenadas(coordMover1,tablero);
-            Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
-            System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
-            Lista<Integer> coordMover2 = new Lista<>();
-            this.obtenerCoordenadas(coordMover2,tablero);
-            //origen = coordmover1
-            while(!moverFicha){
-                tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
-            }
+            colocarFicha(jugadorActual,tablero); // el jugador coloca ficha
+            moverFicha(jugadorActual,tablero); // el jugador mueve ficha
             jugarCarta(jugadorActual, tablero);
-            
+            jugadores.avanzarCursor();
         }
     }
 
-    public void generarMazoAleatorio(Mazo cartas,int cantidadCartas) throws Exception {
+    private void jugadoresRobanCartas(Lista<Jugador> jugadores,Mazo mazo) throws Exception{
+        jugadores.iniciarCursor();
+        while (jugadores.avanzarCursor()){
+            Jugador jugadorActual = jugadores.obtenerCursor();
+            int numeroAleatorio = this.tirarDado();
+            jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
+            System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
+            jugadores.avanzarCursor();
+        }
+        
+    }
+    private void moverFicha (Jugador jugadorActual,Tablero tablero) throws Exception{
+        boolean moverFicha = false;
+        Lista<Integer> coordMover1 = new Lista<>();
+        System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
+        //FIXME:ahora tenemos un teclado para hacer esto:
+        this.obtenerCoordenadas(coordMover1,tablero);
+        Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
+        System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
+        Lista<Integer> coordMover2 = new Lista<>();
+        this.obtenerCoordenadas(coordMover2,tablero);
+        //origen = coordmover1
+        while(!moverFicha){
+            tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
+        }
+    }
+    
+    private void colocarFicha (Jugador jugadorActual, Tablero tablero) throws Exception{
+        boolean colocarFicha = false;
+        Lista<Integer> coordAgregar = new Lista<>();
+        System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
+        this.obtenerCoordenadas(coordAgregar,tablero);
+        while(!colocarFicha){
+            tablero.colocarFicha(coordAgregar.obtenerDato(0),coordAgregar.obtenerDato(1),coordAgregar.obtenerDato(2), jugadorActual);
+        }
+    }
+    public int consultarCantidadCartas() throws Exception{
+        System.out.println("Ingrese la cantidad maxima de cartas que podra tener cada jugador: ");
+        int cantidadCartas=Teclado.pedirNumero(3,100);
+        return cantidadCartas;
+    }
+
+    /** estaba hecho con lista de cartas !!!
+    private void generarMazoAleatorio(Lista<Carta> cartas,int cantidadCartas) throws Exception {
         Random random = new Random();
 
         for (int i = 0; i < cantidadCartas; i++) {
-            int tipoCarta = random.nextInt(3); // 0, 1 o 2 para los tres tipos de carta
+            int tipoCarta = random.nextInt(3); // 0, 1 o 2 para los tres tipos de carta , van a haber mas?
 
             Carta carta;
             switch (tipoCarta) {
@@ -109,10 +120,11 @@ public class Menu {
             cartas.agregarElemento(carta); // Agrega la carta generada a la lista de cartas
         }
     }
+    */
      
-    private void jugarCarta(Jugador jugadorActual,Tablero tablero){
+    private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
-            System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.cartas.obtenerDato(i));
+            System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
         }
         System.out.println("Ingrese el numero de la carta que desea utilizar: ");
         int nroCarta = Teclado.pedirNumero(1,jugadorActual.getCantidadCartas());
@@ -154,9 +166,9 @@ public class Menu {
     }
     
     //limite cartas
-    public int limiteCartas(){
+    public int limiteCartas() throws Exception{
         System.out.println("Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado: ");
-        int cantCartas=Teclado.pedirNumero(3,99);
+        int cantCartas = Teclado.pedirNumero(3,99);
         return cantCartas; 
     }
 
@@ -167,22 +179,44 @@ public class Menu {
         return numeroAleatorio;
     }
     
-    // validar color
-   /*  private static color obtenerColor(Teclado teclado,String nombre) {
-        Color colorSeleccionado = null;
-        boolean colorValido = false;
-        while (!colorValido) {
-            System.out.print("Ingrese el color que va a utilizar "+ nombre + ": ");
-            String inputColor = teclado.nextLine().toUpperCase();
-
-            try {
-                colorSeleccionado = Color.valueOf(inputColor);  // Convertir el input al enum
-                colorValido = true;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: El color ingresado no es válido. Inténtalo nuevamente. ");
+    private ColoresDisponibles solicitarColor() {
+        try (Scanner teclado = new Scanner(System.in)) {
+            ColoresDisponibles colorElegido = null;
+            // Muestra lista de colores
+            System.out.println("Elija el color de la lista que desees utilizar: ");
+            System.out.println(ColoresDisponibles.obtenerColores());
+            boolean colorValido = false;
+            while (!colorValido) {
+                System.out.print("Ingresa el color: ");
+                String input = teclado.nextLine().toUpperCase(); // converitmos a mayus para que coincda con el enum
+                try {
+                    // Intentamos convertir la entrada del usuario a un valor de ColoresDisponibles
+                    colorElegido = ColoresDisponibles.valueOf(input);
+                    colorValido = true; // Si llega aquí, la entrada fue válida
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Este color no es valido, intentar de nuevo.");
+                }
             }
+
+            System.out.println("Eligiste el color: " + colorElegido);
+            teclado.close();
+            return colorElegido;
         }
-       return colorSeleccionado;
-    }                                                                                                       */
+    }
+
+    public int obtenerTamonioTablero() throws Exception{
+        int tamañoTablero;
+        int cantidadJugadores = this.listaJugadores.getLongitud();
+        System.out.println("Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores. ");
+        System.out.println("Este minimo para 2-4 jugadores es de 4, para 5-6 es de 5 y para 7-8 es de 6. ");
+        if (cantidadJugadores<5){
+            tamañoTablero = Teclado.pedirNumero(4, 99);   
+        } else if (cantidadJugadores<7){
+            tamañoTablero = Teclado.pedirNumero(5, 99);   
+        } else {
+            tamañoTablero = Teclado.pedirNumero(6, 99);
+        }
+        return tamañoTablero;
+    }
 
 }
