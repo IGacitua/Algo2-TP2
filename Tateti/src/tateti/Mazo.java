@@ -3,6 +3,7 @@ package tateti;
 import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
+import cartas.CartaBomba;
 import cartas.CartaPerderTurno;
 import cartas.CartaRobarCartas;
 
@@ -85,6 +86,9 @@ public class Mazo {
  				break;
  			case 3:
  				resultado = new CartaRobarCartas();
+ 				break;
+ 			case 4:
+ 				resultado = new CartaBomba();
  				break;
  			default:
  				throw new Exception("El id no es valido");
