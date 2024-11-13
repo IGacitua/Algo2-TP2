@@ -4,6 +4,7 @@ import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
 import cartas.CartaBomba;
+import cartas.CartaCambiarFicha;
 import cartas.CartaPerderTurno;
 import cartas.CartaRobarCartas;
 
@@ -14,7 +15,7 @@ import utilidades.PilaGenerica;
 
 public class Mazo {
 	@SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
-	private static final int CANTIDAD_TIPO_CARTAS = 4;
+	private static final int CANTIDAD_TIPO_CARTAS = 6;
 	private PilaGenerica<Carta> cartas = new PilaGenerica<Carta>();
 
 
@@ -114,6 +115,9 @@ public class Mazo {
  				break;
  			case 4:
  				resultado = new CartaBomba();
+ 				break;
+ 			case 5:
+ 				resultado = new CartaCambiarFicha();
  				break;
  			default:
  				throw new Exception("El id no es válido.");
