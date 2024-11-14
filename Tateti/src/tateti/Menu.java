@@ -28,12 +28,22 @@ public class Menu {
         Fichas[] fichasDisponibles = Fichas.values();
         Lista<Carta> cartas = new Lista<>();
 		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
-		cantidadJugadores = Teclado.pedirNumero(2,8); //
+		/*
+		 * Consulta la cantidad de jugadores solo entre 2 y 8 o lo hacemos en base al tablero
+		 * si el tablero es de 3x3 jugar 8 es imposible ahora (cada jugador tiene 3 fichas y no podrian poner todas las 		  			* fichas)
+		 * yo lo haria en base al tablero si es de 3x3x3 dejaria maximo 3 jugadores
+		 */
+		cantidadJugadores = Teclado.pedirNumero(2,8);
 		for (int i=0; i < cantidadJugadores ; i++) {
-			System.out.println("Ingrese el nombre del jugador nro" + i+1 + ": ");
+			System.out.println("Ingrese el nombre del jugador numero" + i+1 + ": ");
 			String nombre = Teclado.pedirNombre();
             ColoresDisponibles color = this.solicitarColor();
             Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
+            //FIXME: estan hardodeadas la cantidad de fichas y cartas
+            /*
+             * Cantidad de cartas: la preguntaste antes, mantener coherencia
+             * Cantidad de fichas: es el largo de alguno de lo lados del tablero (es cuadrado asi que agarra cualquiera)
+             */
 			Jugador jugador = new Jugador(nombre,100,10,fichaAsignada,color,cartas);
 			this.listaJugadores.agregarElemento(jugador);
 		}
@@ -42,10 +52,14 @@ public class Menu {
 	
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
+		//FIXME: ahora se juega un solo turno, ver de que forma repetir los turnos hasta qyue alguien gane
         jugadoresRobanCartas(jugadores, mazo); //todos los jugadores roban cartas
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
         while (jugadores.avanzarCursor()) {
             Jugador jugadorActual = jugadores.obtenerCursor();
+            /*
+             * FIXME: solo puede poner ficha o mover ficha en el turno, no ambas
+             */
             colocarFicha(jugadorActual,tablero); // el jugador coloca ficha
             moverFicha(jugadorActual,tablero); // el jugador mueve ficha
             jugarCarta(jugadorActual, tablero);
@@ -54,6 +68,10 @@ public class Menu {
     }
 
     private void jugadoresRobanCartas(Lista<Jugador> jugadores,Mazo mazo) throws Exception{
+    	/*
+    	 * FIXME: deberiamos hacer un try cathc dentro de este metodo para que en caso de que un jugador no pueda 
+    	 * recibir cartas, siga con el siguiente jugador
+    	 */
         jugadores.iniciarCursor();
         while (jugadores.avanzarCursor()){
             Jugador jugadorActual = jugadores.obtenerCursor();
@@ -67,8 +85,12 @@ public class Menu {
     private void moverFicha (Jugador jugadorActual,Tablero tablero) throws Exception{
         boolean moverFicha = false;
         Lista<Integer> coordMover1 = new Lista<>();
+        /*
+         * TODO: deberiamos mostrarle las fichas del jugador, para que sepa donde estan,
+         * preguntale al que esta en jugador si puede implementar ese metodo
+         */
         System.out.println(jugadorActual.getNombreJugador() + " indique que ficha desea mover de coordenada.");
-        //FIXME:ahora tenemos un teclado para hacer esto:
+    
         this.obtenerCoordenadas(coordMover1,tablero);
         Casillero coordOrigen = new Casillero(coordMover1.obtenerDato(0),coordMover1.obtenerDato(1),coordMover1.obtenerDato(2));
         System.out.println(jugadorActual.getNombreJugador() + " indique hacia que coordenada desea mover su ficha.");
@@ -123,11 +145,17 @@ public class Menu {
     */
      
     private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
+    	/*
+    	 * Esto podria ser un metodo de jugador, jugadorActual.mostrarCartas()
+    	 */
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
             System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
         }
         System.out.println("Ingrese el numero de la carta que desea utilizar: ");
         int nroCarta = Teclado.pedirNumero(1,jugadorActual.getCantidadCartas());
+        /*
+         * FIXME: yo creo que el funcionamiento de las cartas deberia estar en cada carta y no en menu
+         */
         Lista<Integer> coordenadas = new Lista<>();
         obtenerCoordenadas(coordenadas,tablero);
         try {
@@ -180,6 +208,9 @@ public class Menu {
     }
     
     private ColoresDisponibles solicitarColor() {
+    	/*
+    	 * FIXME: creo que podes usar el mismo teclado, para eso hicimos el TDA teclado
+    	 */
         try (Scanner teclado = new Scanner(System.in)) {
             ColoresDisponibles colorElegido = null;
             // Muestra lista de colores
