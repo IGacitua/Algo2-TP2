@@ -90,7 +90,7 @@ public class Teclado {
     /**
      * pre: -, post: Cierra el teclado.
      */
-    public static void cerrarScanner() {
+    public void cerrarScanner() {
         teclado.close();
     }
 }
