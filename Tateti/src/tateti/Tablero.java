@@ -17,8 +17,10 @@ public class Tablero {
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe el tamaño, post: Crea el tablero de tamaño cuadrado, con
-     * condición de victoria igual al tamaño.
+     * pre: Recibe el tamaño
+     *
+     * post: Crea el tablero de tamaño cuadrado, con condición de victoria igual
+     * al tamaño.
      *
      * @param tamaño: Debe estar entre 3 y 100 (no inclusive).
      * @throws Exception: Si el tamaño no es válido.
@@ -50,8 +52,9 @@ public class Tablero {
     }
 
     /**
-     * pre: -, post: Establece el entorno de cada ficha del tablero. El entorno
-     * es un array con todas las fichas directamente adyacentes.
+     * post: Establece el entorno de cada ficha del tablero.
+     *
+     * El entorno es un array con todas las fichas directamente adyacentes.
      */
     private void establecerEntornos() {
         for (int x = 0; x < this.tamaño; x++) {
@@ -70,7 +73,7 @@ public class Tablero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: Imprime el tablero por consola.
+     * post: Imprime el tablero por consola.
      */
     public void imprimir() {
         for (int z = 0; z < this.tamaño; z++) {
@@ -97,8 +100,10 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe el nombre del archivo a exportar, post: Crea un archivo .bmp
-     * con el nombre dado, mostrando el estado del tablero.
+     * pre: Recibe el nombre del archivo a exportar
+     *
+     * post: Crea un archivo .bmp con el nombre dado, mostrando el estado del
+     * tablero.
      *
      * @param destino: No debe ser nulo.
      * @throws Exception: Si el destino es nulo.
@@ -131,8 +136,9 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición Z de la capa, post: Crea una Imagen dependiendo
-     * del contenido de la capa.
+     * pre: Recibe la posición Z de la capa
+     *
+     * post: Crea una Imagen dependiendo
      *
      * @param z: Debe estar contenido en el Tablero.
      * @return Devuelve la imagen creada.
@@ -180,8 +186,9 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Z de la columna, post: Crea una Imagen
-     * dependiendo del contenido de la columna.
+     * pre: Recibe la posición X Z de la columna
+     *
+     * post: Crea una Imagen dependiendo del contenido de la columna.
      *
      * @param x: Debe estar contenido en el Tablero.
      * @param z: Debe estar contenido en el Tablero.
@@ -208,8 +215,9 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe la posición X Y Z del casillero, post: Crea una Imagen
-     * dependiendo del contenido del casillero.
+     * pre: Recibe la posición X Y Z del casillero
+     *
+     * post: Crea una Imagen dependiendo del contenido del casillero.
      *
      * @param x: Debe estar contenido en el Tablero.
      * @param y: Debe estar contenido en el Tablero.
@@ -259,9 +267,10 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una posición X Y Z y un Jugador, post: Coloca la ficha en la
-     * posicion indicada si no hay una todavía. O la elimina si el jugador es
-     * nulo y ya existe una ficha.
+     * pre: Recibe una posición X Y Z y un Jugador
+     *
+     * post: Coloca la ficha en la posicion indicada si no hay una todavía. O la
+     * elimina si el jugador es nulo y ya existe una ficha.
      *
      * @param x: Debe estar contenida dentro del tablero.
      * @param y: Debe estar contenida dentro del tablero.
@@ -287,8 +296,9 @@ public class Tablero {
 
     /**
      * pre: Recibe una ubicación X Y Z destino, y un puntero al casillero
-     * original, post: Mueve la ficha del casillero original a la posición
-     * adyacente dada.
+     * original
+     *
+     * post: Mueve la ficha del casillero original a la posición adyacente dada.
      *
      * @param x: Debe estar contenido en el tablero.
      * @param y: Debe estar contenido en el tablero.
@@ -329,8 +339,10 @@ public class Tablero {
     }
 
     /**
-     * pre: Recibe una ubicación X Y Z, post: Revisa si la ficha en esa
-     * ubicación es parte de una linea que resulta en victoria.
+     * pre: Recibe una ubicación X Y Z
+     *
+     * post: Revisa si la ficha en esa ubicación es parte de una linea que
+     * resulta en victoria.
      *
      * @param x: Debe estar contenido en el tablero.
      * @param y: Debe estar contenido en el tablero.
@@ -363,8 +375,9 @@ public class Tablero {
 
     /**
      * pre: Recibe un desplazamiento separado en X Y Z y un casillero que
-     * contiene una ficha, post: Revisa la cantidad de fichas en linea en la
-     * dirección dada.
+     * contiene una ficha
+     *
+     * post: Revisa la cantidad de fichas en linea en la dirección dada.
      *
      * @param desplazamientoX: Debe ser -1, 0, o 1.
      * @param desplazamientoY: Debe ser -1, 0, o 1.
@@ -398,8 +411,9 @@ public class Tablero {
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ubicación XYZ, post: Verifica que esté contenida en el
-     * tablero.
+     * pre: Recibe una ubicación XYZ
+     *
+     * post: Verifica que esté contenida en el tablero.
      *
      * @throws Exception: Si la ubicación dada no está contenida en el tablero.
      */
@@ -437,7 +451,7 @@ public class Tablero {
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ubicación X Y Z, post: -
+     * pre: Recibe una ubicación X Y Z
      *
      * @param x: Debe estar contenido en el tablero.
      * @param y: Debe estar contenido en el tablero.
