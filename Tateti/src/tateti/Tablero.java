@@ -408,6 +408,64 @@ public class Tablero {
         return cantidadEnHilera;
     }
 
+    /**
+     * post: Crea un tablero idéntico a este. Los Tableros son independientes el
+     * uno del otro.
+     *
+     * @return Devuelve el nuevo Tablero
+     */
+    public Tablero copiarTablero() {
+        Tablero copia = null;
+        try {
+            // Dentro de un try/catch porque el Constructor da Exception, la cual nunca va a suceder porque this ya es valido
+            copia = new Tablero(this.tamaño);
+            for (int x = 0; x < this.tamaño; x++) {
+                for (int y = 0; y < this.tamaño; y++) {
+                    for (int z = 0; z < this.tamaño; z++) {
+                        copia.colocarFicha(x, y, z, this.getCasillero(x, y, z).getJugador());
+                        if (this.getCasillero(x, y, z).isBloqueado()) {
+                            copia.getCasillero(x, y, z).alternarBloqueo();
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Excepción imposible al copiar Tablero. Se modificó tamaño de forma invalida?");
+        }
+
+        return copia;
+    }
+
+    /**
+     * post: Cuenta la cantidad de fichas que el jugador posee en el Tablero.
+     *
+     * @param jugador No debe ser nulo
+     * @return La cantidad de fichas que el jugador posee en el Tablero.
+     */
+    public int contarFichas(Jugador jugador) throws Exception {
+        if (jugador == null) {
+            throw new Exception("El jugador dado es null");
+        }
+        int contador = 0;
+        for (int x = 0; x < this.tamaño; x++) {
+            for (int y = 0; y < this.tamaño; y++) {
+                for (int z = 0; y < this.tamaño; z++) {
+                    try {
+                        if (this.getCasillero(x, y, z).getJugador() != null) {
+                            if (this.getCasillero(x, y, z).getJugador().getIdentificacion() == jugador.getIdentificacion()) {
+                                contador++;
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Excepción imposible al contar fichas.");
+                    }
+                }
+            }
+        }
+        return contador;
+    }
+
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
