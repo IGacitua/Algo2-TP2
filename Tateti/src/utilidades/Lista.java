@@ -7,6 +7,7 @@ public class Lista<T> {
     private Nodo<T> primero = null;
     private int longitud = 0;
     private Nodo<T> cursor = null;
+
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
      * pre: - post: Inicializa la lista.
@@ -20,7 +21,9 @@ public class Lista<T> {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
      * pre: -, post: -
-     * @return Devuelve un booleano correspondiente a si la lista está vacía o no.
+     *
+     * @return Devuelve un booleano correspondiente a si la lista está vacía o
+     * no.
      */
     public boolean esVacia() {
         return (this.longitud == 0);
@@ -28,18 +31,24 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @param elemento: Ppuede ser de cualquier tipo.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista.
      */
-    public void agregarElemento(T elemento) throws Exception {
-        this.agregarElemento(this.getLongitud() + 1, elemento);
+    public void agregarElemento(T elemento) {
+        try {
+            this.agregarElemento(this.getLongitud() + 1, elemento);
+        } catch (Exception e) {
+            System.out.println("Excepción imposible al agregar elemento a la Lista.");
+        }
     }
 
     /**
      * pre: La posicion debe ser válida, post: -
+     *
      * @param posicion: Debe estar dentro de la lista.
      * @param elemento: Puede ser cualquier tipo.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista.
      */
     public void agregarElemento(int posicion, T elemento) throws Exception {
         validarPosicionParaAgregar(posicion);
@@ -56,10 +65,12 @@ public class Lista<T> {
     }
 
     /**
-     * pre: La posicion debe ser válida,
-     * post: Elimina un elemento solo por su posición.
+     * pre: La posicion debe ser válida, post: Elimina un elemento solo por su
+     * posición.
+     *
      * @param posicion: Debe estar dentro de la lista.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista menos uno.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista menos uno.
      */
     public void remover(int posicion) throws Exception {
         validarPosicionEnLista(posicion);
@@ -77,8 +88,9 @@ public class Lista<T> {
     }
 
     /**
-     * pre: El valor debe estar en la lista,
-     * post: Elimina un elemento por el valor del mismo.
+     * pre: El valor debe estar en la lista, post: Elimina un elemento por el
+     * valor del mismo.
+     *
      * @param valor: Puede ser de cualquier tipo.
      * @throws Exception: Si el valor no está en la lista.
      */
@@ -98,9 +110,11 @@ public class Lista<T> {
 
     /**
      * pre: La posicion debe ser válida, post: -
+     *
      * @param posicion: Debe ser válida.
      * @return Devuelve el dato en la posicion ingresada.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista menos uno.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista menos uno.
      */
     public T obtenerDato(int posicion) throws Exception {
         validarPosicionEnLista(posicion);
@@ -108,11 +122,13 @@ public class Lista<T> {
     }
 
     /**
-     * pre: La posicion debe ser válida,
-     * post: Cambia el dato de determinada posición por uno nuevo (elemento).
+     * pre: La posicion debe ser válida, post: Cambia el dato de determinada
+     * posición por uno nuevo (elemento).
+     *
      * @param elemento: Puede ser de cualquier tipo.
      * @param posicion: Debe ser válida.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista menos uno.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista menos uno.
      */
     public void cambiarDato(T elemento, int posicion) throws Exception {
         validarPosicionEnLista(posicion);
@@ -127,8 +143,8 @@ public class Lista<T> {
     }
 
     /**
-     * pre: -, post: -
-     * Avanza el cursor
+     * pre: -, post: - Avanza el cursor
+     *
      * @return Devuelve un boolean correspondiente a si pudo avanzar o no
      */
     public boolean avanzarCursor() {
@@ -144,6 +160,7 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el elemento que se halla donde está el cursor.
      */
     public T obtenerCursor() {
@@ -156,9 +173,9 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @param valor: Puede ser de cualquier tipo.
-     * @return Devuelve un boolean correspondiente a si existe el
-     * valor o no.
+     * @return Devuelve un boolean correspondiente a si existe el valor o no.
      */
     public boolean existe(T valor) {
         cursor = this.primero;
@@ -173,9 +190,10 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @param valor: Puede ser cualquier tipo.
-     * @return Devuelve la cantidad de veces que se repite
-     * ese mismo valor en la lista.
+     * @return Devuelve la cantidad de veces que se repite ese mismo valor en la
+     * lista.
      */
     public int contarOcurrencias(T valor) {
         cursor = this.primero;
@@ -189,9 +207,25 @@ public class Lista<T> {
         return cantidadDeOcurrencias;
     }
 
+    /**
+     * post: Copia los valores de la Lista a una nueva. Ambas listas son
+     * independientes una de la otra
+     *
+     * @return: Devuelve la copia de la Lista
+     */
+    public Lista<T> copiar() {
+        Lista<T> copia = new Lista<>();
+        this.iniciarCursor();
+        while (this.avanzarCursor()) {
+            copia.agregarElemento(this.obtenerCursor());
+        }
+        return copia;
+    }
+
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
      * pre: -, post: -
+     *
      * @return Devuelve la longitud de la lista.
      */
     public int getLongitud() {
@@ -200,6 +234,7 @@ public class Lista<T> {
 
     /**
      * pre: La posición debe ser válida, post: -
+     *
      * @param posicion: Debe ser válida.
      * @return Devuelve el nodo actual donde se halla la lista.
      * @throws Exception
@@ -215,8 +250,10 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @param posicion: Debe formar parte de la lista.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista.
      */
     private void validarPosicionParaAgregar(int posicion) throws Exception {
         if ((posicion < 1)
@@ -227,8 +264,10 @@ public class Lista<T> {
 
     /**
      * pre: -, post: -
+     *
      * @param posicion: Debe ser válida.
-     * @throws Exception: Si la posicion no está entre 1 y la longitud de la lista menos uno.
+     * @throws Exception: Si la posicion no está entre 1 y la longitud de la
+     * lista menos uno.
      */
     private void validarPosicionEnLista(int posicion) throws Exception {
         if ((posicion < 1)
