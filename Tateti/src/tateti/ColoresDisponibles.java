@@ -13,7 +13,7 @@ public enum ColoresDisponibles {
     /**
      * pre -, post: -
      *
-     * @return Devuelve entero del color elegido.
+     * @return Devuelve el entero del color elegido.
      */
     public int getRGB() {
         return switch (this) {
@@ -38,6 +38,10 @@ public enum ColoresDisponibles {
         };
     }
 
+    /**
+     * pre: -, post: -
+     * @return Devuelve el valor para imprimir el color.
+     */
     public String getPrintfColor() {
         return switch (this) {
             case ROJO ->
@@ -68,8 +72,7 @@ public enum ColoresDisponibles {
      */
     @Override
     public String toString() {
-        //TODO: Se usa realmente en el código?
-        return name().toLowerCase();
+        return name();
     }
 
     /**
