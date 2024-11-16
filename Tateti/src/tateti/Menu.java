@@ -4,18 +4,21 @@ import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
 import java.util.Random;
-import java.util.Scanner;
 import utilidades.Lista;
 import utilidades.Teclado;
 
 public class Menu {
 	//atributos
     private Lista<Jugador> listaJugadores; 
+    private Lista<ColoresDisponibles> coloresTomados;
+    private Lista<Fichas> fichasTomadas;
 	
 	//constructor
     public Menu(Lista<Jugador> listaJugadores) {
         // Quizas podriamos crear la lista aca mismo, debido a que se cargan los jugadores, asi que la estas creando 			practicamente
         this.listaJugadores = listaJugadores;
+        this.coloresTomados = new Lista<ColoresDisponibles>();
+        this.fichasTomadas = new Lista<Fichas>();
         //agregar mazo?
     }
 	
@@ -23,31 +26,183 @@ public class Menu {
         
     ///metodos
 //------------------------------------------------------------------------------------------------------------------
-	public void cargarJugadores() throws Exception{
+	/*public Tablero inicializarTablero() throws Exception {
+		int tamanio;
+		String mensaje = "Ingrese un número para crear el tablero";
+		while (true) {
+			tamanio = Teclado.pedirNumeroEntreIntervalo(mensaje, 3, 99);
+			if (tamanio >= getCantidadDeJugadores()) {
+				break;
+			}
+		}
+		Tablero tablero = new Tablero(tamanio);
+		return tablero;
+	}*/ //INTENTÉ HACERLO MÁS PROLIJO PERO NO TERMINÉ -R
+    
+    public int getCantidadDeJugadores() {
+    	return this.listaJugadores.getLongitud();
+    }
+   
+   //TEMA COLORES
+    /**
+     * pre: -, post: Devuelve una lista de los colores tomados.
+     * @return Devuelve una lista que contiene los
+     * colores ya tomados por los jugadores.
+     */
+    public Lista<ColoresDisponibles> getColoresTomados() {
+        return this.coloresTomados;
+    }
+    
+    /**
+     * pre: -, post: Agrega un color a la lista de colores tomados.
+     * @param color Debe pertenecer al Enum y no estar en la lista.
+     */
+    private void agregarColorTomado(ColoresDisponibles color) {
+    	if (!coloresTomados.existe(color)) {
+            this.coloresTomados.agregarElemento(color);
+        }
+    }
+    
+    /**
+     * pre: -, post: Devuelve una lista de los colores disponibles.
+     * @return Devuelve una lista con los colores disponibles.
+     */
+    public Lista<ColoresDisponibles> getColoresDisponibles() {
+    	Lista<ColoresDisponibles> coloresDisponibles = new Lista<>();
+    	
+    	for (int i = 0; i < ColoresDisponibles.values().length; i++) {
+    	    ColoresDisponibles color = ColoresDisponibles.values()[i];
+    	    boolean estaTomado = coloresTomados.existe(color);
+    	    if (!estaTomado) {
+    	        coloresDisponibles.agregarElemento(color);
+    	    }
+    	}
+    	return coloresDisponibles;
+    }
+    
+    /**
+     * pre: -, post: Solicita un color del Enum hasta que se ingresa uno válido.
+     * @return Si el color no está tomado y es válido (forma parte del Enum), lo devuelve.
+     */
+    public ColoresDisponibles solicitarColor() {
+    	String coloresAImprimir = "";
+    	Lista<ColoresDisponibles> coloresDisponibles = getColoresDisponibles();
+    	coloresDisponibles.iniciarCursor();
+    	while (coloresDisponibles.avanzarCursor()) {
+    		String color = coloresDisponibles.obtenerCursor().toString();
+    		coloresAImprimir += color + " ";
+    	}
+    	
+	  	String mensaje = "Elija el color de la lista que desea utilizar " + coloresAImprimir;
+	  	while (true) {
+	  		String colorElegido = Teclado.pedirString(mensaje).toUpperCase();
+	  		try { //pongo el try porque es necesario al pasar de String a Enum, sino explota todo si pone algo que no es del enum
+	            ColoresDisponibles colorSeleccionado = ColoresDisponibles.valueOf(colorElegido); //esto se supone que lo pasa de String al enum
+	            if (!getColoresTomados().existe(colorSeleccionado)) {
+	                return colorSeleccionado;
+	            } else {
+	                System.out.println("El color " + colorSeleccionado + " ya ha sido tomado por otro jugador, seleccione otro.");
+	            }
+	  		} catch (IllegalArgumentException e) {
+	  			System.out.println("El color ingresado no está dentro de las opciones, vuelva a intentarlo.");
+	  		}
+	  	}
+    }
+   
+    //TEMA FICHAS
+    /**
+     * pre: -, post: Devuelve una lista de las fichas tomadas.
+     * @return Devuelve una lista que contiene las
+     * fichas ya tomadas por los jugadores.
+     */
+    public Lista<Fichas> getFichasTomadas() {
+        return this.fichasTomadas;
+    }
+    
+    /**
+     * pre: -, post: Agrega una ficha a la lista de fichas tomadas.
+     * @param ficha Debe pertenecer al Enum y no estar en la lista.
+     */
+    private void agregarFichaTomada(Fichas ficha) {
+    	if (!fichasTomadas.existe(ficha)) {
+            this.fichasTomadas.agregarElemento(ficha);
+        }
+    }
+
+    /**
+     * pre: -, post: Devuelve una lista de las fichas disponibles.
+     * @return Devuelve una lista con las fichas disponibles.
+     */
+    public Lista<Fichas> getFichasDisponibles() {
+    	Lista<Fichas> fichasDisponibles = new Lista<>();
+    	
+    	for (int i = 0; i < Fichas.values().length; i++) {
+    	    Fichas ficha = Fichas.values()[i];
+    	    boolean estaTomada = fichasTomadas.existe(ficha);
+    	    if (!estaTomada) {
+    	    	fichasDisponibles.agregarElemento(ficha);
+    	    }
+    	}
+    	return fichasDisponibles;
+    }
+    
+    /**
+     * pre: -, post: Solicita una ficha del Enum hasta que se ingresa una válida.
+     * @return Si la ficha no está tomada y es válida (forma parte del Enum), la devuelve.
+     */
+    public Fichas solicitarFicha() {
+    	String fichasAImprimir = "";
+    	Lista<Fichas> fichasDisponibles = getFichasDisponibles();
+    	fichasDisponibles.iniciarCursor();
+    	while (fichasDisponibles.avanzarCursor()) {
+    		String ficha = fichasDisponibles.obtenerCursor().toString();
+    		fichasAImprimir += ficha + " ";
+    	}
+    	String mensaje = "Elija el color de la lista que desea utilizar " + fichasAImprimir;
+	  	while (true) {
+	  		String fichaElegida = Teclado.pedirString(mensaje).toUpperCase();
+	  		try { //pongo el try porque es necesario al pasar de String a Enum, sino explota todo si pone algo que no es del enum
+	            Fichas fichaSeleccionada = Fichas.valueOf(fichaElegida); //esto se supone que lo pasa de String al enum
+	            if (!getFichasTomadas().existe(fichaSeleccionada)) {
+	                return fichaSeleccionada;
+	            } else {
+	                System.out.println("La ficha " + fichaSeleccionada + " ya ha sido tomado por otro jugador, seleccione otro.");
+	            }
+	  		} catch (IllegalArgumentException e) {
+	  			System.out.println("La ficha ingresada no está dentro de las opciones, vuelva a intentarlo.");
+	  		}
+	  	}
+    }
+    
+    
+    public void cargarJugadores() throws Exception{
 		int cantidadJugadores;
         Fichas[] fichasDisponibles = Fichas.values();
         Lista<Carta> cartas = new Lista<>();
-		System.out.println("Ingrese el numero de jugadores: (minimo 2 - maximo 8)");
+		String mensajeDeNroJugadores = "Ingrese el número de jugadores";
 		/*
 		 * Consulta la cantidad de jugadores solo entre 2 y 8 o lo hacemos en base al tablero
 		 * si el tablero es de 3x3 jugar 8 es imposible ahora (cada jugador tiene 3 fichas y no podrian poner todas las 		  			* fichas)
 		 * yo lo haria en base al tablero si es de 3x3x3 dejaria maximo 3 jugadores
 		 */
-		cantidadJugadores = Teclado.pedirNumero(2,8);
-		for (int i=0; i < cantidadJugadores ; i++) {
-			System.out.println("Ingrese el nombre del jugador numero" + i+1 + ": ");
-			String nombre = Teclado.pedirNombre();
+		cantidadJugadores = Teclado.pedirNumeroEntreIntervalo(mensajeDeNroJugadores, 2, 8);
+		for (int i = 0; i < cantidadJugadores ; i++) {
+			String mensajePorJugador = "Ingrese el nombre del jugador numero " + (i+1);
+			String nombre = Teclado.pedirString(mensajePorJugador);
             ColoresDisponibles color = this.solicitarColor();
-            Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
+            agregarColorTomado(color);
+            Fichas ficha = this.solicitarFicha();
+            agregarFichaTomada(ficha);
+            //Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
             //FIXME: estan hardodeadas la cantidad de fichas y cartas
             /*
              * Cantidad de cartas: la preguntaste antes, mantener coherencia
              * Cantidad de fichas: es el largo de alguno de lo lados del tablero (es cuadrado asi que agarra cualquiera)
              */
-			Jugador jugador = new Jugador(nombre,100,10,fichaAsignada,color,cartas);
+			Jugador jugador = new Jugador(nombre,100,10,ficha,color,cartas);
 			this.listaJugadores.agregarElemento(jugador);
 		}
-		}
+	}
 	
 	
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
@@ -112,8 +267,8 @@ public class Menu {
         }
     }
     public int consultarCantidadCartas() throws Exception{
-        System.out.println("Ingrese la cantidad maxima de cartas que podra tener cada jugador: ");
-        int cantidadCartas=Teclado.pedirNumero(3,100);
+        String mensaje = "Ingrese la cantidad maxima de cartas que podra tener cada jugador";
+        int cantidadCartas = Teclado.pedirNumeroEntreIntervalo(mensaje, 3,100);
         return cantidadCartas;
     }
 
@@ -151,8 +306,8 @@ public class Menu {
         for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
             System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
         }
-        System.out.println("Ingrese el numero de la carta que desea utilizar: ");
-        int nroCarta = Teclado.pedirNumero(1,jugadorActual.getCantidadCartas());
+        String mensaje = "Ingrese el numero de la carta que desea utilizar";
+        int nroCarta = Teclado.pedirNumeroEntreIntervalo(mensaje, 1,jugadorActual.getCantidadCartas());
         /*
          * FIXME: yo creo que el funcionamiento de las cartas deberia estar en cada carta y no en menu
          */
@@ -176,14 +331,14 @@ public class Menu {
 
         
     private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) throws Exception {
-	   System.out.println("Ingrese la coordenada X: ");
-	   int x=Teclado.pedirNumero(0,tablero.getTamaño());
+	   String mensajeX = "Ingrese la coordenada X";
+	   String mensajeY = "Ingrese la coordenada Y";
+	   String mensajeZ = "Ingrese la coordenada Z";
+	   int x=Teclado.pedirNumeroEntreIntervalo(mensajeX, 0, tablero.getTamaño());
 	   coordenadas.agregarElemento(1,x);
-	   System.out.println("Ingrese la coordenada Y: ");
-	   int y=Teclado.pedirNumero(0,tablero.getTamaño());
+	   int y=Teclado.pedirNumeroEntreIntervalo(mensajeY, 0, tablero.getTamaño());
 	   coordenadas.agregarElemento(2,y);
-	   System.out.println("Ingrese la coordenada Z: ");
-	   int z=Teclado.pedirNumero(0,tablero.getTamaño());
+	   int z=Teclado.pedirNumeroEntreIntervalo(mensajeZ, 0,tablero.getTamaño());
 	   coordenadas.agregarElemento(3,z);
     }
 
@@ -195,8 +350,8 @@ public class Menu {
     
     //limite cartas
     public int limiteCartas() throws Exception{
-        System.out.println("Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado: ");
-        int cantCartas = Teclado.pedirNumero(3,99);
+        String mensaje = "Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado";
+        int cantCartas = Teclado.pedirNumeroEntreIntervalo(mensaje, 3, 99);
         return cantCartas; 
     }
 
@@ -207,45 +362,19 @@ public class Menu {
         return numeroAleatorio;
     }
     
-    private ColoresDisponibles solicitarColor() {
-    	/*
-    	 * FIXME: creo que podes usar el mismo teclado, para eso hicimos el TDA teclado
-    	 */
-        try (Scanner teclado = new Scanner(System.in)) {
-            ColoresDisponibles colorElegido = null;
-            // Muestra lista de colores
-            System.out.println("Elija el color de la lista que desees utilizar: ");
-            System.out.println(ColoresDisponibles.obtenerColores());
-            boolean colorValido = false;
-            while (!colorValido) {
-                System.out.print("Ingresa el color: ");
-                String input = teclado.nextLine().toUpperCase(); // converitmos a mayus para que coincda con el enum
-                try {
-                    // Intentamos convertir la entrada del usuario a un valor de ColoresDisponibles
-                    colorElegido = ColoresDisponibles.valueOf(input);
-                    colorValido = true; // Si llega aquí, la entrada fue válida
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Este color no es valido, intentar de nuevo.");
-                }
-            }
-
-            System.out.println("Eligiste el color: " + colorElegido);
-            teclado.close();
-            return colorElegido;
-        }
-    }
+   
 
     public int obtenerTamonioTablero() throws Exception{
         int tamañoTablero;
         int cantidadJugadores = this.listaJugadores.getLongitud();
-        System.out.println("Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores. ");
-        System.out.println("Este minimo para 2-4 jugadores es de 4, para 5-6 es de 5 y para 7-8 es de 6. ");
+        String mensaje = "Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores";
+        //System.out.println("Este minimo para 2-4 jugadores es de 4, para 5-6 es de 5 y para 7-8 es de 6. ");
         if (cantidadJugadores<5){
-            tamañoTablero = Teclado.pedirNumero(4, 99);   
+            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 4, 99);   
         } else if (cantidadJugadores<7){
-            tamañoTablero = Teclado.pedirNumero(5, 99);   
+            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 5, 99);   
         } else {
-            tamañoTablero = Teclado.pedirNumero(6, 99);
+            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 6, 99);
         }
         return tamañoTablero;
     }
