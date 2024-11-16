@@ -8,23 +8,30 @@ import utilidades.Lista;
 import utilidades.Teclado;
 
 public class Menu {
-	//atributos
+	//Atributos
     private Lista<Jugador> listaJugadores; 
     private Lista<ColoresDisponibles> coloresTomados;
     private Lista<Fichas> fichasTomadas;
 	
 	//constructor
-    public Menu(Lista<Jugador> listaJugadores) {
-        // Quizas podriamos crear la lista aca mismo, debido a que se cargan los jugadores, asi que la estas creando 			practicamente
-        this.listaJugadores = listaJugadores;
+    /**
+     * TODO
+     * @param listaJugadores
+     */
+    public Menu() {
+    	//Para que quiere el menu una lista de jugadores, en todo caso el tablero se crea en el juegoTateti
+    	//pero menu maneja la lista de jugadores
+        		
+        this.listaJugadores = new Lista<Jugador>();
         this.coloresTomados = new Lista<ColoresDisponibles>();
         this.fichasTomadas = new Lista<Fichas>();
-        //agregar mazo?
+        
     }
 	
 	
         
-    ///metodos
+    ///metodos 
+    //TODO:Separaria los metodos por Tematica, Tablero, Mazo, Jugadores, etc.
 //------------------------------------------------------------------------------------------------------------------
 	/*public Tablero inicializarTablero() throws Exception {
 		int tamanio;
@@ -39,6 +46,10 @@ public class Menu {
 		return tablero;
 	}*/ //INTENTÉ HACERLO MÁS PROLIJO PERO NO TERMINÉ -R
     
+    /**
+     * 
+     * @return
+     */
     public int getCantidadDeJugadores() {
     	return this.listaJugadores.getLongitud();
     }
@@ -174,7 +185,10 @@ public class Menu {
 	  	}
     }
     
-    
+   /** 
+    * TODO
+    * @throws Exception
+    */
     public void cargarJugadores() throws Exception{
 		int cantidadJugadores;
         Fichas[] fichasDisponibles = Fichas.values();
@@ -182,9 +196,15 @@ public class Menu {
 		String mensajeDeNroJugadores = "Ingrese el número de jugadores";
 		/*
 		 * Consulta la cantidad de jugadores solo entre 2 y 8 o lo hacemos en base al tablero
-		 * si el tablero es de 3x3 jugar 8 es imposible ahora (cada jugador tiene 3 fichas y no podrian poner todas las 		  			* fichas)
+		 * si el tablero es de 3x3 jugar 8 es imposible ahora (cada jugador tiene 3 fichas y 
+		 * no podrian poner todas las fichas)
 		 * yo lo haria en base al tablero si es de 3x3x3 dejaria maximo 3 jugadores
 		 */
+		/*int cantidadMaximaJugadores=getCantidadMaximaPosibleJugadores(tablero) ----> este metodo te daria la
+		 * cantidad maxima de jugadores  
+		 * ese metodo deberia revisar si el tablero es de 3x3x3 y devolveria 3 (cantidadMaximaPosibleJugadores)
+		 */
+		
 		cantidadJugadores = Teclado.pedirNumeroEntreIntervalo(mensajeDeNroJugadores, 2, 8);
 		for (int i = 0; i < cantidadJugadores ; i++) {
 			String mensajePorJugador = "Ingrese el nombre del jugador numero " + (i+1);
@@ -204,13 +224,20 @@ public class Menu {
 		}
 	}
 	
-	
+	/**
+	 * TODO
+	 * @param jugadores
+	 * @param tablero
+	 * @param mazo
+	 * @throws Exception
+	 */
 	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
 		//FIXME: ahora se juega un solo turno, ver de que forma repetir los turnos hasta qyue alguien gane
         jugadoresRobanCartas(jugadores, mazo); //todos los jugadores roban cartas
         jugadores.iniciarCursor(); // Reiniciar el cursor al comienzo de la lista
         while (jugadores.avanzarCursor()) {
+        	//FIXME: Verificar previamente si el jugador esta bloqueado
             Jugador jugadorActual = jugadores.obtenerCursor();
             /*
              * FIXME: solo puede poner ficha o mover ficha en el turno, no ambas
@@ -230,6 +257,9 @@ public class Menu {
         jugadores.iniciarCursor();
         while (jugadores.avanzarCursor()){
             Jugador jugadorActual = jugadores.obtenerCursor();
+            /* Esto no siempre pasa, ver que ocurre en el caso de que no pueda recibir esas cartas
+             * 
+             */
             int numeroAleatorio = this.tirarDado();
             jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
             System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
@@ -237,7 +267,15 @@ public class Menu {
         }
         
     }
+    
+    /**
+     * TODO
+     * @param jugadorActual
+     * @param tablero
+     * @throws Exception
+     */
     private void moverFicha (Jugador jugadorActual,Tablero tablero) throws Exception{
+    	//Verificar
         boolean moverFicha = false;
         Lista<Integer> coordMover1 = new Lista<>();
         /*
@@ -256,8 +294,15 @@ public class Menu {
             tablero.moverFicha(coordMover2.obtenerDato(0),coordMover2.obtenerDato(1),coordMover2.obtenerDato(2), coordOrigen);
         }
     }
-    
+   
+    /**
+     * 
+     * @param jugadorActual
+     * @param tablero
+     * @throws Exception
+     */
     private void colocarFicha (Jugador jugadorActual, Tablero tablero) throws Exception{
+    	//Verificar
         boolean colocarFicha = false;
         Lista<Integer> coordAgregar = new Lista<>();
         System.out.println(jugadorActual.getNombreJugador() + " indique en que coordenadas desea colocar su ficha.");
@@ -300,6 +345,7 @@ public class Menu {
     */
      
     private void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
+    	//Verificar
     	/*
     	 * Esto podria ser un metodo de jugador, jugadorActual.mostrarCartas()
     	 */
@@ -331,6 +377,7 @@ public class Menu {
 
         
     private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) throws Exception {
+    	//Verificiar
 	   String mensajeX = "Ingrese la coordenada X";
 	   String mensajeY = "Ingrese la coordenada Y";
 	   String mensajeZ = "Ingrese la coordenada Z";
@@ -341,21 +388,38 @@ public class Menu {
 	   int z=Teclado.pedirNumeroEntreIntervalo(mensajeZ, 0,tablero.getTamaño());
 	   coordenadas.agregarElemento(3,z);
     }
-
+    
+    /**
+     * TODO
+     * @param coordenadas
+     * @param tablero
+     * @return
+     * @throws Exception
+     */
     private Casillero obtenerCasillero(Lista<Integer> coordenadas,Tablero tablero) throws Exception{
+    	//Verificaciones
         this.obtenerCoordenadas(coordenadas,tablero);
         Casillero casillero = new Casillero(coordenadas.obtenerDato(0),coordenadas.obtenerDato(1),coordenadas.obtenerDato(2));
         return casillero;
     }
     
     //limite cartas
+    /**
+     * TODO
+     * @return
+     * @throws Exception
+     */
     public int limiteCartas() throws Exception{
         String mensaje = "Ingrese el limite de cartas con el que desea jugar, no debe superar el tamaño del tablero seleccionado";
         int cantCartas = Teclado.pedirNumeroEntreIntervalo(mensaje, 3, 99);
         return cantCartas; 
     }
 
-    //tirar dado
+    //tirar dado (Deberia estar en Utilidades)
+    /**
+     * TODO
+     * @return
+     */
     private int tirarDado(){
         Random random = new Random();
         int numeroAleatorio = random.nextInt(6) + 1;
@@ -363,8 +427,14 @@ public class Menu {
     }
     
    
-
+    /**
+     * TODO:
+     * @return
+     * @throws Exception
+     */
     public int obtenerTamonioTablero() throws Exception{
+    	//FIXME: Esta mal planteado el tablero, no depende de la cantidad de jugadores, justamente es al reves
+    	// Verificar que listaJugadores no este vacia
         int tamañoTablero;
         int cantidadJugadores = this.listaJugadores.getLongitud();
         String mensaje = "Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores";
