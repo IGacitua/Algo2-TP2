@@ -18,10 +18,11 @@ public class Menu {
      * TODO
      * @param listaJugadores
      */
-    public Menu(Lista<Jugador> listaJugadores) {
-    	//TODO: si listaJugadores==null  ---> this.listaJugadores=new Lista<Jugadores>(); (deberia ser algo asi)
+    public Menu() {
+    	//Para que quiere el menu una lista de jugadores, en todo caso el tablero se crea en el juegoTateti
+    	//pero menu maneja la lista de jugadores
         		
-        this.listaJugadores = listaJugadores;
+        this.listaJugadores = new Lista<Jugador>();
         this.coloresTomados = new Lista<ColoresDisponibles>();
         this.fichasTomadas = new Lista<Fichas>();
         
@@ -29,7 +30,8 @@ public class Menu {
 	
 	
         
-    ///metodos
+    ///metodos 
+    //TODO:Separaria los metodos por Tematica, Tablero, Mazo, Jugadores, etc.
 //------------------------------------------------------------------------------------------------------------------
 	/*public Tablero inicializarTablero() throws Exception {
 		int tamanio;
@@ -431,6 +433,7 @@ public class Menu {
      * @throws Exception
      */
     public int obtenerTamonioTablero() throws Exception{
+    	//FIXME: Esta mal planteado el tablero, no depende de la cantidad de jugadores, justamente es al reves
     	// Verificar que listaJugadores no este vacia
         int tamañoTablero;
         int cantidadJugadores = this.listaJugadores.getLongitud();
