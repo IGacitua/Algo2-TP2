@@ -8,222 +8,149 @@ import utilidades.Lista;
 import utilidades.Teclado;
 
 public class Menu {
+	//TODO: todo lo que es static es porque eclipse me jode diciedo que tiene que ir así para
+	//poder usar los métodos en el JuegoTateti, desp vemos qué onda
 	//Atributos
-    private Lista<Jugador> listaJugadores; 
-    private Lista<ColoresDisponibles> coloresTomados;
-    private Lista<Fichas> fichasTomadas;
+    private static Lista<Jugador> listaJugadores; 
+    private static Lista<ColoresDisponibles> coloresTomados;
+    private static Lista<Fichas> fichasTomadas;
 	
 	//constructor
     /**
-     * TODO
-     * @param listaJugadores
+     * pre: -, post: Inicializa el Menu.
      */
     public Menu() {
     	//Para que quiere el menu una lista de jugadores, en todo caso el tablero se crea en el juegoTateti
-    	//pero menu maneja la lista de jugadores
-        		
-        this.listaJugadores = new Lista<Jugador>();
-        this.coloresTomados = new Lista<ColoresDisponibles>();
-        this.fichasTomadas = new Lista<Fichas>();
-        
+    	//pero menu maneja la lista de jugadores	
+        listaJugadores = new Lista<Jugador>();
+        coloresTomados = new Lista<ColoresDisponibles>();
+        fichasTomadas = new Lista<Fichas>(); 
     }
 	
 	
         
-    ///metodos 
+    ///MÉTODOS 
     //TODO:Separaria los metodos por Tematica, Tablero, Mazo, Jugadores, etc.
 //------------------------------------------------------------------------------------------------------------------
-	/*public Tablero inicializarTablero() throws Exception {
-		int tamanio;
-		String mensaje = "Ingrese un número para crear el tablero";
+	//TABLERO
+    /**
+	 * pre: -, post: Devuelve el tablero inicializado.
+	 * @return Devuelve el tablero inicializado según la preferencia
+	 * del usuario.
+	 * @throws Exception Si el tamaño del tablero es inválido.
+	 */
+    public static Tablero inicializarTablero() throws Exception {
+    	String mensaje = "Ingrese el tamaño del tablero con el quiere jugar";
+    	int tamanio = Teclado.pedirNumeroEntreIntervalo(mensaje, 3, 99);
+    	Tablero tablero = new Tablero(tamanio);
+    	return tablero;
+	}
+    
+    //JUGADORES
+	/**
+	 * pre: tamanioTablero debe ser válido,
+	 * post: Inicializa los jugadores.
+	 * @param tamanioTablero Debe estar entre 3 y 99 inclusive en ambos casos.
+	 * //TODO: es necesario validar? porque al inicializar los jugadores el tablero
+	 * jamás se irá de rango porque antes de eso lo inicializamos y ahi se valida eso. 
+	 * @throws Exception Si los parámetros que recibe el Jugador al ser inicializado son inválidos.
+	 */
+	public static void inicializarJugadores(int tamanioTablero) throws Exception {
+		int cantidadJugadores;
+		Fichas[] fichasDisponibles = Fichas.values();
+		Lista<Carta> cartas = new Lista<>();
+		String mensajeDeNroJugadores = "Ingrese el número de jugadores";
 		while (true) {
-			tamanio = Teclado.pedirNumeroEntreIntervalo(mensaje, 3, 99);
-			if (tamanio >= getCantidadDeJugadores()) {
+			cantidadJugadores = Teclado.pedirNumeroEntreIntervalo(mensajeDeNroJugadores, 2, 8);
+			if (cantidadJugadores > tamanioTablero) {
+				System.out.println("La cantidad de jugadores debe ser menor o igual al tamaño del tablero.");
+			} else {
 				break;
 			}
 		}
-		Tablero tablero = new Tablero(tamanio);
-		return tablero;
-	}*/ //INTENTÉ HACERLO MÁS PROLIJO PERO NO TERMINÉ -R
-    
-    /**
-     * 
-     * @return
-     */
-    public int getCantidadDeJugadores() {
-    	return this.listaJugadores.getLongitud();
-    }
-   
-   //TEMA COLORES
-    /**
-     * pre: -, post: Devuelve una lista de los colores tomados.
-     * @return Devuelve una lista que contiene los
-     * colores ya tomados por los jugadores.
-     */
-    public Lista<ColoresDisponibles> getColoresTomados() {
-        return this.coloresTomados;
-    }
-    
-    /**
-     * pre: -, post: Agrega un color a la lista de colores tomados.
-     * @param color Debe pertenecer al Enum y no estar en la lista.
-     */
-    private void agregarColorTomado(ColoresDisponibles color) {
-    	if (!coloresTomados.existe(color)) {
-            this.coloresTomados.agregarElemento(color);
-        }
-    }
-    
-    /**
-     * pre: -, post: Devuelve una lista de los colores disponibles.
-     * @return Devuelve una lista con los colores disponibles.
-     */
-    public Lista<ColoresDisponibles> getColoresDisponibles() {
-    	Lista<ColoresDisponibles> coloresDisponibles = new Lista<>();
-    	
-    	for (int i = 0; i < ColoresDisponibles.values().length; i++) {
-    	    ColoresDisponibles color = ColoresDisponibles.values()[i];
-    	    boolean estaTomado = coloresTomados.existe(color);
-    	    if (!estaTomado) {
-    	        coloresDisponibles.agregarElemento(color);
-    	    }
-    	}
-    	return coloresDisponibles;
-    }
-    
-    /**
-     * pre: -, post: Solicita un color del Enum hasta que se ingresa uno válido.
-     * @return Si el color no está tomado y es válido (forma parte del Enum), lo devuelve.
-     */
-    public ColoresDisponibles solicitarColor() {
-    	String coloresAImprimir = "";
-    	Lista<ColoresDisponibles> coloresDisponibles = getColoresDisponibles();
-    	coloresDisponibles.iniciarCursor();
-    	while (coloresDisponibles.avanzarCursor()) {
-    		String color = coloresDisponibles.obtenerCursor().toString();
-    		coloresAImprimir += color + " ";
-    	}
-    	
-	  	String mensaje = "Elija el color de la lista que desea utilizar " + coloresAImprimir;
-	  	while (true) {
-	  		String colorElegido = Teclado.pedirString(mensaje).toUpperCase();
-	  		try { //pongo el try porque es necesario al pasar de String a Enum, sino explota todo si pone algo que no es del enum
-	            ColoresDisponibles colorSeleccionado = ColoresDisponibles.valueOf(colorElegido); //esto se supone que lo pasa de String al enum
-	            if (!getColoresTomados().existe(colorSeleccionado)) {
-	                return colorSeleccionado;
-	            } else {
-	                System.out.println("El color " + colorSeleccionado + " ya ha sido tomado por otro jugador, seleccione otro.");
-	            }
-	  		} catch (IllegalArgumentException e) {
-	  			System.out.println("El color ingresado no está dentro de las opciones, vuelva a intentarlo.");
-	  		}
-	  	}
-    }
-   
-    //TEMA FICHAS
-    /**
-     * pre: -, post: Devuelve una lista de las fichas tomadas.
-     * @return Devuelve una lista que contiene las
-     * fichas ya tomadas por los jugadores.
-     */
-    public Lista<Fichas> getFichasTomadas() {
-        return this.fichasTomadas;
-    }
-    
-    /**
-     * pre: -, post: Agrega una ficha a la lista de fichas tomadas.
-     * @param ficha Debe pertenecer al Enum y no estar en la lista.
-     */
-    private void agregarFichaTomada(Fichas ficha) {
-    	if (!fichasTomadas.existe(ficha)) {
-            this.fichasTomadas.agregarElemento(ficha);
-        }
-    }
-
-    /**
-     * pre: -, post: Devuelve una lista de las fichas disponibles.
-     * @return Devuelve una lista con las fichas disponibles.
-     */
-    public Lista<Fichas> getFichasDisponibles() {
-    	Lista<Fichas> fichasDisponibles = new Lista<>();
-    	
-    	for (int i = 0; i < Fichas.values().length; i++) {
-    	    Fichas ficha = Fichas.values()[i];
-    	    boolean estaTomada = fichasTomadas.existe(ficha);
-    	    if (!estaTomada) {
-    	    	fichasDisponibles.agregarElemento(ficha);
-    	    }
-    	}
-    	return fichasDisponibles;
-    }
-    
-    /**
-     * pre: -, post: Solicita una ficha del Enum hasta que se ingresa una válida.
-     * @return Si la ficha no está tomada y es válida (forma parte del Enum), la devuelve.
-     */
-    public Fichas solicitarFicha() {
-    	String fichasAImprimir = "";
-    	Lista<Fichas> fichasDisponibles = getFichasDisponibles();
-    	fichasDisponibles.iniciarCursor();
-    	while (fichasDisponibles.avanzarCursor()) {
-    		String ficha = fichasDisponibles.obtenerCursor().toString();
-    		fichasAImprimir += ficha + " ";
-    	}
-    	String mensaje = "Elija el color de la lista que desea utilizar " + fichasAImprimir;
-	  	while (true) {
-	  		String fichaElegida = Teclado.pedirString(mensaje).toUpperCase();
-	  		try { //pongo el try porque es necesario al pasar de String a Enum, sino explota todo si pone algo que no es del enum
-	            Fichas fichaSeleccionada = Fichas.valueOf(fichaElegida); //esto se supone que lo pasa de String al enum
-	            if (!getFichasTomadas().existe(fichaSeleccionada)) {
-	                return fichaSeleccionada;
-	            } else {
-	                System.out.println("La ficha " + fichaSeleccionada + " ya ha sido tomado por otro jugador, seleccione otro.");
-	            }
-	  		} catch (IllegalArgumentException e) {
-	  			System.out.println("La ficha ingresada no está dentro de las opciones, vuelva a intentarlo.");
-	  		}
-	  	}
-    }
-    
-   /** 
-    * TODO
-    * @throws Exception
-    */
-    public void cargarJugadores() throws Exception{
-		int cantidadJugadores;
-        Fichas[] fichasDisponibles = Fichas.values();
-        Lista<Carta> cartas = new Lista<>();
-		String mensajeDeNroJugadores = "Ingrese el número de jugadores";
-		/*
-		 * Consulta la cantidad de jugadores solo entre 2 y 8 o lo hacemos en base al tablero
-		 * si el tablero es de 3x3 jugar 8 es imposible ahora (cada jugador tiene 3 fichas y 
-		 * no podrian poner todas las fichas)
-		 * yo lo haria en base al tablero si es de 3x3x3 dejaria maximo 3 jugadores
-		 */
-		/*int cantidadMaximaJugadores=getCantidadMaximaPosibleJugadores(tablero) ----> este metodo te daria la
-		 * cantidad maxima de jugadores  
-		 * ese metodo deberia revisar si el tablero es de 3x3x3 y devolveria 3 (cantidadMaximaPosibleJugadores)
-		 */
-		
-		cantidadJugadores = Teclado.pedirNumeroEntreIntervalo(mensajeDeNroJugadores, 2, 8);
 		for (int i = 0; i < cantidadJugadores ; i++) {
 			String mensajePorJugador = "Ingrese el nombre del jugador numero " + (i+1);
 			String nombre = Teclado.pedirString(mensajePorJugador);
-            ColoresDisponibles color = this.solicitarColor();
-            agregarColorTomado(color);
-            Fichas ficha = this.solicitarFicha();
-            agregarFichaTomada(ficha);
-            //Fichas fichaAsignada = fichasDisponibles[i % fichasDisponibles.length];
-            //FIXME: estan hardodeadas la cantidad de fichas y cartas
-            /*
-             * Cantidad de cartas: la preguntaste antes, mantener coherencia
-             * Cantidad de fichas: es el largo de alguno de lo lados del tablero (es cuadrado asi que agarra cualquiera)
-             */
-			Jugador jugador = new Jugador(nombre,100,10,ficha,color,cartas);
-			this.listaJugadores.agregarElemento(jugador);
+			String nombreDefinitivo = nombre.substring(0, 1).toUpperCase() + nombre.substring(1); //para asegurarnos que la 1era letra del nombre sea mayúscula
+            ColoresDisponibles color = solicitarColor();
+            Fichas ficha = solicitarFicha();
+            Jugador jugador = new Jugador(nombreDefinitivo,tamanioTablero, (int) Math.round(tamanioTablero*0.5),ficha,color,cartas);
+            listaJugadores.agregarElemento(jugador);
 		}
+		imprimirJugadoresPorPantalla(); //TODO: borrar. Si molesta mucho ahora al programar, no pasa nada si eliminan esta línea.
+										//solo NO eliminen la funcion de imprimir, gracias:)
 	}
 	
+	//TODO: eliminar
+	public static void imprimirJugadoresPorPantalla() throws Exception {
+		listaJugadores.iniciarCursor();
+		while (listaJugadores.avanzarCursor()) {
+			Jugador jugador = listaJugadores.obtenerCursor();
+			System.out.println(" ");
+			System.out.println("Nombre: " + jugador.getNombreJugador());
+			System.out.println("Identificacion: " + jugador.getIdentificacion());
+			System.out.println("Cantidad de fichas: " + jugador.getCantidadDeFichas());
+			System.out.println("Cantidad de cartas guardadas: " + jugador.getCantidadDeCartas());
+			System.out.println("Cantidad de cartas total: " + jugador.getCartasMaximas());
+			System.out.println("Ficha: " + jugador.getFichaCaracter());
+			System.out.println("Color: " + jugador.getColor());
+		}
+	}
+
+    /**
+     * pre: -, post: Solicita al usuario un color de la lista de colores disponibles.
+     * @return Devuelve el color seleccionado.
+     * @throws Exception Si coloresTomados es nula o el Enum ColoresDisponibles está vacío.
+     */
+    public static ColoresDisponibles solicitarColor() throws Exception {
+        return solicitarElementoDeEnum("Elija el color de la lista que desea utilizar", coloresTomados, ColoresDisponibles.values());
+    }
+
+    /**
+     * pre: -, post: Solicita al usuario una ficha de la lista de fichas disponibles.
+     * @return Devuelve la ficha seleccionada.
+     * @throws Exception Si fichasTomadas es nula o el Enum Fichas está vacío.
+     */
+    public static Fichas solicitarFicha() throws Exception {
+        return solicitarElementoDeEnum("Elija la ficha de la lista que desea utilizar", fichasTomadas, Fichas.values());
+    }
+    
+    /**
+     * pre: -, post: -
+     * @return Devuelve la cantidadDeJugadores.
+     */
+    public static int getCantidadDeJugadores() {
+    	return listaJugadores.getLongitud();
+    }
+   
+    //MAZO
+    /**
+     * pre: -, post: -
+     * @return Devuelve el mazo mezclado.
+     * La cantidad de cartas es de la forma cantidadDeJugadores*cantidadDeTiposDeCarta
+     * @throws Exception Si la cantidadDeJugadores es 0.
+     */
+    public static Mazo inicializarMazo() throws Exception {
+    	Mazo mazo = new Mazo(getCantidadDeJugadores());
+    	return mazo;
+    }
+	
+    //JUGAR
+    /*idea: repartirle a todos los jugadores cartasMax.
+    ejemplo si elegimos tablero de 3x3x3 y 2 jugadores, c/u deberia tiene como max 2 cartas.
+    La idea es que arranquen con todas las cartas posibles y se van descartando (así entendí q dijo el profe
+    en los audios de joaquin el viernes 15)*/
+    public static void repartirCartas(Mazo mazo) throws Exception {
+    	listaJugadores.iniciarCursor();
+		while (listaJugadores.avanzarCursor()) {
+			Jugador jugador = listaJugadores.obtenerCursor();
+			jugador.robarCarta(mazo);
+			System.out.println("Nombre: " + jugador.getNombreJugador() + " Cantidad de cartas max: "
+			+ jugador.getCartasMaximas() + " Cantidad de cartas que posee: " + jugador.getCantidadDeCartas());
+			//aca ambos deberian tener 1 sola pero imprime jugador1 tiene 1 y jugador2 tiene 2
+		}
+    }
+    
 	/**
 	 * TODO
 	 * @param jugadores
@@ -231,7 +158,7 @@ public class Menu {
 	 * @param mazo
 	 * @throws Exception
 	 */
-	public void gestionarTurnos(Lista<Jugador> jugadores,Tablero tablero,Mazo mazo) throws Exception {
+	public void gestionarTurnos(Lista<Jugador> jugadores, Tablero tablero, Mazo mazo) throws Exception {
 		//TODO:validar todos los parametros
 		//FIXME: ahora se juega un solo turno, ver de que forma repetir los turnos hasta qyue alguien gane
         jugadoresRobanCartas(jugadores, mazo); //todos los jugadores roban cartas
@@ -349,11 +276,11 @@ public class Menu {
     	/*
     	 * Esto podria ser un metodo de jugador, jugadorActual.mostrarCartas()
     	 */
-        for (int i=1; i < jugadorActual.getCantidadCartas();i++){ // AAAAAAAAAAA
+        for (int i=1; i < jugadorActual.getCantidadDeCartas();i++){ // AAAAAAAAAAA
             System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
         }
         String mensaje = "Ingrese el numero de la carta que desea utilizar";
-        int nroCarta = Teclado.pedirNumeroEntreIntervalo(mensaje, 1,jugadorActual.getCantidadCartas());
+        int nroCarta = Teclado.pedirNumeroEntreIntervalo(mensaje, 1,jugadorActual.getCantidadDeCartas());
         /*
          * FIXME: yo creo que el funcionamiento de las cartas deberia estar en cada carta y no en menu
          */
@@ -378,15 +305,15 @@ public class Menu {
         
     private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) throws Exception {
     	//Verificiar
-	   String mensajeX = "Ingrese la coordenada X";
-	   String mensajeY = "Ingrese la coordenada Y";
-	   String mensajeZ = "Ingrese la coordenada Z";
-	   int x=Teclado.pedirNumeroEntreIntervalo(mensajeX, 0, tablero.getTamaño());
-	   coordenadas.agregarElemento(1,x);
-	   int y=Teclado.pedirNumeroEntreIntervalo(mensajeY, 0, tablero.getTamaño());
-	   coordenadas.agregarElemento(2,y);
-	   int z=Teclado.pedirNumeroEntreIntervalo(mensajeZ, 0,tablero.getTamaño());
-	   coordenadas.agregarElemento(3,z);
+    	String mensajeX = "Ingrese la coordenada X";
+    	String mensajeY = "Ingrese la coordenada Y";
+    	String mensajeZ = "Ingrese la coordenada Z";
+    	int x=Teclado.pedirNumeroEntreIntervalo(mensajeX, 0, tablero.getTamaño());
+    	coordenadas.agregarElemento(1,x);
+    	int y=Teclado.pedirNumeroEntreIntervalo(mensajeY, 0, tablero.getTamaño());
+	   	coordenadas.agregarElemento(2,y);
+	   	int z=Teclado.pedirNumeroEntreIntervalo(mensajeZ, 0,tablero.getTamaño());
+	   	coordenadas.agregarElemento(3,z);
     }
     
     /**
@@ -426,27 +353,59 @@ public class Menu {
         return numeroAleatorio;
     }
     
-   
-    /**
-     * TODO:
-     * @return
-     * @throws Exception
-     */
-    public int obtenerTamonioTablero() throws Exception{
-    	//FIXME: Esta mal planteado el tablero, no depende de la cantidad de jugadores, justamente es al reves
-    	// Verificar que listaJugadores no este vacia
-        int tamañoTablero;
-        int cantidadJugadores = this.listaJugadores.getLongitud();
-        String mensaje = "Elija la cantidad de casillas NxN que tendra el tablero, el minimo esta sujeto a la cantidad de jugadores";
-        //System.out.println("Este minimo para 2-4 jugadores es de 4, para 5-6 es de 5 y para 7-8 es de 6. ");
-        if (cantidadJugadores<5){
-            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 4, 99);   
-        } else if (cantidadJugadores<7){
-            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 5, 99);   
-        } else {
-            tamañoTablero = Teclado.pedirNumeroEntreIntervalo(mensaje, 6, 99);
+    
+ 	/**
+ 	 * pre: -, post: Solicita un elemento de un Enum al usuario y lo devuelve.
+ 	 * @param <T> Puede ser cualquier tipo de Enum.
+ 	 * @param mensaje Puede especificarse un mensaje al pedir el T, pero
+     * en caso de que no se necesite, puede ser nulo o vacío y se lo reemplaza
+     * por "Elija un elemento de la lista que desea utilizar". 
+ 	 * @param elementosTomados La lista a la cual se agregan los elementos que los usuarios
+ 	 * van seleccionando. Puede estar vacía pero no ser nula.
+ 	 * @param valoresEnum Es un arreglo de todos los valores en el Enum. No puede estar
+ 	 * vacío ni ser nulo.
+ 	 * @return Devuelve el T elegido por el usuario.
+ 	 * @throws Exception Si elementosTomados es nulo.
+ 	 * @throws Exception Si valoresEnum es nulo o está vacío.
+ 	 */
+ 	private static <T extends Enum<T>> T solicitarElementoDeEnum(String mensaje, Lista<T> elementosTomados, T[] valoresEnum) throws Exception {
+ 		if ((mensaje == null) || (mensaje.trim().isEmpty())) {
+ 			mensaje = "Elija un elemento de la lista que desea utilizar";
+ 		}
+ 		if (elementosTomados == null) {
+ 			throw new Exception("La lista de elementos tomados no puede ser nula.");
+ 		}
+ 		if ((valoresEnum.length == 0) || (valoresEnum == null)) {
+ 			throw new Exception("El Enum no debe ser nulo ni debe estar vacío.");
+ 		}
+        String elementosAImprimir = "";
+        Lista<T> elementosDisponibles = new Lista<>();
+        for (int i = 0; i < valoresEnum.length; i++) {
+            T valor = valoresEnum[i];
+            if (!elementosTomados.existe(valor)) {
+                elementosDisponibles.agregarElemento(valor);
+            }
         }
-        return tamañoTablero;
+        
+        elementosDisponibles.iniciarCursor();
+        while (elementosDisponibles.avanzarCursor()) {
+            elementosAImprimir += " " + elementosDisponibles.obtenerCursor().toString();
+        }
+        mensaje += elementosAImprimir;
+         
+        while (true) {
+            String opcionElegida = Teclado.pedirString(mensaje).toUpperCase();
+            try { //try porque es necesario al pasar de String a Enum, sino explota todo si pone algo que no es del Enum
+                T elementoSeleccionado = Enum.valueOf(valoresEnum[0].getDeclaringClass(), opcionElegida);
+                if (!elementosTomados.existe(elementoSeleccionado)) {
+                    elementosTomados.agregarElemento(elementoSeleccionado);
+                    return elementoSeleccionado;
+                } else {
+                    System.out.println("El " + elementoSeleccionado + " ya ha sido tomado, seleccione otro.");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("La opción ingresada no está dentro de las opciones, vuelva a intentarlo.");
+            }
+        }
     }
-
 }
