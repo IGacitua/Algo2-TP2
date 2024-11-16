@@ -52,4 +52,14 @@ public enum Fichas {
         }
         return tiposExistentes;
     }
+    
+    /**
+     * pre: -, post: -
+     *
+     * @return Devuelve el nombre de la ficha elegida.
+     */
+    @Override
+    public String toString() {
+        return name();
+    }
 }
