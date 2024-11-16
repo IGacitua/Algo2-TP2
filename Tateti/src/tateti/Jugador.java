@@ -217,5 +217,16 @@ public class Jugador {
     public Lista<Carta> getCartas() {
         return cartas;
     }
+    
+    /**
+     * TODO:
+     * @return
+     */
+    public boolean tieneFichas() {		
+		return this.cantidadDeFichas!=0;
+	}
+    
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+
+	
 }
