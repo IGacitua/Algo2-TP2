@@ -22,7 +22,7 @@ public class CartaRobarCartas extends Carta {
 		if (mazo == null) {
 			throw new Exception("No se especifico un mazo");
 		}
-		if (jugador.getCantidadCartas()+CANTIDAD_A_ROBAR > jugador.getCartasMaximas()) {
+		if (jugador.getCantidadDeCartas()+CANTIDAD_A_ROBAR > jugador.getCartasMaximas()) {
 			throw new Exception("No se puede utilizar la carta en este jugador porque excede su maximo");
 		}
 		jugador.robarCartas(CANTIDAD_A_ROBAR, mazo);
