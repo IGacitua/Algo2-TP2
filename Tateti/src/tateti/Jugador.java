@@ -27,17 +27,17 @@ public class Jugador {
      * pre: Todos los parámetros deben ser válidos, post: Inicializa Jugador y
      * establece los valores de los atributos.
      *
-     * @param nombre: No debe estar vacío ni ser nulo.
-     * @param fichasMaximas: Debe ser > 0.
-     * @param cartasMaximas: Debe ser >= 0
-     * @param fichaImagen: No debe estar vacío ni ser nulo.
-     * @param color: Debe estar dentro de las opciones de color del enum.
+     * @param nombre No debe estar vacío ni ser nulo.
+     * @param fichasMaximas Debe ser > 0.
+     * @param cartasMaximas Debe ser >= 0
+     * @param fichaImagen No debe estar vacío ni ser nulo.
+     * @param color Debe estar dentro de las opciones de color del enum.
      *
-     * @throws Exception: Si el nombre está vacío o es nulo.
-     * @throws Exception: Si la cantidad de fichas es menor o igual a cero.
-     * @throws Exception: Si las cartas máximas son menores a cero.
-     * @throws Exception: Si la ficha imagen es nula.
-     * @throws Exception: Si el color es nulo o su RGB es inválido.
+     * @throws Exception Si el nombre está vacío o es nulo.
+     * @throws Exception Si la cantidad de fichas es menor o igual a cero.
+     * @throws Exception Si las cartas máximas son menores a cero.
+     * @throws Exception Si la ficha imagen es nula.
+     * @throws Exception Si el color es nulo o su RGB es inválido.
      */
     public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color,Lista<Carta> cartas) throws Exception {
     	//TODO: cartas deberia ir al constructor? porque en realidad se puede inicializar en 0 (no necesita ir al constructor) y en el menu
@@ -74,20 +74,20 @@ public class Jugador {
      * pre: cantidad y mazo deben ser válidos, post: Roba múltiples cartas del
      * mazo y las guarda en el jugador.
      *
-     * @param cantidad: Si es <= 0 o ya alcanzó el máximo de cartas, no roba
-     * cartas. @param mazo: No debe ser nulo. @throws E xception: Si se cantidad
-     * es menor o igual a cero. @throws Exception: Si las cartas que ya se
-     * tienen más la cantidad superan la cantidad de cartas máxima establecida.
-     * @throws Exception: Si el maz
-     * o
-     * es nulo.
+     * @param cantidad Si es <= 0 o ya alcanzó el máximo de cartas, no roba
+     * cartas.
+     * @param mazo No debe ser nulo.
+     * @throws Exception Si se cantidad es menor o igual a cero.
+     * @throws Exception Si las cartas que ya se tienen más la cantidad superan
+     * la cantidad de cartas máxima establecida.
+     * @throws Exception Si el mazo es nulo.
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
         if (cantidad <= 0) {
             throw new Exception("Se debe robar por lo menos una carta");
         }
         if (this.cartas.getLongitud() + cantidad > this.cartasMaximas) {
-            throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadCartas());
+            throw new Exception("No se puede agregar esa cantidad de cartas ya que el máximo es " + this.getCartasMaximas() + " y ya se tienen " + this.getCantidadDeCartas());
         }
         if (mazo == null) {
             throw new Exception("No se indicó un mazo del que robar");
@@ -101,10 +101,10 @@ public class Jugador {
      * pre: mazo debe ser válido, post: Roba una carta del mazo y la guarda en
      * el jugador.
      *
-     * @param mazo: No debe ser nulo.
-     * @throws Exception: Si las cartas que ya se tienen más uno superan la
+     * @param mazo No debe ser nulo.
+     * @throws Exception Si las cartas que ya se tienen más uno superan la
      * cantidad de cartas máxima establecida.
-     * @throws Exception: Si el mazo es nulo.
+     * @throws Exception Si el mazo es nulo.
      */
     public void robarCarta(Mazo mazo) throws Exception {
         robarCartas(1, mazo);
@@ -113,7 +113,7 @@ public class Jugador {
     /** 
      * pre: La posicion de la que se descarta la carta debe ser válida,
      * post: Elimina la carta de dicha posicion.
-     * @throws Exception: Si las posicion que se intenta eliminar no existe.
+     * @throws Exception Si las posicion que se intenta eliminar no existe.
      */ 
     public void descartarCarta(int posicion) throws Exception{
         this.cartas.remover(posicion);
@@ -167,19 +167,10 @@ public class Jugador {
     /**
      * pre: -, post: -
      *
-     * @return Devuelve el máximo de cartas en mano.
+     * @return Devuelve el máximo de cartas que puede tener en mano el jugador.
      */
     public int getCartasMaximas() {
         return this.cartasMaximas;
-    }
-
-    /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de cartas en mano.
-     */
-    public int getCantidadCartas() {
-        return this.cartas.getLongitud();
     }
 
     /**
