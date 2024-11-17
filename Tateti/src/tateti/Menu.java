@@ -6,14 +6,6 @@ import cartas.CartaBloquearFicha;
 import java.util.Random;
 import utilidades.Lista;
 import utilidades.Teclado;
-package tateti;
-
-import cartas.Carta;
-import cartas.CartaAnularCasillero;
-import cartas.CartaBloquearFicha;
-import java.util.Random;
-import utilidades.Lista;
-import utilidades.Teclado;
 
 public class Menu {
 	//TODO: todo lo que es static es porque eclipse me jode diciedo que tiene que ir así para
