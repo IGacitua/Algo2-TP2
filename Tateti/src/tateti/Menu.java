@@ -82,13 +82,7 @@ public class Menu {
         imprimirJugadoresPorPantalla(); //TODO: borrar
     }
 
-    /**
-     * pre: -, post: -
-     * @return Devuelve la cantidadDeJugadores.
-     */
-    public int getCantidadDeJugadores() {
-        return this.listaJugadores.getLongitud();
-    }
+  
 
     //TODO: eliminar
     public void imprimirJugadoresPorPantalla() throws Exception {
@@ -185,6 +179,21 @@ public class Menu {
             }
         }
     }
+    
+  //MAZO
+    /**
+     * pre: -, post: inicializa un mazo con cartas dependiendo de la cantidad de jugadores
+     *
+     * @return Devuelve el mazo mezclado. La cantidad de cartas es de la forma
+     * cantidadDeJugadores*cantidadDeTiposDeCarta.
+     * @throws Exception Si la cantidadDeJugadores es 0.
+     */
+    public Mazo inicializarMazo() throws Exception {
+        Mazo mazo = new Mazo(getCantidadDeJugadores());
+        return mazo;
+    }
+    
+    //Acciones de Juego -------------------------------------------------------------------------------------------
 
     /**
      * pre: se debe pasar por parametros un jugador no nulo y un mazo no nulo
@@ -205,19 +214,6 @@ public class Menu {
         } catch (Exception e) {
             System.out.println("El jugador " + jugadorActual.getNombre() + " no pudo robar cartas, supera la máxima cantidad de cartas.");
         }
-    }
-
-    //MAZO
-    /**
-     * pre: -, post: inicializa un mazo con cartas dependiendo de la cantidad de jugadores
-     *
-     * @return Devuelve el mazo mezclado. La cantidad de cartas es de la forma
-     * cantidadDeJugadores*cantidadDeTiposDeCarta.
-     * @throws Exception Si la cantidadDeJugadores es 0.
-     */
-    public Mazo inicializarMazo() throws Exception {
-        Mazo mazo = new Mazo(getCantidadDeJugadores());
-        return mazo;
     }
 
     /**
@@ -389,8 +385,8 @@ public class Menu {
         return numeroAleatorio;
     }
 
-   
-
+  //GETTERS SIMPLES -----------------------------------------------------------------------------------------
+    
     /**
      * pre: -
      * post: devuelve la lista de jugadores
@@ -406,4 +402,13 @@ public class Menu {
     public boolean isVictoria() {
         return victoria;
     }
+    
+    /**
+     * pre: -, post: -
+     * @return Devuelve la cantidadDeJugadores.
+     */
+    public int getCantidadDeJugadores() {
+        return this.listaJugadores.getLongitud();
+    }
+    
 }
