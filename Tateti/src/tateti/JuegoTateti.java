@@ -1,7 +1,5 @@
 package tateti;
 
-import utilidades.Teclado;
-
 public class JuegoTateti {
 
     public static int aumentarContador(int contador, Menu menu) {
@@ -15,7 +13,6 @@ public class JuegoTateti {
     }
 
     public static void main(String[] args) throws Exception {
-        Teclado teclado = new Teclado(); // scanner
         Menu menu = new Menu(); // iniciamos menu
         Tablero tablero = menu.inicializarTablero();
         menu.inicializarJugadores(tablero.getTamaño());
