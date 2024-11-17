@@ -5,6 +5,7 @@ import utilidades.Herramientas;
 import utilidades.Lista;
 
 public class Jugador {
+
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     private static int idActual = 0; // Numero de ID interno, usado para verificar fichas
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
@@ -39,9 +40,9 @@ public class Jugador {
      * @throws Exception Si la ficha imagen es nula.
      * @throws Exception Si el color es nulo o su RGB es inválido.
      */
-    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color,Lista<Carta> cartas) throws Exception {
-    	//TODO: cartas deberia ir al constructor? porque en realidad se puede inicializar en 0 (no necesita ir al constructor) y en el menu
-    	//le cargamos a cada jugador x cantidad de cartas para empezar.
+    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color, Lista<Carta> cartas) throws Exception {
+        //TODO: cartas deberia ir al constructor? porque en realidad se puede inicializar en 0 (no necesita ir al constructor) y en el menu
+        //le cargamos a cada jugador x cantidad de cartas para empezar.
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
@@ -75,12 +76,12 @@ public class Jugador {
      * mazo y las guarda en el jugador.
      *
      * @param cantidad Si es <= 0 o ya alcanzó el máximo de cartas, no roba
-     * cartas.
-     * @param mazo No debe ser nulo.
-     * @throws Exception Si se cantidad es menor o igual a cero.
-     * @throws Exception Si las cartas que ya se tienen más la cantidad superan
-     * la cantidad de cartas máxima establecida.
-     * @throws Exception Si el mazo es nulo.
+     * cartas. @param mazo No debe ser nulo. @throws Exceptio n Si se cantidad
+     * es menor o igual a cero. @throws Exception Si las cartas que ya se tienen
+     * más la cantidad superan la cantidad de cartas máxima establecida. @throws
+     * Exception Si el maz
+     * o
+     * es nulo.
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
         if (cantidad <= 0) {
@@ -109,13 +110,14 @@ public class Jugador {
     public void robarCarta(Mazo mazo) throws Exception {
         robarCartas(1, mazo);
     }
-    
-    /** 
-     * pre: La posicion de la que se descarta la carta debe ser válida,
-     * post: Elimina la carta de dicha posicion.
+
+    /**
+     * pre: La posicion de la que se descarta la carta debe ser válida, post:
+     * Elimina la carta de dicha posicion.
+     *
      * @throws Exception Si las posicion que se intenta eliminar no existe.
-     */ 
-    public void descartarCarta(int posicion) throws Exception{
+     */
+    public void descartarCarta(int posicion) throws Exception {
         this.cartas.remover(posicion);
     }
 
@@ -125,12 +127,12 @@ public class Jugador {
     public void alternarPierdeTurno() {
         this.pierdeTurno = !this.pierdeTurno;
     }
-    
+
     //TODO: mejorar
     public void disminuirFichas() {
-    	if (this.tieneFichas()) {
-    		this.cantidadDeFichas -= 1;
-    	}
+        if (this.tieneFichas()) {
+            this.cantidadDeFichas -= 1;
+        }
     }
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
@@ -139,7 +141,7 @@ public class Jugador {
      *
      * @return Devuelve el nombre del jugador.
      */
-    public String getNombreJugador() {
+    public String getNombre() {
         return this.nombre;
     }
 
@@ -161,7 +163,7 @@ public class Jugador {
         return this.cantidadDeFichas;
     }
 
-        /**
+    /**
      * pre: -, post: -
      *
      * @return Devuelve la cantidad de cartas que posee el jugador.
@@ -169,8 +171,8 @@ public class Jugador {
     public int getCantidadDeCartas() {
         return this.cartas.getLongitud();
     }
-    
-        /**
+
+    /**
      * pre: -, post: -
      *
      * @return Devuelve la cantidad de cartas en mano.
@@ -226,22 +228,21 @@ public class Jugador {
 
     /**
      * pre-, post -
-     * 
+     *
      * @return Devuelve las cartas del jugador.
      */
     public Lista<Carta> getCartas() {
         return cartas;
     }
-    
+
     /**
      * TODO:
+     *
      * @return
      */
-    public boolean tieneFichas() {		
-		return this.cantidadDeFichas!=0;
-	}
-    
-    //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+    public boolean tieneFichas() {
+        return this.cantidadDeFichas != 0;
+    }
 
-	
+    //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
 }
