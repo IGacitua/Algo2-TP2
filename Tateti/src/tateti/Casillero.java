@@ -13,12 +13,13 @@ public class Casillero {
     private Casillero[][][] entorno; // Un array con punteros a los casilleros inmediatamente adyacentes. Nulls son fuera de los limites del tablero
 
     private Jugador jugador = null; // El jugador dueño de la ficha en el casillero. Null si está vacío
-    private boolean bloqueado = false; // Con ficha -> No se puede sacar. Sin ficha -> No se puede colocar
+    private boolean bloqueado = false; // Con ficha -> No se puede sacar. Sin ficha -> No se puede colocar.
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe la posición del casillero en los tres ejes, post: Crea el
-     * casillero.
+     * pre: Recibe la posición del casillero en los tres ejes
+     *
+     * post: Crea el casillero.
      *
      * @param x: No puede ser menor a 0.
      * @param y: No puede ser menor a 0.
@@ -26,7 +27,8 @@ public class Casillero {
      * @throws Exception: Excepción cuando alguno de los parámetros es >= 0
      */
     public Casillero(int x, int y, int z) throws Exception {
-        if ((!Herramientas.validarNumeroPositivo(x)) || (!Herramientas.validarNumeroPositivo(y))
+        if ((!Herramientas.validarNumeroPositivo(x))
+                || (!Herramientas.validarNumeroPositivo(y))
                 || (!Herramientas.validarNumeroPositivo(z))) {
             throw new Exception("La posición del casillero debe ser válida. (Dada " + x + " " + y + " " + z + ")");
         }
@@ -37,16 +39,9 @@ public class Casillero {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: Alterna el bool de bloqueo para bloquear/desbloquear el
-     * casillero.
-     */
-    public void alternarBloqueo() {
-        this.bloqueado = !this.bloqueado;
-    }
-
-    /**
-     * pre: Recibe el tablero en el que se encuentra el casillero, post: Crea el
-     * array entorno del casillero.
+     * pre: Recibe el tablero en el que se encuentra el casillero
+     *
+     * post: Crea el array entorno del casillero.
      *
      * @param tablero: Debe no ser nulo. Debe contener al casillero.
      * @throws Exception: Si el tablero es nulo, o no contiene al casillero.
@@ -77,9 +72,11 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: Imprime el entorno del casillero por consola. Utilizado
-     * para debugging.
+     * post: Imprime el entorno del casillero por consola. Utilizado para
+     * debugging.
+     *
      */
+    // TODO delete
     public void imprimirEntorno() {
         for (int z = -1; z < 2; z++) {
             for (int y = -1; y < 2; y++) {
@@ -104,12 +101,14 @@ public class Casillero {
     }
 
     /**
-     * pre: Recibe un casillero, post: Devuelve un boolean correspondiente a si
-     * es adyacente a este casillero.
+     * pre: Recibe un casillero
+     *
+     * post: Devuelve un boolean correspondiente a si es adyacente a este
+     * casillero.
      *
      * @param casillero: No debe ser nulo.
-     * @return Devuelve un boolean correspondiente a si el casillero con el que
-     * se está trabajando es adyacente al propuesto.
+     * @return Devuelve un boolean correspondiente a si casillero es adyacente a
+     * this
      * @throws Exception: Si el casillero es nulo.
      */
     public boolean esAdyacente(Casillero casillero) throws Exception {
@@ -132,8 +131,6 @@ public class Casillero {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el jugador que está en ese casillero. Si no hay jugador,
      * devuelve null.
      */
@@ -142,10 +139,8 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve 0 si no hay un jugador en el casillero, o devuelve la
-     * identificación del mismo.
+     * @return Devuelve 0 si no hay un jugador en el casillero, o su
+     * identificación si hay
      */
     public int getIdentificacionDeJugador() {
         if (jugador == null) {
@@ -156,8 +151,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición x del casillero.
      */
     public int getPosicionX() {
@@ -165,8 +158,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición y del casillero.
      */
     public int getPosicionY() {
@@ -174,8 +165,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la posición z del casillero.
      */
     public int getPosicionZ() {
@@ -183,22 +172,6 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve las coordenadas completas del casillero como un arreglo
-     * ordenado X-Y-Z.
-     */
-    public int[] getCoordenadas() {
-        int[] coordenadas = new int[3];
-        coordenadas[0] = this.posicionX;
-        coordenadas[1] = this.posicionY;
-        coordenadas[2] = this.posicionZ;
-        return coordenadas;
-    }
-
-    /**
-     * pre: -, post: -
-     *
      * @return Devuelve un booleano correspondiente a si el casillero está
      * bloqueado o no.
      */
@@ -207,19 +180,15 @@ public class Casillero {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve un booleano correspondiente a si el casillero está vacío
-     * o no.
+     * @return Devuelve un booleano correspondiente a si el casillero tiene un
+     * jugador o no.
      */
     public boolean estaVacio() {
         return this.jugador == null;
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve el entorno del casillero.
+     * @return Devuelve el array entorno del casillero.
      */
     public Casillero[][][] getEntorno() {
         return entorno;
@@ -227,9 +196,10 @@ public class Casillero {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe un jugador o null, post: Si el jugador no es null, se lo
-     * establece como el jugador del casillero. Si es null se elimina el jugador
-     * de la casilla.
+     * pre: Recibe un jugador o null
+     *
+     * post: Si el jugador no es null, se lo establece como el jugador del
+     * casillero. Si es null se elimina el jugador de la casilla.
      *
      * @param jugador: Puede ser nulo.
      * @throws Exception: Si se intenta cambiar el jugador sin antes eliminarlo,
@@ -243,6 +213,13 @@ public class Casillero {
             throw new Exception("El casillero ya está vacío, no se puede quitar una ficha.");
         }
         this.jugador = jugador;
+    }
+
+    /**
+     * post: Alterna el bool de bloqueo para bloquear/desbloquear el casillero.
+     */
+    public void alternarBloqueo() {
+        this.bloqueado = !this.bloqueado;
     }
 
 }

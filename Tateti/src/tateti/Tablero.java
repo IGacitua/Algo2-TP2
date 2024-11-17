@@ -6,7 +6,7 @@ import utilidades.Lista;
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // Porque ruta relativa depende de donde ejecutes el programa
+    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // TODO: Eliminar, deberia ser innecesaria
     private final int TAMAÑO_IMAGENES = 8; // Dimensiones en pixeles de las imagenes. Deben ser cuadradas.
     private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R | G | B
 
@@ -14,6 +14,7 @@ public class Tablero {
     private Lista<Lista<Lista<Casillero>>> casilleros = null; // Matriz tridimensional con punteros a todos los casilleros
     private int tamaño;
     private int condicionVictoria; // Cuantas fichas en hilera debe haber para ganar
+    private Tablero tableroAuxiliar = null; // Utilizado para guardar una copia del tablero del turno previo.
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
@@ -115,7 +116,7 @@ public class Tablero {
         Imagen imagenFinal = null;
         for (int z = 0; z < this.tamaño; z++) {
             // For loop que crea cada capa
-            Imagen imagenAuxiliar = crearCapa(z);
+            Imagen imagenAuxiliar = crearImagenCapa(z);
             if (imagenFinal == null) {
                 // Primer capa
                 imagenFinal = imagenAuxiliar;
@@ -143,13 +144,13 @@ public class Tablero {
      * @param z: Debe estar contenido en el Tablero.
      * @return Devuelve la imagen creada.
      */
-    private Imagen crearCapa(int z) {
+    private Imagen crearImagenCapa(int z) {
         try {
             Imagen imagenCapa = null;
             for (int x = 0; x <= this.tamaño; x++) {
                 // For loop de cada columna
                 // <= porque hay una columna extra
-                Imagen imagenAuxiliar = crearColumna(x, z);
+                Imagen imagenAuxiliar = crearImagenColumna(x, z);
                 if (imagenCapa == null) {
                     // Si es la primer columna
                     imagenCapa = imagenAuxiliar;
@@ -194,11 +195,11 @@ public class Tablero {
      * @param z: Debe estar contenido en el Tablero.
      * @return Devuelve la imagen creada.
      */
-    private Imagen crearColumna(int x, int z) {
+    private Imagen crearImagenColumna(int x, int z) {
         Imagen imagenColumna = null;
         for (int y = 0; y <= this.tamaño; y++) {
             // <= porque hay una fila extra
-            Imagen imagenAuxiliar = crearCasillero(x, y, z);
+            Imagen imagenAuxiliar = crearImagenCasillero(x, y, z);
             if (imagenColumna == null) {
                 imagenColumna = imagenAuxiliar;
             } else {
@@ -224,10 +225,9 @@ public class Tablero {
      * @param z: Debe estar contenido en el Tablero.
      * @return Devuelve la imagen creada.
      */
-    private Imagen crearCasillero(int x, int y, int z) {
+    private Imagen crearImagenCasillero(int x, int y, int z) {
         // El constructor de Imagen puede dar excepciones. 
         // Las excepciones no pueden suceder nunca en esta función.
-        // TODO Constructor en Imagen en base a casillero para simplificar
         try {
             Imagen imagenCasillero;
             if (x == 0 && y == 0) {
@@ -247,14 +247,14 @@ public class Tablero {
                 imagenCasillero = numeroCompleto.añadirImagenAbajo(new Imagen(TAMAÑO_IMAGENES * 2, TAMAÑO_IMAGENES));
             } else {
                 // Caso casillero normal. Ficha del usuario.
-                Jugador jugadorEnCasillero = this.getCasillero(x - 1, y - 1, z).getJugador(); // X e Y son -1 porque hay una fila y columna extra
+                Casillero casilleroActual = this.getCasillero(x - 1, y - 1, z);
+                Jugador jugadorEnCasillero = casilleroActual.getJugador(); // X e Y son -1 porque hay una fila y columna extra
                 if (jugadorEnCasillero == null) {
                     // Caso: Casillero no tiene usuario (Casillero vacío)
                     imagenCasillero = new Imagen(this.TAMAÑO_IMAGENES * 2, this.TAMAÑO_IMAGENES * 2);
                 } else {
-                    Fichas fichaJugador = jugadorEnCasillero.getFichaImagen();
-                    imagenCasillero = new Imagen(RUTA_IMAGENES + "shape_" + fichaJugador.ordinal() + ".bmp");
-                    imagenCasillero.recolorizar(jugadorEnCasillero.getColor().getRGB());
+                    // Caso: Casillero con usuario (Casillero con ficha)
+                    imagenCasillero = new Imagen(casilleroActual);
                 }
             }
             imagenCasillero.bordear(1, COLOR_BORDES); // Darle borde a la imagen
@@ -530,5 +530,28 @@ public class Tablero {
         return tamaño;
     }
 
+    /**
+     *
+     * @return El tablero auxiliar guardado
+     */
+    public Tablero getTableroAuxiliar() {
+        return this.tableroAuxiliar;
+    }
+
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+    /**
+     * @param tableroAuxiliar: No puede ser null. Debe tener el mismo tamaño
+     * @throws Exception: Si el tablero dado es nulo, o tiene un tamaño distinto
+     * a this.
+     */
+    public void setTableroAuxiliar(Tablero tableroAuxiliar) throws Exception {
+        if (tableroAuxiliar == null) {
+            throw new Exception("El tablero auxiliar dado es Nulo");
+        }
+        if (tableroAuxiliar.getTamaño() != this.getTamaño()) {
+            throw new Exception("El tablero auxiliar dado tiene un tamaño distinto al Tablero.");
+        }
+        this.tableroAuxiliar = tableroAuxiliar;
+    }
+
 }

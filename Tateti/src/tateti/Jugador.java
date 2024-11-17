@@ -79,9 +79,7 @@ public class Jugador {
      * cartas. @param mazo No debe ser nulo. @throws Exceptio n Si se cantidad
      * es menor o igual a cero. @throws Exception Si las cartas que ya se tienen
      * más la cantidad superan la cantidad de cartas máxima establecida. @throws
-     * Exception Si el maz
-     * o
-     * es nulo.
+     * Exception Si el maz o es nulo.
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
         if (cantidad <= 0) {
@@ -130,8 +128,7 @@ public class Jugador {
 
     //TODO: mejorar
     /**
-     * pre: -
-     * post: reduce en 1 la cantidad de fichas del jugador
+     * pre: - post: reduce en 1 la cantidad de fichas del jugador
      */
     public void disminuirFichas() {
         if (this.tieneFichas()) {
@@ -173,15 +170,6 @@ public class Jugador {
      * @return Devuelve la cantidad de cartas que posee el jugador.
      */
     public int getCantidadDeCartas() {
-        return this.cartas.getLongitud();
-    }
-
-    /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de cartas en mano.
-     */
-    public int getCantidadCartas() {
         return this.cartas.getLongitud();
     }
 
