@@ -3,6 +3,10 @@ package tateti;
 import cartas.Carta;
 import cartas.CartaAnularCasillero;
 import cartas.CartaBloquearFicha;
+import cartas.CartaPerderTurno;
+import cartas.CartaRobarCartas;
+import java.lang.classfile.instruction.ThrowInstruction;
+
 import java.util.Random;
 import utilidades.Lista;
 import utilidades.Teclado;
@@ -82,7 +86,7 @@ public class Menu {
 		imprimirJugadoresPorPantalla(); //TODO: borrar. Si molesta mucho ahora al programar, no pasa nada si eliminan esta línea.
 										//solo NO eliminen la funcion de imprimir, gracias:)
 	}
-	
+
     /**
      * pre: -, post: -
      * @return Devuelve la cantidadDeJugadores.
@@ -144,6 +148,22 @@ public class Menu {
         } catch (Exception e) {
         	System.out.println("El jugador " + jugadorActual.getNombreJugador() + " no pudo robar cartas, supera la máxima cantidad de cartas.");
         }   
+    }
+	// que era lo q hacia lo de arriba
+
+	    /**
+     * pre: jugadores y mazo no deben ser nulos , post: Todos los jugadores roban su cantidad de cartas al iniciar el turno.
+     * @throws Exception Si fichasTomadas es nula o el Enum Fichas está vacío.
+     */
+	private static void jugadoresRobanCartas(Lista<Jugador> jugadores,Mazo mazo) throws Exception{ // cambiar a privado
+        jugadores.iniciarCursor();
+        while (jugadores.avanzarCursor()){
+            Jugador jugadorActual = jugadores.obtenerCursor();
+            int numeroAleatorio = Menu.tirarDado();
+            System.out.println(jugadorActual.getNombreJugador() + " tiro el dado, el valor del dado es de " + numeroAleatorio + " .");
+            jugadorActual.robarCartas(numeroAleatorio,mazo); // tirar dado y robar cartas
+            System.out.println(jugadorActual.getNombreJugador() + " roba " + numeroAleatorio + " cartas.");
+        }
     }
    
     //MAZO
@@ -308,6 +328,17 @@ public class Menu {
         }
         return alguienGano;
     }
+
+	private void obtenerCoordenadas(Lista<Integer> coordenadas,Tablero tablero) throws Exception {
+		int x=Teclado.pedirNumeroEntreIntervalo("Ingrese la coordenada X: ",0,tablero.getTamaño()-1);
+		coordenadas.agregarElemento(1,x);
+		System.out.println("Ingrese la coordenada Y: ");
+		int y=Teclado.pedirNumeroEntreIntervalo("Ingrese la coordenada Y: ",0,tablero.getTamaño()-1);
+		coordenadas.agregarElemento(2,y);
+		System.out.println("Ingrese la coordenada Z: ");
+		int z=Teclado.pedirNumeroEntreIntervalo("Ingrese la coordenada Z: ",0,tablero.getTamaño()-1);
+		coordenadas.agregarElemento(3,z);
+	 }
      
     /**
      * TODO: OJOOOOOO
@@ -315,37 +346,80 @@ public class Menu {
      * @param tablero
      * @throws Exception
      */
-    private static void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
-    	//Verificar
-    	/*
-    	 * Esto podria ser un metodo de jugador, jugadorActual.mostrarCartas()
-    	 */
-    	mostrarCartas(jugadorActual);
-        if (!jugadorActual.getCartas().esVacia()) {
-            String mensaje = "Ingrese el numero de la carta que desea utilizar";
-            int nroCarta = Teclado.pedirNumeroEntreIntervalo(mensaje, 1,jugadorActual.getCantidadDeCartas());
-            /*
-             * FIXME: yo creo que el funcionamiento de las cartas deberia estar en cada carta y no en menu
-             */
-            /*Lista<Integer> coordenadas = new Lista<>();
-            obtenerCoordenadas(coordenadas,tablero);
-            try { //si la carta no se puede usar o genera error al usarse
-            	//FIXME: cada carta tiene su funcionamiento en usar(), el try cath deberia ser usado para en caso de que la 				carta no pueda usarse otro tema, le deje al usuario usar otra carta, ejemplo: bloquear un casillero 				bloqueado
-                Carta carta = jugadorActual.getCartas().obtenerDato(nroCarta);
-                if (carta instanceof CartaAnularCasillero) {
-                    System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Anular Casillero.");
-                    ((CartaAnularCasillero) carta).usar(obtenerCasillero(coordenadas, tablero));
-                } else if (carta instanceof CartaBloquearFicha) {
-                    System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta BLoquear Ficha.");
-                    ((CartaBloquearFicha) carta).usar(obtenerCasillero(coordenadas, tablero));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-        }
 
+	private static Casillero obtenerCasillero(Tablero tablero) throws Exception{
+		int xOrigen = Teclado.pedirNumeroEntreIntervalo("Indique las coordenadas en X:", 0, tablero.getTamaño()-1);
+		int yOrigen = Teclado.pedirNumeroEntreIntervalo("Indique las cordenadas en Y:", 0, tablero.getTamaño()-1);
+		int zOrigen = Teclado.pedirNumeroEntreIntervalo("Indique las coordenadas en Z:", 0, tablero.getTamaño()-1);
+		Casillero casillero = tablero.getCasillero(xOrigen, yOrigen, zOrigen);
+		return casillero;
+	}
+
+	
+    private static void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
+		Menu.mostrarCartas(jugadorActual);
+        System.out.println("");
+        int nroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ",1,jugadorActual.getCantidadCartas());
+        Lista<Integer> coordenadas = new Lista<>();
+        obtenerCoordenadas(coordenadas,tablero);
+        try {
+        	//FIXME: cada carta tiene su funcionamiento en usar(), el try cath deberia ser usado para en caso de que la 				carta no pueda usarse otro tema, le deje al usuario usar otra carta, ejemplo: bloquear un casillero 				bloqueado
+            Carta carta = jugadorActual.getCartas().obtenerDato(nroCarta);
+            if (carta instanceof CartaAnularCasillero) {
+                System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Anular Casillero."); //diferencia entre anular casillero y bloquear casillero??
+                ((CartaAnularCasillero) carta).usar(obtenerCasillero(tablero));
+            } else if (carta instanceof CartaBloquearFicha) {
+                System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Bloquear Ficha."); // para bloquear ficha deberia verificar que no este bloqueado nada mas
+                ((CartaBloquearFicha) carta).usar(obtenerCasillero( tablero)); 
+            } else if(carta instanceof CartaPerderTurno){
+                System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Perder Turno.");
+				jugarCartaPerderTurno(Menu.obtenerStringjugadores(),jugadorActual);
+                //((CartaPerderTurno) carta).usar(jugador);
+                
+            } else if (carta instanceof CartaRobarCartas){
+                // tengo que hacer que elija un jugador
+                ((CartaRobarCartas) carta).usar(jugadorActual, mazo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //jugadorActual.getCartas().use(obtenerCasillero(coordenadas, tablero)); no funciono
+        System.out.println(" utiliza la carta BLoquear Ficha.");
     }
+
+	private static void jugarCartaPerderTurno(Lista<String> nombres,Jugador jugadorActual) throws Exception {
+			if (jugadorActual == null) {
+				throw new Exception("El jugador no debe ser nulo.");
+			}
+			if (nombres == null) {
+				throw new Exception("El tablero no debe ser nulo.");
+			}
+			boolean jugadorPierdeTurno = false;
+			boolean jugadorValido = false;
+			System.out.println("Ingrese el jugador quien perdera el turno:");
+			while(!jugadorValido){
+				String nombreIngresado=Teclado.pedirNombre();
+				if (nombres.existe(nombreIngresado) ) {
+					jugadorValido = true;
+					//UTILIZAR CARTA
+					System.out.println(jugadorActual.getNombreJugador()+ " utilizo la carta Perder Turno en "); // agregar jugador en el que uso la carta
+				} else if(nombreIngresado.equals(jugadorActual.getNombreJugador())) {
+					System.out.println("No puede elegirse a si mismo para perder turno.");
+				} else {
+					System.out.println("El nombre no coincide con ningún jugador.");}
+			}
+
+		}
+	    // post: obtenemos un string de jugadores
+		private static Lista<String> obtenerStringjugadores(){
+			Lista<String> nombres = new Lista<>();
+			Menu.listaJugadores.iniciarCursor();
+			while (Menu.listaJugadores.avanzarCursor()){
+				Jugador jugadorActual = Menu.listaJugadores.obtenerCursor();
+				nombres.agregarElemento(jugadorActual.getNombreJugador());
+			}
+			return nombres;
+		}
 
     /**    
      * pre: jugadorActual debe ser válido,
@@ -360,16 +434,11 @@ public class Menu {
     	if (jugadorActual.getCantidadDeCartas()==0) {
     		System.out.println("El jugador no posee cartas en la mano");
     	}else {
-    		Lista<Carta> cartas=jugadorActual.getCartas();
-    		cartas.iniciarCursor();
-    		int i=1;
-    		while(!cartas.avanzarCursor()) {
-    			//TODO: les falta un to string a las Cartas!!!!!!!!!!!!
-    	         System.out.println("En la posicion " + i + " se tiene la carta " );
-    	         i++;
-    	        }
-    		}
+			for (int i=1; i < jugadorActual.getCantidadCartas();i++){ 
+				System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
+			}
     	}
+	}
 
     //tirar dado (Deberia estar en Utilidades)
     /**
