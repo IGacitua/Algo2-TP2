@@ -4,18 +4,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import utilidades.Herramientas;
+// TODO ordenar doc
 
 public class Imagen {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
+    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // TODO: Eliminar, deberia ser innecesaria
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
     BufferedImage imagen;
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Recibe una ruta al archivo con la imagen .bmp,
-     * post: Crea la Imagen.
-     * 
+     * pre: Recibe una ruta al archivo con la imagen .bmp, post: Crea la Imagen.
+     *
      * @param archivo: Debe ser una ruta a un archivo .bmp.
      * @throws Exception: Si la ruta dada o el archivo en ésta no son válidos.
      */
@@ -27,9 +28,8 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una BufferedImage,
-     * post: Crea la Imagen.
-     * 
+     * pre: Recibe una BufferedImage, post: Crea la Imagen.
+     *
      * @param imagen: No debe ser nulo.
      * @throws Exception: Si la BufferedImage recibida es nula.
      */
@@ -41,9 +41,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe un ancho y un alto,
-     * post: Crea una imagen en blanco de las dimensiones dadas.
-     * 
+     * pre: Recibe un ancho y un alto, post: Crea una imagen en blanco de las
+     * dimensiones dadas.
+     *
      * @param ancho: Debe ser > 0.
      * @param alto: Debe ser > 0.
      * @throws Exception: Cuando alguno de los parametros no es mayor a 0.
@@ -64,11 +64,32 @@ public class Imagen {
         }
     }
 
+    /**
+     * pre: Recibe un Casillero ue posee una ficha.
+     *
+     * post: Crea una imagen con el contenido del casillero.
+     *
+     * @param casillero: No debe ser nulo. Debe tener un jugador.
+     * @throws Exception
+     */
+    public Imagen(Casillero casillero) throws Exception {
+        if (casillero == null) {
+            throw new Exception("El casillero no puede ser nulo.");
+        }
+        Jugador jugador = casillero.getJugador();
+        if (jugador == null) {
+            throw new Exception("El casillero debe tener un jugador.");
+        }
+        Fichas fichaJugador = jugador.getFichaImagen();
+        this.imagen = ImageIO.read(new File(RUTA_IMAGENES + "shape_" + fichaJugador.ordinal() + ".bmp"));
+        this.recolorizar(jugador.getColor().getRGB());
+    }
+
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     /**
-     * pre: Recibe un nombre de archivo (Sin extensión),
-     * post: Convierte la imagen a un .bmp en destino.
-     * 
+     * pre: Recibe un nombre de archivo (Sin extensión), post: Convierte la
+     * imagen a un .bmp en destino.
+     *
      * @param destino: No debe ser nulo.
      * @throws Exception: Cuando el nombre de archivo dado no es válido.
      */
@@ -81,9 +102,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe color separado en R G B,
-     * post: Convierte todos los pixeles no-vacios al valor RGB dado.
-     * 
+     * pre: Recibe color separado en R G B, post: Convierte todos los pixeles
+     * no-vacios al valor RGB dado.
+     *
      * @param r: Debe estar entre 0 y 255, inclusive.
      * @param g: Debe estar entre 0 y 255, inclusive.
      * @param b: Debe estar entre 0 y 255, inclusive.
@@ -108,13 +129,13 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe un color RGB,
-     * post: Convierte todos los pixeles no-vacios al valor RGB dado.
-     * 
+     * pre: Recibe un color RGB, post: Convierte todos los pixeles no-vacios al
+     * valor RGB dado.
+     *
      * @param RGB: Debe estar entre 0x0 y 0xFFFFFF, inclusive.
      * @throws Exception: Si el valor RGB dado es inválido.
      */
-    public void recolorizar(int rgb) throws Exception {
+    public final void recolorizar(int rgb) throws Exception {
         if ((!Herramientas.validarNumeroPositivo(rgb)) || (rgb > 16777215)) {
             throw new Exception("RGB debe estar entre 0 y 16.777.214 inclusive. (Dado " + rgb + ")");
         }
@@ -131,6 +152,7 @@ public class Imagen {
 
     /**
      * pre: -, post: Convierte la imagen a una matriz RGB.
+     *
      * @return Devuelve una matriz de pixeles correspondiente a la imagen.
      */
     private int[][] obtenerMatriz() {
@@ -144,9 +166,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una matriz de pixeles,
-     * post: Devuelve una BufferedImage en base a la matriz dada.
-     * 
+     * pre: Recibe una matriz de pixeles, post: Devuelve una BufferedImage en
+     * base a la matriz dada.
+     *
      * @param matriz: Debe ser una matriz de pixeles válida.
      * @return Devuelve la imagen del tipo BufferedImage.
      * @throws Exception: Si la matriz dada no es válida.
@@ -166,10 +188,10 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una imagen de la misma altura a esta,
-     * post: Añade la imagen adicional a la derecha de esta imagen. No modifica
-     * ninguna de las imagenes.
-     * 
+     * pre: Recibe una imagen de la misma altura a esta, post: Añade la imagen
+     * adicional a la derecha de esta imagen. No modifica ninguna de las
+     * imagenes.
+     *
      * @param adicional: Debe existir, y ser de la misma altura que esta imagen.
      * @return Devuelve una imagen compuesta. Con la imagen adicional a la
      * derecha de esta, sin separación.
@@ -204,9 +226,8 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una imagen del mismo ancho a esta,
-     * post: Añade la imagen adicional abajo de esta imagen. No modifica ninguna
-     * de las imagenes.
+     * pre: Recibe una imagen del mismo ancho a esta, post: Añade la imagen
+     * adicional abajo de esta imagen. No modifica ninguna de las imagenes.
      *
      * @param adicional: Debe existir, y ser del mismo ancho que esta imagen.
      * @return Devuelve una imagen compuesta. Con la imagen adicional abajo de
@@ -241,8 +262,8 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color separado en R G B,
-     * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
+     * pre: Recibe el grosor de los bordes, y el color separado en R G B, post:
+     * Modifica la imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
      * @param r: Debe estar entre 0 y 255, inclusive.
@@ -280,8 +301,8 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color RGB,
-     * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
+     * pre: Recibe el grosor de los bordes, y el color RGB, post: Modifica la
+     * imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
      * @param RGB: Debe estar entre 0x0 y 0xFFFFFF, inclusive.
@@ -318,6 +339,7 @@ public class Imagen {
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el ancho de la imagen.
      */
     public int getAncho() {
@@ -326,6 +348,7 @@ public class Imagen {
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el alto de la imagen.
      */
     public int getAlto() {
@@ -334,8 +357,7 @@ public class Imagen {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
-     * pre: Recibe una BufferedImage,
-     * post: Reemplaza la imagen por la dada.
+     * pre: Recibe una BufferedImage, post: Reemplaza la imagen por la dada.
      *
      * @param imagen: No debe ser nula.
      * @throws Exception: Si la imagen dada es nula.
