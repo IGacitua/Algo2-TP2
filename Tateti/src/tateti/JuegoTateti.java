@@ -38,10 +38,12 @@ public class JuegoTateti {
             } else {
                 // TURNO
                 menu.jugarFicha(jugadorActual, tablero);
+                tablero.imprimir();
                 if (menu.isVictoria()) {
                     victoria = true;
                 }
-                // TODO: Cartas
+                //menu.jugarCarta(jugadorActual, tablero,mazo);
+              
                 contadorDeTurno = aumentarContador(contadorDeTurno, menu);
             }
         }
