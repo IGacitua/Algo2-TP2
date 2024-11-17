@@ -381,36 +381,36 @@ public class Menu {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //jugadorActual.getCartas().use(obtenerCasillero(coordenadas, tablero)); no funciono
-        System.out.println(" utiliza la carta BLoquear Ficha.");
     }
 
 	/**    
      * pre: jugadorActual debe ser válido,
      * post: Muestra las cartas que tiene el jugador actual.
      * @param jugadorActual jugadorActual No debe ser nulo.
+	 * @param carta carta No debe ser nulo.
      * @throws Exception Si el jugadorActual es nulo.
+	 * @throws Exception Si la carta es nula.
      */
-	private static void jugarCartaPerderTurno(Lista<String> nombres,Jugador jugadorActual, Carta carta) throws Exception {
+	private static void jugarCartaPerderTurno(Jugador jugadorActual, Carta carta) throws Exception {
 			if (jugadorActual == null) {
 				throw new Exception("El jugador no debe ser nulo.");
 			}
-			if (nombres == null) {
-				throw new Exception("El tablero no debe ser nulo.");
+			if (carta == null) {
+				throw new Exception("La carta no debe ser nula.");
 			}
 			boolean jugadorPierdeTurno = false;
 			boolean jugadorValido = false;
 			System.out.println("Ingrese el jugador quien perdera el turno:");
-			while(!jugadorValido){
+			while(!jugadorPierdeTurno){
 				String nombreIngresado=Teclado.pedirNombre();
 				Menu.listaJugadores.obtenerCursor();
 				while (Menu.listaJugadores.avanzarCursor() && !jugadorValido){
 					Jugador jugador = Menu.listaJugadores.obtenerCursor();
 					if (jugador.getNombreJugador().equals(nombreIngresado) && !jugador.getNombreJugador().equals(jugadorActual.getNombreJugador()))  {
 						jugadorValido = true;
-						(CartaPerderTurno) carta).usar(jugador);
-						//UTILIZAR CARTA
-						System.out.println(jugadorActual.getNombreJugador()+ " utilizo la carta Perder Turno en "); // agregar jugador en el que uso la carta, verificar si el jguador ya no perdio turno
+						((CartaPerderTurno) carta).usar(jugador);
+						jugadorPierdeTurno = true;
+						System.out.println(jugadorActual.getNombreJugador()+ " utilizo la carta Perder Turno en " + jugador.getNombreJugador() +".");
 					} else if(nombreIngresado.equals(jugadorActual.getNombreJugador())) {
 					System.out.println("No puede elegirse a si mismo para perder turno.");
 					} else {
