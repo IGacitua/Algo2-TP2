@@ -125,6 +125,13 @@ public class Jugador {
     public void alternarPierdeTurno() {
         this.pierdeTurno = !this.pierdeTurno;
     }
+    
+    //TODO: mejorar
+    public void disminuirFichas() {
+    	if (this.tieneFichas()) {
+    		this.cantidadDeFichas -= 1;
+    	}
+    }
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
