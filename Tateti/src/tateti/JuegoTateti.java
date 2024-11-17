@@ -31,19 +31,19 @@ public class JuegoTateti {
             }
             System.out.printf("Turno de jugador %d.\n", contadorDeTurno);
             Jugador jugadorActual = menu.getListaJugadores().obtenerDato(contadorDeTurno);
-            menu.jugadorRobaCartas(jugadorActual, mazo); //TODO: Ver de mover a metodo aca
             if (jugadorActual.isPierdeTurno()) {
                 jugadorActual.alternarPierdeTurno();
                 contadorDeTurno = aumentarContador(contadorDeTurno, menu);
             } else {
                 // TURNO
+                menu.jugadorRobaCartas(jugadorActual, mazo); //TODO: Ver de mover a metodo aca
                 menu.jugarFicha(jugadorActual, tablero);
                 tablero.imprimir();
                 if (menu.isVictoria()) {
                     victoria = true;
                 }
                 //menu.jugarCarta(jugadorActual, tablero,mazo);
-              
+
                 contadorDeTurno = aumentarContador(contadorDeTurno, menu);
             }
         }
