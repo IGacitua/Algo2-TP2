@@ -29,7 +29,6 @@ public class JuegoTateti {
                 contadorDeRonda++;
                 tablero.exportar(("Tablero Turno ") + contadorDeRonda);
             }
-            System.out.printf("Turno de jugador %d.\n", contadorDeTurno);
             Jugador jugadorActual = menu.getListaJugadores().obtenerDato(contadorDeTurno);
             if (jugadorActual.isPierdeTurno()) {
                 jugadorActual.alternarPierdeTurno();
