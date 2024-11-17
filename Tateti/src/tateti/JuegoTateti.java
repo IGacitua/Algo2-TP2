@@ -1,32 +1,16 @@
 package tateti;
-
 import utilidades.Teclado;
 
 public class JuegoTateti{
     public static void main(String[] args) throws Exception{
     	Teclado teclado =new Teclado(); // scanner
     	Menu menu = new Menu(); // iniciamos menu
-    	Tablero tablero = Menu.inicializarTablero();
-    	Menu.inicializarJugadores(tablero.getTamaño());
-    	Mazo mazo = Menu.inicializarMazo();
-    	String nombreGanador = Menu.gestionarTurnos(tablero, mazo);
+    	Tablero tablero = menu.inicializarTablero();
+    	menu.inicializarJugadores(tablero.getTamaño());
+    	Mazo mazo = menu.inicializarMazo();
+    	String nombreGanador = menu.gestionarTurnos(tablero, mazo);
     	System.out.println("El ganador es " + nombreGanador);
-    	//Menu.repartirCartas(mazo);
-    	//Menu.imprimirJugadoresPorPantalla();
-    	
-    	
-    	
-    	//Mazo mazo = new Mazo(menu.consultarCantidadCartas()); 
-    	
-    	//obtenemos los jugadores de 2 a 8 (como maximo posible) cada uno con un simbolo y color
-    	//menu.cargarJugadores(); 
-    	
-    	/*   	
-    	menu.gestionarTurnos(jugadores,tablero,mazo); // iniciamos la gestion de turnos
-       */ 
-    	// falta modularizar mover fichas y colocar fichas en gestionar turnos, y recorrer los jugadores 
-    	// para repartir las cartas antes de cada turno.
-		
+    	//menu.repartirCartas(mazo);
         teclado.cerrarScanner();
     }
 }
