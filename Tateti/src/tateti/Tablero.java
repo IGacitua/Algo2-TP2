@@ -14,6 +14,7 @@ public class Tablero {
     private Lista<Lista<Lista<Casillero>>> casilleros = null; // Matriz tridimensional con punteros a todos los casilleros
     private int tamaño;
     private int condicionVictoria; // Cuantas fichas en hilera debe haber para ganar
+    private Tablero tableroAuxiliar = null; // Utilizado para guardar una copia del tablero del turno previo.
 
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
@@ -529,5 +530,28 @@ public class Tablero {
         return tamaño;
     }
 
+    /**
+     *
+     * @return El tablero auxiliar guardado
+     */
+    public Tablero getTableroAuxiliar() {
+        return this.tableroAuxiliar;
+    }
+
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+    /**
+     * @param tableroAuxiliar: No puede ser null. Debe tener el mismo tamaño
+     * @throws Exception: Si el tablero dado es nulo, o tiene un tamaño distinto
+     * a this.
+     */
+    public void setTableroAuxiliar(Tablero tableroAuxiliar) throws Exception {
+        if (tableroAuxiliar == null) {
+            throw new Exception("El tablero auxiliar dado es Nulo");
+        }
+        if (tableroAuxiliar.getTamaño() != this.getTamaño()) {
+            throw new Exception("El tablero auxiliar dado tiene un tamaño distinto al Tablero.");
+        }
+        this.tableroAuxiliar = tableroAuxiliar;
+    }
+
 }
