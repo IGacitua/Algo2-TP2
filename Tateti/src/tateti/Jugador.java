@@ -129,6 +129,10 @@ public class Jugador {
     }
 
     //TODO: mejorar
+    /**
+     * pre: -
+     * post: reduce en 1 la cantidad de fichas del jugador
+     */
     public void disminuirFichas() {
         if (this.tieneFichas()) {
             this.cantidadDeFichas -= 1;
