@@ -358,12 +358,9 @@ public class Menu {
 	
     private static void jugarCarta(Jugador jugadorActual,Tablero tablero) throws Exception{
 		Menu.mostrarCartas(jugadorActual);
-        System.out.println("");
         int nroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ",1,jugadorActual.getCantidadCartas());
-        Lista<Integer> coordenadas = new Lista<>();
-        obtenerCoordenadas(coordenadas,tablero);
         try {
-        	//FIXME: cada carta tiene su funcionamiento en usar(), el try cath deberia ser usado para en caso de que la 				carta no pueda usarse otro tema, le deje al usuario usar otra carta, ejemplo: bloquear un casillero 				bloqueado
+        	//FIXME: cada carta tiene su funcionamiento en usar(), el try cath deberia ser usado para en caso de que la carta no pueda usarse otro tema, le deje al usuario usar otra carta, ejemplo: bloquear un casillero 				bloqueado
             Carta carta = jugadorActual.getCartas().obtenerDato(nroCarta);
             if (carta instanceof CartaAnularCasillero) {
                 System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Anular Casillero."); //diferencia entre anular casillero y bloquear casillero??
@@ -373,7 +370,7 @@ public class Menu {
                 ((CartaBloquearFicha) carta).usar(obtenerCasillero( tablero)); 
             } else if(carta instanceof CartaPerderTurno){
                 System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Perder Turno.");
-				jugarCartaPerderTurno(Menu.obtenerStringjugadores(),jugadorActual,carta); // deberia funcionar? fijar ocmo es el comportamiento de perder turno
+				jugarCartaPerderTurno(jugadorActual,carta); // deberia funcionar? fijar ocmo es el comportamiento de perder turno
             } else if (carta instanceof CartaRobarCartas){
                 // tengo que hacer que elija un jugador
                 ((CartaRobarCartas) carta).usar(jugadorActual, mazo);
@@ -418,21 +415,6 @@ public class Menu {
 				}
 			}
 			
-		}
-
-		
-	    
-		/**    
-     	* pre: -, post: Devuelve una lista de los jugadores.
-     	*/
-		private static Lista<String> obtenerStringjugadores(){
-			Lista<String> nombres = new Lista<>();
-			Menu.listaJugadores.iniciarCursor();
-			while (Menu.listaJugadores.avanzarCursor()){
-				Jugador jugadorActual = Menu.listaJugadores.obtenerCursor();
-				nombres.agregarElemento(jugadorActual.getNombreJugador());
-			}
-			return nombres;
 		}
 
     /**    
