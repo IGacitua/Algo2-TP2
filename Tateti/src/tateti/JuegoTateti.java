@@ -9,7 +9,9 @@ public class JuegoTateti{
     	Tablero tablero = Menu.inicializarTablero();
     	Menu.inicializarJugadores(tablero.getTamaño());
     	Mazo mazo = Menu.inicializarMazo();
-    	Menu.repartirCartas(mazo);
+    	String nombreGanador = Menu.gestionarTurnos(tablero, mazo);
+    	System.out.println("El ganador es " + nombreGanador);
+    	//Menu.repartirCartas(mazo);
     	//Menu.imprimirJugadoresPorPantalla();
     	
     	
