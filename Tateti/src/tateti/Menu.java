@@ -373,9 +373,7 @@ public class Menu {
                 ((CartaBloquearFicha) carta).usar(obtenerCasillero( tablero)); 
             } else if(carta instanceof CartaPerderTurno){
                 System.out.println(jugadorActual.getNombreJugador()+ " utiliza la carta Perder Turno.");
-				jugarCartaPerderTurno(Menu.obtenerStringjugadores(),jugadorActual);
-                //((CartaPerderTurno) carta).usar(jugador);
-                
+				jugarCartaPerderTurno(Menu.obtenerStringjugadores(),jugadorActual,carta); // deberia funcionar? fijar ocmo es el comportamiento de perder turno
             } else if (carta instanceof CartaRobarCartas){
                 // tengo que hacer que elija un jugador
                 ((CartaRobarCartas) carta).usar(jugadorActual, mazo);
@@ -387,7 +385,13 @@ public class Menu {
         System.out.println(" utiliza la carta BLoquear Ficha.");
     }
 
-	private static void jugarCartaPerderTurno(Lista<String> nombres,Jugador jugadorActual) throws Exception {
+	/**    
+     * pre: jugadorActual debe ser válido,
+     * post: Muestra las cartas que tiene el jugador actual.
+     * @param jugadorActual jugadorActual No debe ser nulo.
+     * @throws Exception Si el jugadorActual es nulo.
+     */
+	private static void jugarCartaPerderTurno(Lista<String> nombres,Jugador jugadorActual, Carta carta) throws Exception {
 			if (jugadorActual == null) {
 				throw new Exception("El jugador no debe ser nulo.");
 			}
@@ -399,18 +403,28 @@ public class Menu {
 			System.out.println("Ingrese el jugador quien perdera el turno:");
 			while(!jugadorValido){
 				String nombreIngresado=Teclado.pedirNombre();
-				if (nombres.existe(nombreIngresado) ) {
-					jugadorValido = true;
-					//UTILIZAR CARTA
-					System.out.println(jugadorActual.getNombreJugador()+ " utilizo la carta Perder Turno en "); // agregar jugador en el que uso la carta
-				} else if(nombreIngresado.equals(jugadorActual.getNombreJugador())) {
+				Menu.listaJugadores.obtenerCursor();
+				while (Menu.listaJugadores.avanzarCursor() && !jugadorValido){
+					Jugador jugador = Menu.listaJugadores.obtenerCursor();
+					if (jugador.getNombreJugador().equals(nombreIngresado) && !jugador.getNombreJugador().equals(jugadorActual.getNombreJugador()))  {
+						jugadorValido = true;
+						(CartaPerderTurno) carta).usar(jugador);
+						//UTILIZAR CARTA
+						System.out.println(jugadorActual.getNombreJugador()+ " utilizo la carta Perder Turno en "); // agregar jugador en el que uso la carta, verificar si el jguador ya no perdio turno
+					} else if(nombreIngresado.equals(jugadorActual.getNombreJugador())) {
 					System.out.println("No puede elegirse a si mismo para perder turno.");
-				} else {
-					System.out.println("El nombre no coincide con ningún jugador.");}
+					} else {
+						System.out.println("El nombre no coincide con ningún jugador.");}
+				}
 			}
-
+			
 		}
-	    // post: obtenemos un string de jugadores
+
+		
+	    
+		/**    
+     	* pre: -, post: Devuelve una lista de los jugadores.
+     	*/
 		private static Lista<String> obtenerStringjugadores(){
 			Lista<String> nombres = new Lista<>();
 			Menu.listaJugadores.iniciarCursor();
@@ -423,7 +437,7 @@ public class Menu {
 
     /**    
      * pre: jugadorActual debe ser válido,
-     * post: ?? //TODO: ver cómo mostrar las cartas!!!
+     * post: Muestra las cartas que tiene el jugador actual.
      * @param jugadorActual jugadorActual No debe ser nulo.
      * @throws Exception Si el jugadorActual es nulo.
      */
