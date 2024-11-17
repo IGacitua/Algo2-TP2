@@ -162,7 +162,15 @@ public class Jugador {
     public int getCantidadDeCartas() {
         return this.cartas.getLongitud();
     }
-
+    
+        /**
+     * pre: -, post: -
+     *
+     * @return Devuelve la cantidad de cartas en mano.
+     */
+    public int getCantidadCartas() {
+        return this.cartas.getLongitud();
+    }
 
     /**
      * pre: -, post: -
