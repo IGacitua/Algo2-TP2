@@ -5,14 +5,13 @@ import tateti.Jugador;
 import tateti.Mazo;
 import tateti.Tablero;
 import utilidades.Lista;
-import utilidades.Teclado;
 
 public class CartaAnularCasillero extends Carta {
 
 	
 	/**
-     * pre: -, post: Bloquea un casillero no bloqueado y que este vacio
-     * 
+     * Misma documentación de Carta.
+     * post: Anula un casillero vacío y no bloqueado.
      */
 	@Override
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
@@ -30,6 +29,8 @@ public class CartaAnularCasillero extends Carta {
 				}
 				
 				casillero.alternarBloqueo();
+				System.out.println("El casillero fue anulado correctamente.");
+				System.out.printf("\n");
 				casilleroBloqueado=true;
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
@@ -37,6 +38,10 @@ public class CartaAnularCasillero extends Carta {
 		}
 	}
 	
+	/**
+	 * pre: -, post: -
+	 * @return Devuelve el nombre de la carta.
+	 */
 	@Override
 	public String toString() {
 		return "Carta Anular Casillero";
