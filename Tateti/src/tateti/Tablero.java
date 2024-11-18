@@ -6,7 +6,7 @@ import utilidades.Lista;
 public class Tablero {
 
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
-    private final String RUTA_IMAGENES = "Tp-2/Tateti/src/imagenes/"; // TODO: Eliminar, deberia ser innecesaria
+    private final String RUTA_IMAGENES = "src/imagenes/";
     private final int TAMAÑO_IMAGENES = 8; // Dimensiones en pixeles de las imagenes. Deben ser cuadradas.
     private final int COLOR_BORDES = (64 << 16) | (64 << 8) | 64; // El color de los bordes. Separado en R | G | B
 
