@@ -24,7 +24,7 @@ public class Jugador {
 
     private boolean pierdeTurno;
 
-    //TODO: mano de cartas
+
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
      * pre: Todos los parámetros deben ser válidos, post: Inicializa Jugador y
@@ -43,8 +43,7 @@ public class Jugador {
      * @throws Exception Si el color es nulo o su RGB es inválido.
      */
     public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color, Lista<Carta> cartas) throws Exception {
-        //TODO: cartas deberia ir al constructor? porque en realidad se puede inicializar en 0 (no necesita ir al constructor) y en el menu
-        //le cargamos a cada jugador x cantidad de cartas para empezar.
+
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
         }
@@ -129,9 +128,9 @@ public class Jugador {
         this.pierdeTurno = !this.pierdeTurno;
     }
 
-    //TODO: mejorar
     /**
-     * pre: - post: reduce en 1 la cantidad de fichas del jugador
+     * pre: -
+     * post: reduce en 1 la cantidad de fichas del jugador
      */
     public void disminuirFichas() {
         if (this.tieneFichas()) {
@@ -220,9 +219,8 @@ public class Jugador {
     }
 
     /**
-     * TODO:
-     *
-     * @return
+     * pre:-
+     * @return un entero que muestra la cantidad de fichas maxima que puede tener el jugdador en mano
      */
     public int getCantidadDeFichasMaxima() {
         return cantidadDeFichasMaxima;
@@ -247,9 +245,8 @@ public class Jugador {
     }
 
     /**
-     * TODO:
-     *
-     * @return
+     * pre: -
+     * @return un booleano indicando si el jugador tiene fichas en mano
      */
     public boolean tieneFichas() {
         return this.cantidadDeFichas != 0;
@@ -257,9 +254,8 @@ public class Jugador {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
-     * TODO:
-     *
      * @param cantidadDeFichas
+     * post: setea la cantidade fichas de este jugador con las indicadas por parametro
      */
     public void setCantidadDeFichas(int cantidadDeFichas) {
         this.cantidadDeFichas = cantidadDeFichas;
