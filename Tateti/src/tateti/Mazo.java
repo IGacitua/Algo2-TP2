@@ -11,12 +11,12 @@ import cartas.CartaVolverTurno;
 
 import java.util.Random;
 import utilidades.Herramientas;
-import utilidades.PilaGenerica;
+import utilidades.Pila;
 
 public class Mazo {
 
     public static final int CANTIDAD_TIPO_CARTAS = 7; // Cuantos tipos de Carta únicos hay
-    private final PilaGenerica<Carta> cartas = new PilaGenerica<>(); // Final xq siempre apunta a la misma pila.
+    private final Pila<Carta> cartas = new Pila<>(); // Final xq siempre apunta a la misma pila.
 
     /**
      * pre: Recibe la cantidad de cartas de cada tipo que añadir al mazo
