@@ -2,35 +2,47 @@ package cartas;
 
 import tateti.Casillero;
 import tateti.Jugador;
+import tateti.Mazo;
+import tateti.Tablero;
+import utilidades.Lista;
 
 public class CartaCambiarFicha extends Carta {
 
 	/**
      * pre: -, post: Cambia el dueño de una ficha
      *
-     * @param casillero: casillero en el que se encuentra la ficha a cambiar, no debe ser null, debe tener una ficha
-     * @param jugador: nuevo dueño de la ficha, no debe ser null, no debe ser el dueño de la ficha en casillero
      * @throws Exception: Si casillero es null, si jugador es null, si casillero esta vacio, si la ficha ya pertenece a jugador
      */
-	public void usar(Casillero casillero, Jugador jugador) throws Exception {
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
 		
-		if (casillero == null) {
-			throw new Exception("Casillero no puede ser null");
+		boolean casilleroModificado=false;
+		Casillero casillero;
+		while(!casilleroModificado) {
+			try {
+				casillero=this.pedirCasillero(tablero);
+				
+				if (casillero.getJugador() == null) {
+					throw new Exception("El casillero indicado debe pertenecer a alguien");
+				}
+				if (casillero.getJugador().getIdentificacion()==jugadorActual.getIdentificacion()) {
+					throw new Exception("No puedes cambiar tu propia ficha");
+				}
+				
+				casillero.setJugador(null);
+				casillero.setJugador(jugadorActual);
+				casilleroModificado=true;
+				
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
-		
-		if (jugador == null) {
-			throw new Exception("Jugador no puede ser null");
-		}
-		
-		if (casillero.getJugador() == null) {
-			throw new Exception("Casillero debe tener una ficha");
-		}
-		
-		if (casillero.getJugador() == jugador) {
-			throw new Exception("No se puede cambiar una ficha que ya pertenece a jugador");
-		}
-		
-		casillero.setJugador(null);
-		casillero.setJugador(jugador);
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String ToString() {	
+		return "Carta Cambiar Ficha";
 	}
 }

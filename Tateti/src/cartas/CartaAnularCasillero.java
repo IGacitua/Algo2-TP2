@@ -1,28 +1,49 @@
 package cartas;
 
 import tateti.Casillero;
+import tateti.Jugador;
+import tateti.Mazo;
+import tateti.Tablero;
+import utilidades.Lista;
+import utilidades.Teclado;
 
 public class CartaAnularCasillero extends Carta {
 
 	
 	/**
-     * pre: -, post: -
-     * Bloquea un casillero vacio y no bloqueado
+     * pre: -, post: Bloquea un casillero no bloqueado y que este vacio
      * 
-     * @param Casillero: no debe ser null, no debe estar vacio y no debe estar bloqueado
-     * @throws Exception
      */
-	public void usar(Casillero casillero) throws Exception {
-		
-		if (casillero == null) {
-			throw new Exception("Casillero no puede ser null");
-		}
-		
-		if (casillero.estaVacio() &&
-			!casillero.isBloqueado()) {
-			casillero.alternarBloqueo();
-		} else {
-			throw new Exception("El casillero no esta vacio o ya esta bloqueado");
+	@Override
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
+		boolean casilleroBloqueado= false;
+
+		while(!casilleroBloqueado) {
+			try {
+				Casillero casillero = pedirCasillero(tablero);
+
+				if (casillero.isBloqueado()){
+					throw new Exception("El casillero ya esta bloqueado");
+				}
+				if(casillero.estaVacio()) {
+					throw new Exception("El casillero no esta vacio");
+				}
+				
+				casillero.alternarBloqueo();
+				casilleroBloqueado=true;
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String ToString() {
+		return "Carta Anular Casillero";
+	}
+	
+	
 }
