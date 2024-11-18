@@ -12,6 +12,7 @@ public class Jugador {
     private String nombre = null;
 
     private int cantidadDeFichas; // Cantidad de fichas que le quedan
+    private int cantidadDeFichasMaxima;
     private int cartasMaximas; // Cantidad maxima de cartas en mano
     @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
     private Lista<Carta> cartas = new Lista<>();
@@ -60,6 +61,7 @@ public class Jugador {
         }
         this.nombre = nombre;
         this.cantidadDeFichas = fichasMaximas;
+        this.cantidadDeFichasMaxima=fichasMaximas;
         this.cartasMaximas = cartasMaximas;
         this.fichaImagen = fichaImagen;
         this.fichaCaracter = fichaImagen.getFichaCaracter();
@@ -68,7 +70,11 @@ public class Jugador {
         this.cartas = cartas;
     }
 
-    //METODOS DE CLASE ----------------------------------------------------------------------------------------
+   
+
+	
+
+	//METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
@@ -135,6 +141,13 @@ public class Jugador {
             this.cantidadDeFichas -= 1;
         }
     }
+    
+    /**
+     * 
+     */
+    public void aumentarFichas() {
+    	this.cantidadDeFichas++;		
+	}
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
@@ -208,6 +221,14 @@ public class Jugador {
     public ColoresDisponibles getColor() {
         return this.color;
     }
+    
+    /**
+     * TODO:
+     * @return
+     */
+    public int getCantidadDeFichasMaxima() {
+		return cantidadDeFichasMaxima;
+	}
 
     /**
      * pre: -, post: -
@@ -237,4 +258,13 @@ public class Jugador {
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
+    
+    /**
+     * TODO:
+     * @param cantidadDeFichas
+     */
+    public void setCantidadDeFichas(int cantidadDeFichas) {
+		this.cantidadDeFichas = cantidadDeFichas;
+	}
+
 }
