@@ -50,9 +50,10 @@ public class JuegoTateti {
                     tablero.imprimir();
                     if (menu.isVictoria()) {
                         victoria = true;
+                    } else {
+                        contadorDeTurno = aumentarContador(contadorDeTurno, menu);
+                        //menu.jugarCarta(jugadorActual, tablero,mazo);
                     }
-                    //menu.jugarCarta(jugadorActual, tablero,mazo);
-                    contadorDeTurno = aumentarContador(contadorDeTurno, menu);
                 }
             }
             Jugador ganador = menu.getListaJugadores().obtenerDato(contadorDeTurno);
