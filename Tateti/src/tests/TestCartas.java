@@ -13,7 +13,7 @@ import cartas.CartaBomba;
 import cartas.CartaCambiarFicha;
 import cartas.CartaPerderTurno;
 import cartas.CartaRobarCartas;
-import tateti.ColoresDisponibles;
+import tateti.Colores;
 import tateti.Fichas;
 import tateti.Jugador;
 import tateti.Mazo;
@@ -32,8 +32,8 @@ public class TestCartas {
         try {
         	listaJugadores = new Lista<Jugador>();
     		Lista<Carta> cartas = new Lista<Carta>();
-    		jugadorTests = new Jugador("Juancito", 4, 3, Fichas.CIRCULO, ColoresDisponibles.AMARILLO, cartas);
-	        jugadorUsarCartasVSEl = new Jugador("Pedrito", 4, 3, Fichas.CORAZON, ColoresDisponibles.ROJO, null);
+    		jugadorTests = new Jugador("Juancito", 4, 3, Fichas.CIRCULO, Colores.AMARILLO, cartas);
+	        jugadorUsarCartasVSEl = new Jugador("Pedrito", 4, 3, Fichas.CORAZON, Colores.ROJO, null);
     		listaJugadores.agregarElemento(jugadorTests);
 			listaJugadores.agregarElemento(jugadorUsarCartasVSEl);
         	mazo = new Mazo(4);
