@@ -70,7 +70,6 @@ public class JuegoTateti {
                     System.out.printf("\n");
                     menu.jugarFicha(jugadorActual, tablero);
                     System.out.printf("\n");
-                    tablero.imprimir();
                     if (menu.esVictoria()) {
                         victoria = true;
                         tablero.exportar("Tablero Final");
