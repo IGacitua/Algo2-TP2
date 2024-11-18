@@ -2,6 +2,8 @@ package cartas;
 
 import tateti.Jugador;
 import tateti.Mazo;
+import tateti.Tablero;
+import utilidades.Lista;
 
 public class CartaRobarCartas extends Carta {
 
@@ -15,16 +17,25 @@ public class CartaRobarCartas extends Carta {
      * @param mazo: mazo del que se tomaran las cartas, no puede ser null
 	 * @throws Exception 
      */
-	public void usar(Jugador jugador, Mazo mazo) throws Exception {
-		if (jugador == null) {
-			throw new Exception("No se especifico un jugador");
+	@Override
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
+
+		try {
+			if (jugadorActual.getCantidadDeCartas()+CANTIDAD_A_ROBAR > jugadorActual.getCartasMaximas()) {
+				throw new Exception("No se puede utilizar la carta en este jugador porque excede su maximo");
+			}
+			jugadorActual.robarCartas(CANTIDAD_A_ROBAR, mazo);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
-		if (mazo == null) {
-			throw new Exception("No se especifico un mazo");
-		}
-		if (jugador.getCantidadDeCartas()+CANTIDAD_A_ROBAR > jugador.getCartasMaximas()) {
-			throw new Exception("No se puede utilizar la carta en este jugador porque excede su maximo");
-		}
-		jugador.robarCartas(CANTIDAD_A_ROBAR, mazo);
+
+	}
+	
+	/**
+	 * TODO:
+	 */
+	@Override
+	public String ToString() {
+		return "Carta Robar "+CANTIDAD_A_ROBAR+" Cartas";
 	}
 }

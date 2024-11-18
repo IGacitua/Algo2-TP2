@@ -1,27 +1,46 @@
 package cartas;
 
 import tateti.Casillero;
+import tateti.Jugador;
+import tateti.Mazo;
+import tateti.Tablero;
+import utilidades.Lista;
+import utilidades.Teclado;
 
 public class CartaBloquearFicha extends Carta {
 
 	/**
-     * pre: -, post: -
-     * Bloquea un casillero no vacio y no bloqueado
+     * pre: -, post: Bloquea un casillero no vacio y no bloqueado
      * 
-     * @param Casillero: no puede ser null, estar vacio o bloqueado
-     * @throws Exception
      */
-	public void usar(Casillero casillero) throws Exception {
+	@Override
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
 		
-		if (casillero == null) {
-			throw new Exception("Casillero no puede ser null");
-		}
-		
-		if (!casillero.estaVacio() &&
-			!casillero.isBloqueado()) {
-			casillero.alternarBloqueo();
-		} else {
-			throw new Exception("El casillero esta vacio o ya esta bloqueado");
+		boolean casilleroBloqueado= false;
+
+		while(!casilleroBloqueado) {
+			try {
+				Casillero casillero = pedirCasillero(tablero);
+
+				if (casillero.isBloqueado()) {
+					throw new Exception("El casillero esta bloqueado");					
+				}
+				if(casillero.estaVacio()) {
+					throw new Exception("El casillero esta vacio");	
+				}
+				
+				casillero.alternarBloqueo();
+				casilleroBloqueado=true;
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
+
+	@Override
+	public String ToString() {
+		
+		return "Carta bloquear ficha";
+	}
+	
 }

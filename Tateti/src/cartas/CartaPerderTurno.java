@@ -1,26 +1,48 @@
 package cartas;
 
 import tateti.Jugador;
+import tateti.Mazo;
+import tateti.Tablero;
+import utilidades.Lista;
 
 public class CartaPerderTurno extends Carta {
 	
 	/**
-     * pre: -, post: -
-     * Hace que un jugador que no perdio el turno pierda el turno
-     * 
-     * @param Jugador: no debe ser null ni haber perdido el turno
-     * @throws Exception
-     */
-	public void usar(Jugador jugador) throws Exception {
-		
-		if(jugador == null) {
-			throw new Exception("Jugador no puede ser null");
-		}
-		
-		if (!jugador.isPierdeTurno()) {
-			jugador.alternarPierdeTurno();
-		} else {
-			throw new Exception("El jugador ya perdio el turno");
+	 * TODO:
+	 */
+	@Override
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
+		boolean bloqueado=false;
+		this.mostrarJugadores(listaJugadores);
+
+		while(!bloqueado) {
+			try {
+
+				System.out.println("Indique que jugador quiere bloquear (por identificacion)");
+				Jugador jugadorObjetivo=this.pedirJugadorPorIdentificacion(listaJugadores);
+
+				if(jugadorObjetivo.getIdentificacion()==jugadorActual.getIdentificacion()) {
+					throw new Exception("No puedes autobloquearte");
+				}
+				if(jugadorObjetivo.isPierdeTurno()) {
+					throw new Exception("El jugador indicado ya esta bloqueado");
+				}
+
+				jugadorObjetivo.alternarPierdeTurno();
+				bloqueado=true;
+
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String ToString() {
+		return "Carta perder Turno";
+	}
+
 }

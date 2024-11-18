@@ -11,12 +11,18 @@ public class CartaVolverTurno extends Carta {
 	 * TODO:
 	 */
 	@Override
-	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo,
-			Tablero tableroPrevio) throws Exception {
+	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo
+			) throws Exception {
 		
 		System.out.println("Se regresa atras la ronda");
-		tablero=tableroPrevio;
-		//TODO:
+		tablero.alternarTablero();
+		listaJugadores.iniciarCursor();
+		while(!listaJugadores.avanzarCursor()) {
+			int fichas=tablero.contarFichas(listaJugadores.obtenerCursor());
+			listaJugadores.obtenerCursor().setCantidadDeFichas(listaJugadores.obtenerCursor().getCantidadDeFichasMaxima()-fichas);
+		}
+		
+		
 		
 	}
 	
