@@ -11,9 +11,7 @@ public enum ColoresDisponibles {
     NEGRO;
 
     /**
-     * pre -, post: -
-     *
-     * @return Devuelve el entero del color elegido.
+     * @return Devuelve el valor RGB del color.
      */
     public int getRGB() {
         return switch (this) {
@@ -39,9 +37,7 @@ public enum ColoresDisponibles {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve el valor para imprimir el color.
+     * @return Devuelve el ANSI escape code del color.
      */
     public String getPrintfColor() {
         return switch (this) {
@@ -67,8 +63,6 @@ public enum ColoresDisponibles {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el nombre del color elegido.
      */
     @Override
@@ -77,8 +71,6 @@ public enum ColoresDisponibles {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve un String con todos los colores listados.
      */
     public static String obtenerColores() {
