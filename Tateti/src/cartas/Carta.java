@@ -9,8 +9,20 @@ import utilidades.Teclado;
 
 public abstract class Carta {
 	
+	/**
+	 * pre: -
+	 * @param jugadorActual, el jugador que juega la carta
+	 * @param listaJugadores, la lista de jugadores que estan el la partida
+	 * @param tablero, el tablero con el que se desarrolla la partida
+	 * @param mazo, el mazo con el que se juega la partida
+	 * @throws Exception
+	 */
 	public abstract void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception;
 	
+	/**
+	 * Pre: - 
+	 * Post: Devuelve el nombre de la carta
+	 */
 	public abstract String toString();
 	
 	/**
@@ -26,11 +38,11 @@ public abstract class Carta {
 		while(!valido) {
 			try {
 				System.out.printf("\n");
-				int x = Teclado.pedirNumeroEntreIntervalo("X", 0, tablero.getTamaño() - 1);
+				int x = Teclado.pedirNumeroEntreIntervalo("X", 1, tablero.getTamaño())-1;
 				System.out.printf("\n");
-				int y = Teclado.pedirNumeroEntreIntervalo("Y", 0, tablero.getTamaño() - 1);
+				int y = Teclado.pedirNumeroEntreIntervalo("Y", 1, tablero.getTamaño())-1;
 				System.out.printf("\n");
-				int z = Teclado.pedirNumeroEntreIntervalo("Z", 0, tablero.getTamaño() - 1);
+				int z = Teclado.pedirNumeroEntreIntervalo("Z", 1, tablero.getTamaño())-1;
 				System.out.printf("\n");
 				
 				 casillero = tablero.getCasillero(x, y, z);
@@ -51,7 +63,7 @@ public abstract class Carta {
 	 */
 	protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) throws Exception {
 		Jugador jugadorResultado=null;		
-		int numero=Teclado.pedirNumeroEntreIntervalo(":", 1, listaJugadores.getLongitud());
+		int numero=Teclado.pedirNumeroEntreIntervalo(" ", 1, listaJugadores.getLongitud());
 		listaJugadores.iniciarCursor();
 		while(listaJugadores.avanzarCursor()) {
 			Jugador jugador=listaJugadores.obtenerCursor();

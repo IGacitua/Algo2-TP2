@@ -1,15 +1,11 @@
 package tateti;
 
 import cartas.Carta;
-import cartas.CartaAnularCasillero;
-import cartas.CartaBloquearFicha;
-import cartas.CartaPerderTurno;
-import cartas.CartaRobarCartas;
 import java.util.Random;
 import utilidades.Lista;
 import utilidades.Teclado;
 
-//TODO pasar a template
+
 public class Menu {
 
     //Atributos------------------------------------------------------------------------------------------------------
