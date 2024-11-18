@@ -69,9 +69,8 @@ public class Teclado {
      * @param min Puede ser cualquier número entero. 
      * @param max Puede ser cualquier número entero.
      * @return Devuelve el número ingresado por consola en caso de estar entre min y max.
-     * @throws Exception: Si el mínimo y el máximo son iguales.
      */
-    public static int pedirNumeroEntreIntervalo(String mensaje, int min, int max) throws Exception {
+    public static int pedirNumeroEntreIntervalo(String mensaje, int min, int max) {
     	if ((mensaje.trim().isEmpty()) || (mensaje == null)) {
     		mensaje = "Ingrese un número";
     	}
