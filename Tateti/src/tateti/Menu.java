@@ -345,7 +345,7 @@ public class Menu {
         this.mostrarCartas(jugadorActual);
         Carta carta;
         try {
-        int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadCartas());
+        int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadDeCartas());
    	 	carta=jugadorActual.getCartas().obtenerDato(numeroCarta);
    	 	carta.usar(jugadorActual,listaJugadores,tablero,mazo);
    	 	jugadorActual.getCartas().remover(carta);
@@ -369,7 +369,7 @@ public class Menu {
         if (jugadorActual.getCantidadDeCartas() == 0) {
             System.out.println("El jugador no posee cartas en la mano");
         } else {
-            for (int i = 1; i < jugadorActual.getCantidadCartas(); i++) {
+            for (int i = 1; i < jugadorActual.getCantidadDeCartas(); i++) {
                 System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
             }
         }
