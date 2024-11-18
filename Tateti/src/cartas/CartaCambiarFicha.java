@@ -9,16 +9,15 @@ import utilidades.Lista;
 public class CartaCambiarFicha extends Carta {
 
 	/**
-     * pre: -, post: Cambia el dueño de una ficha
-     *
-     * @throws Exception: Si casillero es null, si jugador es null, si casillero esta vacio, si la ficha ya pertenece a jugador
+     * Misma documentación de Carta.
+     * post: Se apropia de un Casillero ocupado por la ficha de otro jugador. 
      */
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
-		
 		boolean casilleroModificado=false;
 		Casillero casillero;
 		while(!casilleroModificado) {
 			try {
+				System.out.println("Ingrese a qué casillero quiere cambiarle la ficha: ");
 				casillero=this.pedirCasillero(tablero);
 				
 				if (casillero.getJugador() == null) {
@@ -30,6 +29,9 @@ public class CartaCambiarFicha extends Carta {
 				
 				casillero.setJugador(null);
 				casillero.setJugador(jugadorActual);
+				System.out.printf("\n");
+				System.out.println("Se cambió la ficha correctamente.");
+				System.out.printf("\n");
 				casilleroModificado=true;
 				
 			}catch(Exception e) {
@@ -39,7 +41,8 @@ public class CartaCambiarFicha extends Carta {
 	}
 	
 	/**
-	 * 
+	 * pre: -, post: -
+	 * @return Devuelve el nombre de la carta.
 	 */
 	@Override
 	public String toString() {	
