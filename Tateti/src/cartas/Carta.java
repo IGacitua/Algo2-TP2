@@ -34,7 +34,7 @@ public abstract class Carta {
 	 * @return Devuelve un Casillero ingresado por el usuario.
 	 * @throws Exception 
 	 */
-    protected Casillero pedirCasillero(Tablero tablero) {
+    protected Casillero pedirCasillero(Tablero tablero) throws Exception {
       
         if (tablero == null ) {
 			throw new Exception("tablero no puede ser null");
@@ -67,7 +67,7 @@ public abstract class Carta {
 	 * @return Devuelve un Jugador según la identificación.
 	 * @throws Exception 
 	 */
-    protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) {
+    protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) throws Exception {
       
         if (listaJugadores == null) {
 			throw new Exception("listaJugadores no puede ser null");
@@ -94,7 +94,7 @@ public abstract class Carta {
 	 * @param listaJugadores No debe ser nula.
 	 * @throws Exception 
 	 */
-    protected void mostrarJugadores(Lista<Jugador> listaJugadores) {
+    protected void mostrarJugadores(Lista<Jugador> listaJugadores) throws Exception {
       
         if (listaJugadores == null) {
 			throw new Exception("listaJugadores no puede ser null");
