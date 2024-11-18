@@ -37,6 +37,8 @@ public class JuegoTateti {
         try {
             tablero = menu.inicializarTablero();
             menu.inicializarJugadores(tablero.getTamaño());
+            menu.imprimirJugadoresPorPantalla();
+            System.out.print("\n");
             mazo = menu.inicializarMazo();
         } catch (Exception e) {
             // Todo esta validado de tal forma que no deberían haber excepciones.
@@ -62,8 +64,7 @@ public class JuegoTateti {
                     // TURNO
                     menu.jugadorRobaCartas(jugadorActual, mazo);
                     System.out.printf("\n");
-                    menu.jugarFicha(jugadorActual, tablero);
-                    tablero.imprimir();
+                    menu.jugarFicha(jugadorActual, tablero);                    
                     System.out.printf("\n");
                     if (menu.esVictoria()) {
                         victoria = true;
@@ -72,6 +73,7 @@ public class JuegoTateti {
                         contadorDeTurno = aumentarContador(contadorDeTurno, menu);
                         menu.jugarCarta(jugadorActual, tablero,mazo);
                     }
+                    tablero.imprimir();
                 }
             }
             Jugador ganador = menu.getListaJugadores().obtenerDato(contadorDeTurno);
