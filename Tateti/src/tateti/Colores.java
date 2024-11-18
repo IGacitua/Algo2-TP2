@@ -1,6 +1,6 @@
 package tateti;
 
-public enum ColoresDisponibles {
+public enum Colores {
     ROJO,
     VERDE,
     AZUL,
@@ -75,7 +75,7 @@ public enum ColoresDisponibles {
      */
     public static String obtenerColores() {
         String coloresExistentes = "";
-        ColoresDisponibles[] colores = ColoresDisponibles.values();
+        Colores[] colores = Colores.values();
         for (int i = 0; i < colores.length; i++) {
             coloresExistentes += colores[i].name();
             if (i < colores.length - 1) {
