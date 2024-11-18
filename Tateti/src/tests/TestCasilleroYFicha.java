@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import tateti.ColoresDisponibles;
+import tateti.Colores;
 import tateti.Fichas;
 import tateti.Jugador;
 import tateti.Tablero;
@@ -23,8 +23,8 @@ public class TestCasilleroYFicha {
         try {
             tablero = new Tablero(3);
             //Ambos jugadores juegan sin cartas porque en esta clase se busca testear colocar/mover fichas.
-            jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, ColoresDisponibles.AMARILLO, null);
-            jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, ColoresDisponibles.VERDE, null);
+            jugador1 = new Jugador("Carlos", 4, 5, Fichas.CUADRADO, Colores.AMARILLO, null);
+            jugador2 = new Jugador("Pedro", 4, 5, Fichas.RECTANGULO, Colores.VERDE, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
