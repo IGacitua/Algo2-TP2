@@ -254,7 +254,7 @@ public class Tablero {
                     imagenCasillero = new Imagen(this.TAMAÑO_IMAGENES * 2, this.TAMAÑO_IMAGENES * 2);
                 } else {
                     // Caso: Casillero con usuario (Casillero con ficha)
-                    imagenCasillero = new Imagen(casilleroActual);
+                    imagenCasillero = new Imagen(casilleroActual, RUTA_IMAGENES);
                 }
             }
             imagenCasillero.bordear(1, COLOR_BORDES); // Darle borde a la imagen

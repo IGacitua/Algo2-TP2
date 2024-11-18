@@ -72,7 +72,7 @@ public class Imagen {
      * @param casillero: No debe ser nulo. Debe tener un jugador.
      * @throws Exception
      */
-    public Imagen(Casillero casillero) throws Exception {
+    public Imagen(Casillero casillero, String RUTA_IMAGENES) throws Exception {
         if (casillero == null) {
             throw new Exception("El casillero no puede ser nulo.");
         }
