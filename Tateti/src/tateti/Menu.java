@@ -61,7 +61,7 @@ public class Menu {
             try {
                 String nombre = Teclado.pedirString(("Ingrese el nombre del jugador número " + (i + 1)));
                 nombre = nombre.substring(0, 1).toUpperCase() + nombre.substring(1); //Formatea el nombre con 1er letra mayus
-                Jugador jugador = new Jugador(nombre, (int) (tamañoTablero * 1.5), (int) (tamañoTablero * 0.5), solicitarFicha(), solicitarColor(), new Lista<>());
+                Jugador jugador = new Jugador(nombre, (int) (tamañoTablero * 1.5), (int) Math.round(tamañoTablero * 0.5), solicitarFicha(), solicitarColor(), new Lista<>());
                 this.listaJugadores.agregarElemento(jugador);
             } catch (Exception e) {
                 // Todo está debidamente validado, asi que no debería generar excepción
