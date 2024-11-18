@@ -8,8 +8,9 @@ import utilidades.Lista;
 public class CartaPerderTurno extends Carta {
 	
 	/**
-	 * TODO:
-	 */
+     * Misma documentación de Carta.
+     * post: Hace que el jugador elegido pierda el turno.
+     */
 	@Override
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
 		boolean bloqueado=false;
@@ -17,18 +18,20 @@ public class CartaPerderTurno extends Carta {
 
 		while(!bloqueado) {
 			try {
-
-				System.out.println("Indique que jugador quiere bloquear (por identificacion)");
-				Jugador jugadorObjetivo=this.pedirJugadorPorIdentificacion(listaJugadores);
+				System.out.println("Indique que jugador quiere bloquear (por identificacion): ");
+				Jugador jugadorObjetivo = this.pedirJugadorPorIdentificacion(listaJugadores);
 
 				if(jugadorObjetivo.getIdentificacion()==jugadorActual.getIdentificacion()) {
-					throw new Exception("No puedes autobloquearte");
+					throw new Exception("No puedes autobloquearte.");
 				}
 				if(jugadorObjetivo.isPierdeTurno()) {
-					throw new Exception("El jugador indicado ya esta bloqueado");
+					throw new Exception("El jugador pierde el turno.");
 				}
 
 				jugadorObjetivo.alternarPierdeTurno();
+				System.out.printf("\n");
+				System.out.println("El jugador " + jugadorObjetivo.getNombre() + " perdió el turno.");
+				System.out.printf("\n");
 				bloqueado=true;
 
 			}catch(Exception e) {
@@ -38,11 +41,12 @@ public class CartaPerderTurno extends Carta {
 	}
 	
 	/**
-	 * 
+	 * pre: -, post: -
+	 * @return Devuelve el nombre de la carta.
 	 */
 	@Override
 	public String toString() {
-		return "Carta perder Turno";
+		return "Carta Perder Turno";
 	}
 
 }
