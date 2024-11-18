@@ -3,9 +3,9 @@ package tateti;
 import utilidades.Herramientas;
 
 public class Casillero {
+
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
-
     private int posicionX;
     private int posicionY;
     private int posicionZ;
