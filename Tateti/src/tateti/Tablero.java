@@ -466,6 +466,14 @@ public class Tablero {
         return contador;
     }
 
+    /**
+     * post: Cambia el tablero por su auxiliar.
+     */
+    public void alternarTablero() {
+        this.casilleros = this.tableroAuxiliar.getCasilleros();
+        this.tableroAuxiliar = null;
+    }
+
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
@@ -521,6 +529,13 @@ public class Tablero {
     public final Casillero getCasillero(int x, int y, int z) throws Exception {
         validarCasillero(x + 1, y + 1, z + 1); // Listas son index 1
         return this.casilleros.obtenerDato(x + 1).obtenerDato(y + 1).obtenerDato(z + 1);
+    }
+
+    /**
+     * @return La lista 3D de casilleros
+     */
+    private Lista<Lista<Lista<Casillero>>> getCasilleros() {
+        return this.casilleros;
     }
 
     /**
