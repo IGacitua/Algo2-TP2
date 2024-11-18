@@ -7,7 +7,7 @@ public enum ColoresDisponibles {
     AMARILLO,
     ROSA,
     CELESTE,
-    BLANCO,
+    GRIS,
     NEGRO;
 
     /**
@@ -29,7 +29,7 @@ public enum ColoresDisponibles {
                 (255 << 16) | 255;
             case CELESTE ->
                 (255 << 8) | 255;
-            case BLANCO ->
+            case GRIS ->
                 (127 << 16) | (127 << 8) | 127;
             case NEGRO ->
                 0;
@@ -57,8 +57,8 @@ public enum ColoresDisponibles {
                 "\u001B[35m";
             case CELESTE ->
                 "\u001B[36m";
-            case BLANCO ->
-                "\u001B[37m";
+            case GRIS ->
+                "\u001B[90m";
             case NEGRO ->
                 "\u001B[30m";
             default ->
