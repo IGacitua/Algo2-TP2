@@ -339,6 +339,9 @@ public class Menu {
      * @param mazo, no nulo
      */
     public void jugarCarta(Jugador jugadorActual, Tablero tablero, Mazo mazo) throws Exception {
+    	if(jugadorActual.getCartas().esVacia()) {
+    		return;
+    	}
         this.mostrarCartas(jugadorActual);
         Carta carta;
         try {
