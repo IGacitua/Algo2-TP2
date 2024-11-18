@@ -30,7 +30,7 @@ public enum ColoresDisponibles {
             case CELESTE ->
                 (255 << 8) | 255;
             case BLANCO ->
-                (255 << 16) | (255 << 8) | 255;
+                (127 << 16) | (127 << 8) | 127;
             case NEGRO ->
                 0;
             default ->
@@ -40,6 +40,7 @@ public enum ColoresDisponibles {
 
     /**
      * pre: -, post: -
+     *
      * @return Devuelve el valor para imprimir el color.
      */
     public String getPrintfColor() {

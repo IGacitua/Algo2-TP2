@@ -41,8 +41,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe un ancho y un alto, post: Crea una imagen en blanco de las
-     * dimensiones dadas.
+     * pre: Recibe un ancho y un alto
+     *
+     * post: Crea una imagen en blanco de las dimensiones dadas.
      *
      * @param ancho: Debe ser > 0.
      * @param alto: Debe ser > 0.
@@ -55,13 +56,7 @@ public class Imagen {
         if (!Herramientas.validarNumeroPositivoEstricto(alto)) {
             throw new Exception("El alto debe ser mayor a cero. (Es " + alto + ")");
         }
-        int rgb = ColoresDisponibles.BLANCO.getRGB();
         this.imagen = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB);
-        for (int i = 0; i < ancho; i++) {
-            for (int j = 0; j < alto; j++) {
-                this.imagen.setRGB(i, j, rgb);
-            }
-        }
     }
 
     /**
