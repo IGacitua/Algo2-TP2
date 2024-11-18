@@ -38,7 +38,7 @@ public class CartaBloquearFicha extends Carta {
 	}
 
 	@Override
-	public String ToString() {
+	public String toString() {
 		
 		return "Carta bloquear ficha";
 	}
