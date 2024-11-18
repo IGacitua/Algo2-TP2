@@ -422,7 +422,9 @@ public class Tablero {
             for (int x = 0; x < this.tamaño; x++) {
                 for (int y = 0; y < this.tamaño; y++) {
                     for (int z = 0; z < this.tamaño; z++) {
-                        copia.colocarFicha(x, y, z, this.getCasillero(x, y, z).getJugador());
+                        if (this.getCasillero(x, y, z).getJugador() != null) {
+                            copia.colocarFicha(x, y, z, this.getCasillero(x, y, z).getJugador());
+                        }
                         if (this.getCasillero(x, y, z).isBloqueado()) {
                             copia.getCasillero(x, y, z).alternarBloqueo();
                         }
