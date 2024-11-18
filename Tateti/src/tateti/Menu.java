@@ -11,7 +11,7 @@ public class Menu {
     //Atributos------------------------------------------------------------------------------------------------------
     // Jugadores/Colores/Fichas son final porque siempre apuntan a las mismas listas
     private final Lista<Jugador> listaJugadores = new Lista<>();
-    private final Lista<ColoresDisponibles> coloresTomados = new Lista<>();
+    private final Lista<Colores> coloresTomados = new Lista<>();
     private final Lista<Fichas> fichasTomadas = new Lista<>();
     private boolean victoria = false;
 
@@ -98,8 +98,8 @@ public class Menu {
      * @throws Exception Si coloresTomados es nula o el Enum ColoresDisponibles
      * está vacío.
      */
-    public ColoresDisponibles solicitarColor() throws Exception {
-        return solicitarElementoDeEnum("Elija el color de la lista que desea utilizar", this.coloresTomados, ColoresDisponibles.values());
+    public Colores solicitarColor() throws Exception {
+        return solicitarElementoDeEnum("Elija el color de la lista que desea utilizar", this.coloresTomados, Colores.values());
     }
 
     /**
