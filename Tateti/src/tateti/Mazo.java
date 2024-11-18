@@ -7,13 +7,15 @@ import cartas.CartaBomba;
 import cartas.CartaCambiarFicha;
 import cartas.CartaPerderTurno;
 import cartas.CartaRobarCartas;
+import cartas.CartaVolverTurno;
+
 import java.util.Random;
 import utilidades.Herramientas;
 import utilidades.PilaGenerica;
 
 public class Mazo {
 
-    private static final int CANTIDAD_TIPO_CARTAS = 6; // Cuantos tipos de Carta únicos hay
+    public static final int CANTIDAD_TIPO_CARTAS = 7; // Cuantos tipos de Carta únicos hay
     private final PilaGenerica<Carta> cartas = new PilaGenerica<>(); // Final xq siempre apunta a la misma pila.
 
     /**
@@ -119,6 +121,9 @@ public class Mazo {
             }
             case 5 -> {
                 return new CartaCambiarFicha();
+            }
+            case 6 -> {
+            	return new CartaVolverTurno();
             }
             default -> {
                 throw new Exception("El id dado no es válido.");
