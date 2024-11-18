@@ -54,6 +54,10 @@ public class CartaBomba extends Carta {
 	 * @throws Exception
 	 */
 	private void explotarEntorno(Casillero casillero) throws Exception {
+		
+		if (casillero == null) {
+			throw new Exception("casillero no puede ser null");
+		}
 
 		Casillero[][][] entorno = casillero.getEntorno();
 
