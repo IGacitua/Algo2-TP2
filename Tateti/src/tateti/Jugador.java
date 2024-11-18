@@ -6,41 +6,43 @@ import utilidades.Lista;
 
 public class Jugador {
 
-    // TODO organizar la doc
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     private static int idActual = 0; // Numero de ID interno, usado para verificar fichas
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
     private String nombre = null;
 
     private int cantidadDeFichas; // Cantidad de fichas que le quedan
-    private int cantidadDeFichasMaxima;
+    private int cantidadDeFichasMaxima; // Cantidad de fichas que posee al principio de la partida
+
     private int cartasMaximas; // Cantidad maxima de cartas en mano
-    @SuppressWarnings("FieldMayBeFinal") // TODO: Si sigue dando la warning cuando esté completo, hacerlo final
-    private Lista<Carta> cartas = new Lista<>();
-    private int identificacion;
+    private Lista<Carta> cartas = new Lista<>(); // Final porque siempre apunta a la misma Lista
+
+    private int identificacion; // ID interno utilizado por algunos métodos
+
     private Fichas fichaImagen; // Ficha que usa el usuario -> Para exportar tablero
     private char fichaCaracter; // Ficha que usa el usuario -> Para imprimir tablero
-    private ColoresDisponibles color; // Valor RGB del usuario
+    private ColoresDisponibles color; // Valor RGB de las fichas del usuario
 
     private boolean pierdeTurno;
 
-
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
-     * pre: Todos los parámetros deben ser válidos, post: Inicializa Jugador y
-     * establece los valores de los atributos.
+     * pre: Recibe el nombre, la cantidad inicial de fichas, la cantidad maxima
+     * de cartas en mano, el valor del ENUM Ficha que desea utilizar, el valor
+     * del ENUM Color que desea utilizar, y la Lista<> de Cartas que compone su
+     * mano
+     *
+     * post: Inicializa Jugador y establece los valores de los atributos.
      *
      * @param nombre No debe estar vacío ni ser nulo.
      * @param fichasMaximas Debe ser > 0.
      * @param cartasMaximas Debe ser >= 0
-     * @param fichaImagen No debe estar vacío ni ser nulo.
-     * @param color Debe estar dentro de las opciones de color del enum.
+     * @param fichaImagen Debe ser un valor no nulo del enum Fichas
+     * @param color Debe ser un valor no nulo del enum ColoresDisponibles
+     * @param cartas No debe ser nulo
      *
-     * @throws Exception Si el nombre está vacío o es nulo.
-     * @throws Exception Si la cantidad de fichas es menor o igual a cero.
-     * @throws Exception Si las cartas máximas son menores a cero.
-     * @throws Exception Si la ficha imagen es nula.
-     * @throws Exception Si el color es nulo o su RGB es inválido.
+     * @throws Exception Si alguno de los parametros no cumple con lo
+     * establecido
      */
     public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color, Lista<Carta> cartas) throws Exception {
 
@@ -59,6 +61,9 @@ public class Jugador {
         if ((color == null) || (!Herramientas.validarRGB(color.getRGB()))) {
             throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + ColoresDisponibles.obtenerColores());
         }
+        if (cartas == null) {
+            throw new Exception("La lista de cartas del jugador no debe ser nula");
+        }
         this.nombre = nombre;
         this.cantidadDeFichas = fichasMaximas;
         this.cantidadDeFichasMaxima = fichasMaximas;
@@ -72,19 +77,20 @@ public class Jugador {
 
     //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
-    //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
-     * pre: cantidad y mazo deben ser válidos, post: Roba múltiples cartas del
-     * mazo y las guarda en el jugador.
+     * pre: Recibe la cantidad de cartas a robar, y el mazo del cual se roban
      *
-     * @param cantidad Si es <= 0 o ya alcanzó el máximo de cartas, no roba
-     * cartas. @param mazo No debe ser nulo. @throws Exceptio n Si se cantidad
-     * es menor o igual a cero. @throws Exception Si las cartas que ya se tienen
-     * más la cantidad superan la cantidad de cartas máxima establecida. @throws
-     * Exception Si el maz o es nulo.
+     * post: Roba cantidad Cartas del Mazo y las guarda en la mano del Jugador
+     *
+     * @param cantidad Debe ser > 0
+     * @param mazo No debe ser nulo.
+     * @throws Exception Si alguno de los parametros no cumple con lo
+     * establecido
+     * @throws Exception Si robar cantidad Cartas fuese a superar la cantidad
+     * maxima en mano
      */
     public void robarCartas(int cantidad, Mazo mazo) throws Exception {
-        if (cantidad <= 0) {
+        if (!Herramientas.validarNumeroPositivoEstricto(cantidad)) {
             throw new Exception("Se debe robar por lo menos una carta");
         }
         if (this.cartas.getLongitud() + cantidad > this.cartasMaximas) {
@@ -99,37 +105,24 @@ public class Jugador {
     }
 
     /**
-     * pre: mazo debe ser válido, post: Roba una carta del mazo y la guarda en
-     * el jugador.
+     * pre: Recibe la posición en la mano de la carta que se desee descartar
      *
-     * @param mazo No debe ser nulo.
-     * @throws Exception Si las cartas que ya se tienen más uno superan la
-     * cantidad de cartas máxima establecida.
-     * @throws Exception Si el mazo es nulo.
-     */
-    public void robarCarta(Mazo mazo) throws Exception {
-        robarCartas(1, mazo);
-    }
-
-    /**
-     * pre: La posicion de la que se descarta la carta debe ser válida, post:
-     * Elimina la carta de dicha posicion.
+     * post: Elimina la carta de la mano
      *
-     * @throws Exception Si las posicion que se intenta eliminar no existe.
+     * @param posicion Debe ser >0
+     * @throws Exception Si las posicion que se intenta eliminar no es parte de
+     * la mano
      */
     public void descartarCarta(int posicion) throws Exception {
+        if (!Herramientas.validarNumeroPositivoEstricto(posicion)) {
+            throw new Exception("La posición dada debe ser > 0");
+        }
         this.cartas.remover(posicion);
     }
 
     /**
-     * pre: -, post: Invierte el estado del turno.
-     */
-    public void alternarPierdeTurno() {
-        this.pierdeTurno = !this.pierdeTurno;
-    }
-
-    /**
-     * pre: -, post: Reduce en 1 la cantidad de fichas del jugador si es que tiene.
+     * post: Reduce en 1 la cantidad de fichas actuales del jugador. No hace
+     * nada si el jugador posee 0 fichas.
      */
     public void disminuirFichas() {
         if (this.tieneFichas()) {
@@ -138,16 +131,15 @@ public class Jugador {
     }
 
     /**
-     *
+     * post: Aumenta en 1 la cantidad de fichas actuales del jugador.
      */
     public void aumentarFichas() {
         this.cantidadDeFichas++;
     }
 
+    //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el nombre del jugador.
      */
     public String getNombre() {
@@ -155,35 +147,35 @@ public class Jugador {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la identificacion.
+     * @return Devuelve la identificacion del jugador.
      */
     public int getIdentificacion() {
         return this.identificacion;
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de fichas que posee el jugador.
+     * @return Devuelve la cantidad de fichas actuales que posee el jugador.
      */
     public int getCantidadDeFichas() {
         return this.cantidadDeFichas;
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la cantidad de cartas que posee el jugador.
+     * @return Devuelve la cantidad de fichas que tuvo el usuario al inicio de
+     * la partida.
+     */
+    public int getCantidadDeFichasMaxima() {
+        return cantidadDeFichasMaxima;
+    }
+
+    /**
+     * @return Devuelve la cantidad de cartas actuales que posee el jugador.
      */
     public int getCantidadDeCartas() {
         return this.cartas.getLongitud();
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el máximo de cartas que puede tener en mano el jugador.
      */
     public int getCartasMaximas() {
@@ -191,17 +183,13 @@ public class Jugador {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve la ficha del usuario en forma de imagen.
+     * @return Devuelve el valor Enum de la ficha del usuario.
      */
     public Fichas getFichaImagen() {
         return this.fichaImagen;
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve la ficha del usuario en forma de caracter.
      */
     public char getFichaCaracter() {
@@ -209,70 +197,67 @@ public class Jugador {
     }
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve el color del usuario haciendo referencia al enum.
+     * @return Devuelve el valor Enum del color de la ficha del usuario.
      */
     public ColoresDisponibles getColor() {
         return this.color;
     }
 
     /**
-     * pre: -, post: -
-     * @return Devuelve entero que muestra la cantidad de fichas máxima que puede tener el jugdador en mano.
-     */
-    public int getCantidadDeFichasMaxima() {
-        return cantidadDeFichasMaxima;
-    }
-
-    /**
-     * pre: -, post: -
-     *
-     * @return Devuelve un boolean correspondiente a si pierde el turno o no.
-     */
-    public boolean isPierdeTurno() {
-        return this.pierdeTurno;
-    }
-
-    /**
-     * pre -, post -
-     *
-     * @return Devuelve las cartas del jugador.
+     * @return Devuelve la Lista<> de Cartas del jugador.
      */
     public Lista<Carta> getCartas() {
         return cartas;
     }
 
     /**
-     * pre: -, post:-
      * @return Devuelve un boolean indicando si el jugador tiene fichas en mano.
      */
     public boolean tieneFichas() {
         return this.cantidadDeFichas != 0;
     }
 
+    /**
+     * @return Devuelve un boolean correspondiente a si el Jugador pierde su
+     * turno o no.
+     */
+    public boolean isPierdeTurno() {
+        return this.pierdeTurno;
+    }
+
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
-     * pre:-, post: Establece la cantidade fichas del jugador con las indicadas por parámetro.
-     * @param cantidadDeFichas
+     * post: Establece la cantidade fichas del jugador con las indicadas por el
+     * parámetro.
+     *
+     * @param cantidadDeFichas Debe ser > 0
+     * @throws Exception: Si el parametro no cumple con lo requerido.
      */
-    public void setCantidadDeFichas(int cantidadDeFichas) {
+    public void setCantidadDeFichas(int cantidadDeFichas) throws Exception {
         if (!Herramientas.validarNumeroPositivo(cantidadDeFichas)) {
-    		throw new Exception("La cantidad de fichas debe ser un numero positivo mayor a cero.");
-    	}
+            throw new Exception("La cantidad de fichas debe ser mayor a 0.");
+        }
         this.cantidadDeFichas = cantidadDeFichas;
     }
 
     /**
-     * pre: -, post: Actualiza la identifiación del jugador.
+     * post: Actualiza la identifiación del jugador.
+     *
      * @param id Debe ser > 0.
      * @throws Exception Si la identifiación es <= 0.
      */
     public void setIdentificacion(int id) throws Exception {
-    	if (!Herramientas.validarNumeroPositivo(id)) {
-    		throw new Exception("La identificacion debe ser un numero positivo mayor a cero.");
-    	}
-    	this.identificacion = id;
+        if (!Herramientas.validarNumeroPositivo(id)) {
+            throw new Exception("La identificacion debe ser un numero positivo mayor a cero.");
+        }
+        this.identificacion = id;
+    }
+
+    /**
+     * post: Invierte si el jugador pierde su turno o no
+     */
+    public void alternarPierdeTurno() {
+        this.pierdeTurno = !this.pierdeTurno;
     }
 
 }
