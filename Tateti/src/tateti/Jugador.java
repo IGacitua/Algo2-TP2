@@ -129,8 +129,7 @@ public class Jugador {
     }
 
     /**
-     * pre: -
-     * post: reduce en 1 la cantidad de fichas del jugador
+     * pre: -, post: Reduce en 1 la cantidad de fichas del jugador si es que tiene.
      */
     public void disminuirFichas() {
         if (this.tieneFichas()) {
@@ -219,8 +218,8 @@ public class Jugador {
     }
 
     /**
-     * pre:-
-     * @return un entero que muestra la cantidad de fichas maxima que puede tener el jugdador en mano
+     * pre: -, post: -
+     * @return Devuelve entero que muestra la cantidad de fichas máxima que puede tener el jugdador en mano.
      */
     public int getCantidadDeFichasMaxima() {
         return cantidadDeFichasMaxima;
@@ -236,7 +235,7 @@ public class Jugador {
     }
 
     /**
-     * pre-, post -
+     * pre -, post -
      *
      * @return Devuelve las cartas del jugador.
      */
@@ -245,8 +244,8 @@ public class Jugador {
     }
 
     /**
-     * pre: -
-     * @return un booleano indicando si el jugador tiene fichas en mano
+     * pre: -, post:-
+     * @return Devuelve un boolean indicando si el jugador tiene fichas en mano.
      */
     public boolean tieneFichas() {
         return this.cantidadDeFichas != 0;
@@ -254,11 +253,26 @@ public class Jugador {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
+     * pre:-, post: Establece la cantidade fichas del jugador con las indicadas por parámetro.
      * @param cantidadDeFichas
-     * post: setea la cantidade fichas de este jugador con las indicadas por parametro
      */
     public void setCantidadDeFichas(int cantidadDeFichas) {
+        if (!Herramientas.validarNumeroPositivo(cantidadDeFichas)) {
+    		throw new Exception("La cantidad de fichas debe ser un numero positivo mayor a cero.");
+    	}
         this.cantidadDeFichas = cantidadDeFichas;
+    }
+
+    /**
+     * pre: -, post: Actualiza la identifiación del jugador.
+     * @param id Debe ser > 0.
+     * @throws Exception Si la identifiación es <= 0.
+     */
+    public void setIdentificacion(int id) throws Exception {
+    	if (!Herramientas.validarNumeroPositivo(id)) {
+    		throw new Exception("La identificacion debe ser un numero positivo mayor a cero.");
+    	}
+    	this.identificacion = id;
     }
 
 }
