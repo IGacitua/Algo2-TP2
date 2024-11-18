@@ -11,9 +11,7 @@ public enum Fichas {
     CORAZON;
 
     /**
-     * pre: -, post: -
-     *
-     * @return Devuelve un char correspondiente a la seleccion.
+     * @return Devuelve un char correspondiente a la Ficha.
      */
     public char getFichaCaracter() {
         return switch (this) {
@@ -37,8 +35,6 @@ public enum Fichas {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve un String con todas los tipos de ficha listados.
      */
     public static String obtenerTiposFicha() {
@@ -52,10 +48,8 @@ public enum Fichas {
         }
         return tiposExistentes;
     }
-    
+
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el nombre de la ficha elegida.
      */
     @Override
