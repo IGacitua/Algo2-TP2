@@ -1,5 +1,7 @@
 package tateti;
 
+import utilidades.Herramientas;
+
 public class JuegoTateti {
 
     public static int aumentarContador(int contador, Menu menu) {
@@ -13,6 +15,7 @@ public class JuegoTateti {
     }
 
     public static void main(String[] args) {
+        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         Menu menu = new Menu(); // iniciamos menu
         Tablero tablero;
         Mazo mazo;
@@ -53,7 +56,9 @@ public class JuegoTateti {
                 }
             }
             Jugador ganador = menu.getListaJugadores().obtenerDato(contadorDeTurno);
-            System.out.printf("Jugador %s%s%s ganó!\n", ganador.getColor().getPrintfColor(), ganador.getNombre(), "\\u001B[0m");
+            System.out.printf("Jugador %s%s ", ganador.getColor().getPrintfColor(), ganador.getNombre());
+            Herramientas.reiniciarColor();
+            System.out.printf("ganó!\n");
         } catch (Exception e) {
             // Todo esta validado de tal forma que no deberían haber excepciones.
             System.out.println("Excepción imposible durante el juego!");
