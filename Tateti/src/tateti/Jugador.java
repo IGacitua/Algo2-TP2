@@ -6,6 +6,7 @@ import utilidades.Lista;
 
 public class Jugador {
 
+    // TODO organizar la doc
     //ATRIBUTOS DE CLASE --------------------------------------------------------------------------------------
     private static int idActual = 0; // Numero de ID interno, usado para verificar fichas
     //ATRIBUTOS -----------------------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ public class Jugador {
         }
         this.nombre = nombre;
         this.cantidadDeFichas = fichasMaximas;
-        this.cantidadDeFichasMaxima=fichasMaximas;
+        this.cantidadDeFichasMaxima = fichasMaximas;
         this.cartasMaximas = cartasMaximas;
         this.fichaImagen = fichaImagen;
         this.fichaCaracter = fichaImagen.getFichaCaracter();
@@ -70,11 +71,7 @@ public class Jugador {
         this.cartas = cartas;
     }
 
-   
-
-	
-
-	//METODOS DE CLASE ----------------------------------------------------------------------------------------
+    //METODOS DE CLASE ----------------------------------------------------------------------------------------
     //METODOS GENERALES ---------------------------------------------------------------------------------------
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     /**
@@ -141,13 +138,13 @@ public class Jugador {
             this.cantidadDeFichas -= 1;
         }
     }
-    
+
     /**
-     * 
+     *
      */
     public void aumentarFichas() {
-    	this.cantidadDeFichas++;		
-	}
+        this.cantidadDeFichas++;
+    }
 
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
@@ -221,14 +218,15 @@ public class Jugador {
     public ColoresDisponibles getColor() {
         return this.color;
     }
-    
+
     /**
      * TODO:
+     *
      * @return
      */
     public int getCantidadDeFichasMaxima() {
-		return cantidadDeFichasMaxima;
-	}
+        return cantidadDeFichasMaxima;
+    }
 
     /**
      * pre: -, post: -
@@ -258,13 +256,13 @@ public class Jugador {
     }
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
-    
     /**
      * TODO:
+     *
      * @param cantidadDeFichas
      */
     public void setCantidadDeFichas(int cantidadDeFichas) {
-		this.cantidadDeFichas = cantidadDeFichas;
-	}
+        this.cantidadDeFichas = cantidadDeFichas;
+    }
 
 }
