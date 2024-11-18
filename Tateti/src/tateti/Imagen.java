@@ -233,8 +233,10 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe una imagen del mismo ancho a esta, post: Añade la imagen
-     * adicional abajo de esta imagen. No modifica ninguna de las imagenes.
+     * pre: Recibe una imagen del mismo ancho a esta
+     *
+     * post: Añade la imagen adicional abajo de esta imagen. No modifica ninguna
+     * de las imagenes.
      *
      * @param adicional: Debe existir, y ser del mismo ancho que esta imagen.
      * @return Devuelve una imagen compuesta. Con la imagen adicional abajo de
@@ -269,8 +271,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color separado en R G B, post:
-     * Modifica la imagen, añadiendole un borde del grosor y color dados.
+     * pre: Recibe el grosor de los bordes, y el color separado en R G B
+     *
+     * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
      * @param r: Debe estar entre 0 y 255, inclusive.
@@ -308,8 +311,9 @@ public class Imagen {
     }
 
     /**
-     * pre: Recibe el grosor de los bordes, y el color RGB, post: Modifica la
-     * imagen, añadiendole un borde del grosor y color dados.
+     * pre: Recibe el grosor de los bordes, y el color RGB
+     *
+     * post: Modifica la imagen, añadiendole un borde del grosor y color dados.
      *
      * @param grosor: Cuantos pixeles de ancho es el borde.
      * @param RGB: Debe estar entre 0x0 y 0xFFFFFF, inclusive.
@@ -345,8 +349,6 @@ public class Imagen {
     //METODOS DE COMPORTAMIENTO -------------------------------------------------------------------------------
     //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el ancho de la imagen.
      */
     public int getAncho() {
@@ -354,8 +356,6 @@ public class Imagen {
     }
 
     /**
-     * pre: -, post: -
-     *
      * @return Devuelve el alto de la imagen.
      */
     public int getAlto() {
@@ -364,7 +364,9 @@ public class Imagen {
 
     //SETTERS SIMPLES -----------------------------------------------------------------------------------------	
     /**
-     * pre: Recibe una BufferedImage, post: Reemplaza la imagen por la dada.
+     * pre: Recibe una BufferedImage
+     *
+     * post: Reemplaza la imagen por la dada.
      *
      * @param imagen: No debe ser nula.
      * @throws Exception: Si la imagen dada es nula.
