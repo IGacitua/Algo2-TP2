@@ -11,9 +11,8 @@ import utilidades.Teclado;
 
 //TODO pasar a template
 public class Menu {
-	
-    //Atributos------------------------------------------------------------------------------------------------------
 
+    //Atributos------------------------------------------------------------------------------------------------------
     @SuppressWarnings("FieldMayBeFinal") // TODO: Ver si puede ser final al terminar
     private Lista<Jugador> listaJugadores;
     @SuppressWarnings("FieldMayBeFinal") // TODO: Ver si puede ser final al terminar
@@ -21,12 +20,12 @@ public class Menu {
     @SuppressWarnings("FieldMayBeFinal") // TODO: Ver si puede ser final al terminar
     private Lista<Fichas> fichasTomadas;
     private boolean victoria = false;
-    
+
     //CONSTRUCTORES -------------------------------------------------------------------------------------------
     /**
      * post: Inicializa el Menu.
      */
-    public Menu() {	
+    public Menu() {
         this.listaJugadores = new Lista<Jugador>();
         this.coloresTomados = new Lista<ColoresDisponibles>();
         this.fichasTomadas = new Lista<Fichas>();
@@ -35,7 +34,6 @@ public class Menu {
 
     //TODO: probar mover
     //jugar cartas y ver que funcione bien
-    
     ///MÉTODOS --------------------------------------------------------------------------------------------------
 
 	//TABLERO --------------------------------------------------------------------------------------------
@@ -51,9 +49,10 @@ public class Menu {
 
     //JUGADORES
     /**
-     * pre: tamañoTablero debe ser válido
-     * post: Inicializa los jugadores, la cantidad de jugadores no puede superar el tamaño del tablero y debe ser menor
-     * a 8
+     * pre: tamañoTablero debe ser válido post: Inicializa los jugadores, la
+     * cantidad de jugadores no puede superar el tamaño del tablero y debe ser
+     * menor a 8
+     *
      * @param tamañoTablero Debe estar entre 3 y 99 inclusive en ambos casos.
      * @throws Exception Si los parámetros que recibe el Jugador al ser
      * inicializado son inválidos.
@@ -82,8 +81,6 @@ public class Menu {
         imprimirJugadoresPorPantalla(); //TODO: borrar
     }
 
-  
-
     //TODO: eliminar
     public void imprimirJugadoresPorPantalla() throws Exception {
         this.listaJugadores.iniciarCursor();
@@ -99,7 +96,7 @@ public class Menu {
             System.out.println("Color: " + jugador.getColor());
         }
     }
-    
+
     // Solicitar Datos ---------------------------------------------------------------------------------------------
     /**
      * pre: -, post: Solicita al usuario un color de la lista de colores
@@ -123,7 +120,7 @@ public class Menu {
     public Fichas solicitarFicha() throws Exception {
         return solicitarElementoDeEnum("Elija la ficha de la lista que desea utilizar: ", this.fichasTomadas, Fichas.values());
     }
-    
+
     /**
      * pre: -, post: Solicita un elemento de un Enum al usuario y lo devuelve.
      *
@@ -179,10 +176,11 @@ public class Menu {
             }
         }
     }
-    
-  //MAZO
+
+    //MAZO
     /**
-     * pre: -, post: inicializa un mazo con cartas dependiendo de la cantidad de jugadores
+     * pre: -, post: inicializa un mazo con cartas dependiendo de la cantidad de
+     * jugadores
      *
      * @return Devuelve el mazo mezclado. La cantidad de cartas es de la forma
      * cantidadDeJugadores*cantidadDeTiposDeCarta.
@@ -192,20 +190,19 @@ public class Menu {
         Mazo mazo = new Mazo(getCantidadDeJugadores());
         return mazo;
     }
-    
-    //Acciones de Juego -------------------------------------------------------------------------------------------
 
+    //Acciones de Juego -------------------------------------------------------------------------------------------
     /**
      * pre: se debe pasar por parametros un jugador no nulo y un mazo no nulo
-     * post: se tira un dado y el jugador roba una cantidad de cartas aleatorias, si no puede porque supera el maximo, 
-     * no roba cartas
+     * post: se tira un dado y el jugador roba una cantidad de cartas
+     * aleatorias, si no puede porque supera el maximo, no roba cartas
      *
      * @param jugador no nulo
      * @param mazo no nulo ni vacio
      */
     public void jugadorRobaCartas(Jugador jugadorActual, Mazo mazo) throws Exception {
-    	//Si no puede recibirlas, lanza el msj y no saca nada del mazo:)
-        try { 
+        //Si no puede recibirlas, lanza el msj y no saca nada del mazo:)
+        try {
             int numeroAleatorio = tirarDado();
             jugadorActual.robarCartas(numeroAleatorio, mazo); // tirar dado y robar cartas
             System.out.println(jugadorActual.getNombre() + " roba " + numeroAleatorio + " cartas.");
@@ -217,9 +214,9 @@ public class Menu {
     }
 
     /**
-     * pre: jugadorActual y tablero deben ser válidos
-     * post: Si el jugador tiene fichas en la mano, coloca una ficha, caso contrario esta olbigado a mover una ficha
-     * puesta
+     * pre: jugadorActual y tablero deben ser válidos post: Si el jugador tiene
+     * fichas en la mano, coloca una ficha, caso contrario esta olbigado a mover
+     * una ficha puesta
      *
      * @param jugadorActual No debe ser nulo.
      * @param tablero No debe ser nulo.
@@ -256,8 +253,8 @@ public class Menu {
     }
 
     /**
-     * pre: jugadorActual y tablero deben ser válidos
-     * post: mueve la ficha del jugador a otro casillero adyacente.
+     * pre: jugadorActual y tablero deben ser válidos post: mueve la ficha del
+     * jugador a otro casillero adyacente.
      *
      * @param jugadorActual No debe ser nulo.
      * @param tablero No debe ser nulo.
@@ -297,8 +294,8 @@ public class Menu {
     }
 
     /**
-     * pre: jugadorActual y tablero deben ser válidos
-     * post: coloca la ficha del jugador en el casillero indicado por consola.
+     * pre: jugadorActual y tablero deben ser válidos post: coloca la ficha del
+     * jugador en el casillero indicado por consola.
      *
      * @param jugadorActual No debe ser nulo.
      * @param tablero No debe ser nulo.
@@ -334,30 +331,30 @@ public class Menu {
     }
 
     /**
-     * pre: parametros validos
-     * post: Si el jugador tiene cartas juega una de las que tiene en mano
-     * 
+     * pre: parametros validos post: Si el jugador tiene cartas juega una de las
+     * que tiene en mano
+     *
      * @param jugadorActual, no nulo
      * @param tablero, no nulo
      * @param mazo, no nulo
      */
-    public void jugarCarta(Jugador jugadorActual, Tablero tablero,Mazo mazo) throws Exception {
+    public void jugarCarta(Jugador jugadorActual, Tablero tablero, Mazo mazo) throws Exception {
         this.mostrarCartas(jugadorActual);
         Carta carta;
         try {
-        int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadDeCartas());
-   	 	carta=jugadorActual.getCartas().obtenerDato(numeroCarta);
-   	 	carta.usar(jugadorActual,listaJugadores,tablero,mazo);
-   	 	jugadorActual.getCartas().remover(carta);
-        }catch(Exception e) {
-        	System.out.println("Excepcion imposible");
+            int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadDeCartas());
+            carta = jugadorActual.getCartas().obtenerDato(numeroCarta);
+            carta.usar(jugadorActual, listaJugadores, tablero, mazo);
+            jugadorActual.getCartas().remover(carta);
+        } catch (Exception e) {
+            System.out.println("Excepcion imposible");
         }
-   	 	
+
     }
 
     /**
-     * pre: jugadorActual debe ser válido
-     * post: Muestra las cartas que tiene el jugador actual en la mano.
+     * pre: jugadorActual debe ser válido post: Muestra las cartas que tiene el
+     * jugador actual en la mano.
      *
      * @param jugadorActual jugadorActual No debe ser nulo.
      * @throws Exception Si el jugadorActual es nulo.
@@ -370,14 +367,13 @@ public class Menu {
             System.out.println("El jugador no posee cartas en la mano");
         } else {
             for (int i = 1; i < jugadorActual.getCantidadDeCartas(); i++) {
-                System.out.println("En la posicion " + i + " se tiene la carta " + jugadorActual.getCartas().obtenerDato(i));
+                System.out.printf("%d - %s.\n ", i, jugadorActual.getCartas().obtenerDato(i).toString());
             }
         }
     }
-    
+
     /**
-     * pre: -
-     * post: Tira un dado, devolviendo un numero entre 1 y 6
+     * pre: - post: Tira un dado, devolviendo un numero entre 1 y 6
      *
      */
     private int tirarDado() {
@@ -386,11 +382,9 @@ public class Menu {
         return numeroAleatorio;
     }
 
-  //GETTERS SIMPLES -----------------------------------------------------------------------------------------
-    
+    //GETTERS SIMPLES -----------------------------------------------------------------------------------------
     /**
-     * pre: -
-     * post: devuelve la lista de jugadores
+     * pre: - post: devuelve la lista de jugadores
      */
     public Lista<Jugador> getListaJugadores() {
         return listaJugadores;
@@ -398,18 +392,20 @@ public class Menu {
 
     /**
      * pre: -
+     *
      * @return un booleano indicando si la partido termino y hay un ganador
      */
     public boolean isVictoria() {
         return victoria;
     }
-    
+
     /**
      * pre: -, post: -
+     *
      * @return Devuelve la cantidadDeJugadores.
      */
     public int getCantidadDeJugadores() {
         return this.listaJugadores.getLongitud();
     }
-    
+
 }
