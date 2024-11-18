@@ -64,8 +64,7 @@ public class JuegoTateti {
                     // TURNO
                     menu.jugadorRobaCartas(jugadorActual, mazo);
                     System.out.printf("\n");
-                    menu.jugarFicha(jugadorActual, tablero);
-                    
+                    menu.jugarFicha(jugadorActual, tablero);                    
                     System.out.printf("\n");
                     if (menu.esVictoria()) {
                         victoria = true;
