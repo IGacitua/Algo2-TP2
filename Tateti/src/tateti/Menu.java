@@ -84,8 +84,8 @@ public class Menu {
             System.out.println("Cantidad de fichas: " + jugador.getCantidadDeFichas());
             System.out.println("Cantidad de cartas guardadas: " + jugador.getCantidadDeCartas());
             System.out.println("Cantidad de cartas total: " + jugador.getCartasMaximas());
-            System.out.println("Ficha: " + jugador.getFichaCaracter());
-            System.out.println("Color: " + jugador.getColor());
+            System.out.printf("Ficha y Color: %s%s \n", jugador.getColor().getPrintfColor(), jugador.getFichaCaracter());
+            Herramientas.reiniciarColor();
         }
     }
 
