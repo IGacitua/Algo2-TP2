@@ -30,7 +30,7 @@ public class CartaVolverTurno extends Carta {
 	 * TODO:
 	 */
 	@Override
-	public String ToString() {	
+	public String toString() {	
 		return "Carta Volver Turno";
 	}
 

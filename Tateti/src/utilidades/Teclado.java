@@ -75,9 +75,6 @@ public class Teclado {
     	if ((mensaje.trim().isEmpty()) || (mensaje == null)) {
     		mensaje = "Ingrese un número";
     	}
-        if (min == max) {
-            throw new Exception("El mínimo y el máximo deben ser dos números distintos.");
-        }
         if (min > max) { //Si min es mayor que max, intercambia los valores
             int aux = min;
             min = max;

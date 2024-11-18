@@ -41,7 +41,7 @@ public class CartaPerderTurno extends Carta {
 	 * 
 	 */
 	@Override
-	public String ToString() {
+	public String toString() {
 		return "Carta perder Turno";
 	}
 

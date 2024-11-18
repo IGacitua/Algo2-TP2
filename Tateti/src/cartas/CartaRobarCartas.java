@@ -35,7 +35,7 @@ public class CartaRobarCartas extends Carta {
 	 * TODO:
 	 */
 	@Override
-	public String ToString() {
+	public String toString() {
 		return "Carta Robar "+CANTIDAD_A_ROBAR+" Cartas";
 	}
 }

@@ -61,7 +61,7 @@ public class CartaBomba extends Carta {
 	}
 
 	@Override
-	public String ToString() {	
+	public String toString() {	
 		return "Carta Bomba";
 	}
 
