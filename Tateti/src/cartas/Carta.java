@@ -11,7 +11,7 @@ public abstract class Carta {
 	
 	public abstract void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception;
 	
-	public abstract String ToString();
+	public abstract String toString();
 	
 	/**
 	 * TODO:
@@ -34,7 +34,7 @@ public abstract class Carta {
 				System.out.printf("\n");
 				
 				 casillero = tablero.getCasillero(x, y, z);
-				
+				 valido=true;				
 				
 			}catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -50,20 +50,15 @@ public abstract class Carta {
 	 * @throws Exception
 	 */
 	protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) throws Exception {
-		Jugador jugadorResultado=null;
-		boolean elegido=false;
-		
-		while(!elegido) {
-			int numero=Teclado.pedirNumeroEntreIntervalo(":", 1, listaJugadores.getLongitud());
-			listaJugadores.iniciarCursor();
-			while(!listaJugadores.avanzarCursor()) {
-				Jugador jugador=listaJugadores.obtenerCursor();
-				if(jugador.getIdentificacion() == numero) {
-					jugadorResultado=jugador;
-				}
+		Jugador jugadorResultado=null;		
+		int numero=Teclado.pedirNumeroEntreIntervalo(":", 1, listaJugadores.getLongitud());
+		listaJugadores.iniciarCursor();
+		while(listaJugadores.avanzarCursor()) {
+			Jugador jugador=listaJugadores.obtenerCursor();
+			if(jugador.getIdentificacion() == numero) {
+				jugadorResultado=jugador;
 			}
 		}
-		
 		
 		return jugadorResultado;
 	}
@@ -75,7 +70,7 @@ public abstract class Carta {
 	protected void mostrarJugadores(Lista<Jugador> listaJugadores) {
 		
 		listaJugadores.iniciarCursor();
-		while(!listaJugadores.avanzarCursor()) {
+		while(listaJugadores.avanzarCursor()) {
 			Jugador jugador=listaJugadores.obtenerCursor();
 			System.out.println(jugador.getIdentificacion()+") "+jugador.getNombre()); // 1) Manuel
 		}

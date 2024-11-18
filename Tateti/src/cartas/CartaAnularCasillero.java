@@ -25,7 +25,7 @@ public class CartaAnularCasillero extends Carta {
 				if (casillero.isBloqueado()){
 					throw new Exception("El casillero ya esta bloqueado");
 				}
-				if(casillero.estaVacio()) {
+				if(!casillero.estaVacio()) {
 					throw new Exception("El casillero no esta vacio");
 				}
 				
@@ -41,7 +41,7 @@ public class CartaAnularCasillero extends Carta {
 	 * 
 	 */
 	@Override
-	public String ToString() {
+	public String toString() {
 		return "Carta Anular Casillero";
 	}
 	
