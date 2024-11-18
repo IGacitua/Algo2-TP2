@@ -141,8 +141,8 @@ public class Imagen {
      * @throws Exception: Si el valor RGB dado es inválido.
      */
     public final void recolorizar(int rgb) throws Exception {
-        if ((!Herramientas.validarNumeroPositivo(rgb)) || (rgb > 16777215)) {
-            throw new Exception("RGB debe estar entre 0 y 16.777.214 inclusive. (Dado " + rgb + ")");
+        if (!Herramientas.validarRGB(rgb)) {
+            throw new Exception("RGB debe estar entre 0x0 y 0xFFFFFF inclusive. (Dado " + rgb + ")");
         }
         int[][] arrayAuxiliar = this.obtenerMatriz(); // Para poder leer que pixeles están vacíos comodamente
         for (int i = 0; i < this.getAncho(); i++) {
@@ -321,8 +321,8 @@ public class Imagen {
      */
     public void bordear(int profundidad, int rgb) throws Exception {
         // Debido a la recursión, no hay validacion para borde = 0, simplemente no crea borde.
-        if ((!Herramientas.validarNumeroPositivo(rgb)) || (rgb > 16777215)) {
-            throw new Exception("RGB debe estar entre 0 y 16.777.214 inclusive. (Dado " + rgb + ")");
+        if (!Herramientas.validarRGB(rgb)) {
+            throw new Exception("RGB debe estar entre 0x0 y 0xFFFFFF inclusive. (Dado " + rgb + ")");
         }
         BufferedImage imagenAuxiliar = new BufferedImage(this.getAncho() + 2, this.getAlto() + 2, BufferedImage.TYPE_INT_RGB);
         if (profundidad > 0) {
