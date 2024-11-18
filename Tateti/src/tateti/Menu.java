@@ -348,6 +348,7 @@ public class Menu {
         int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadCartas());
    	 	carta=jugadorActual.getCartas().obtenerDato(numeroCarta);
    	 	carta.usar(jugadorActual,listaJugadores,tablero,mazo);
+   	 	jugadorActual.getCartas().remover(carta);
         }catch(Exception e) {
         	System.out.println("Excepcion imposible");
         }
