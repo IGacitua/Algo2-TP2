@@ -10,14 +10,16 @@ import utilidades.Lista;
 public class CartaBomba extends Carta {
 	
 	/**
-     * TODO:
+     * Misma documentación de Carta.
+     * post: Explota el entorno de un casillero (incluyendo a sí mismo).
+     * Al explotar casilleros, dejan de estar bloqueados/anulados si es que lo estaban.
      */
 	@Override
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
 			
 			boolean casilleroValido=false;
 			Casillero casillero=null;
-			System.out.println("Ingrese que casillero quiere explotar");
+			System.out.println("Ingrese qué casillero quiere explotar: ");
 			
 			while(!casilleroValido) {	
 				try {
@@ -27,13 +29,15 @@ public class CartaBomba extends Carta {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+			System.out.printf("\n");
+			System.out.println("BOOM!");
+			System.out.printf("\n");
 			this.explotarEntorno(casillero);			
 	}
 
 	/**
-	 * TODO:
-	 * @param casillero
+	 * pre: casillero debe ser válido, post: Explota el enorno incluyendo al casillero.
+	 * @param casillero No debe ser nulo.
 	 * @throws Exception
 	 */
 	private void explotarEntorno(Casillero casillero) throws Exception {
@@ -59,7 +63,11 @@ public class CartaBomba extends Carta {
 
 
 	}
-
+	
+	/**
+	 * pre: -, post: -
+	 * @return Devuelve el nombre de la carta.
+	 */
 	@Override
 	public String toString() {	
 		return "Carta Bomba";
