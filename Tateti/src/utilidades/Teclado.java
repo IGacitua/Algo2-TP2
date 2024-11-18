@@ -3,7 +3,6 @@ package utilidades;
 import java.util.Scanner;
 
 public class Teclado {
-    // Declarar el Scanner como atributo estático
     private static final Scanner teclado = new Scanner(System.in);
     
     /**
@@ -31,25 +30,6 @@ public class Teclado {
         }
         return entrada;
     }
-    //faltaba este
-    public static String pedirNombre() {
-        boolean terminado = false;
-        String nombre = null;
-        System.out.println("Ingrese un nombre: ");
-        while (!terminado) {
-            nombre = teclado.nextLine();
-            if (nombre.trim().isEmpty()) {
-                System.out.println("No ingresó un nombre válido, vuelva a intentarlo.");
-            } else {
-                terminado = true;
-            }
-        }
-        return nombre;
-    }
-    
-
-
-
     
     /**
      * pre: -, post: Pide un número por consola.
@@ -72,41 +52,13 @@ public class Teclado {
                 terminado = true; 
             } else {
                 System.out.println("No ingresó un número válido, vuelva a intentarlo.");
-                teclado.next();  // Limpia el buffer
+                teclado.next();  //Limpia el buffer
             }
         }
         teclado.nextLine();
         return numero;
     }
     
-    public static int pedirNumero(int min, int max) throws Exception {
-    	if (min == max) {
-    		throw new Exception("El mínimo y el máximo deben ser dos números distintos.");
-    	}
-    	if (min > max) { 
-    		throw new Exception("El mínimo debe ser menor que el máximo.");
-    	}
-        boolean terminado = false;
-        int numero = 0;
-        System.out.println("Ingrese un número entre:" + min + " y " + max + ": ");
-        while (!terminado) {
-            if (teclado.hasNextInt()) {
-                numero = teclado.nextInt();
-                
-                // Verificar si el número está en el rango
-                if (numero >= min && numero <= max) {
-                    terminado = true; // Sale del bucle si el número está dentro del rango
-                } else {
-                    System.out.println("No ingresaste un número en el rango permitido, reintente");
-                }
-            } else {
-                System.out.println("No ingresó un número válido, vuelva a intentarlo.");
-                teclado.next(); // Limpiar la entrada no válida
-            }
-        }
-        return numero;
-    }
-
     /**
      * pre: min y max deben ser válidos,
      * post: Devuelve el numero ingresado por consola.
