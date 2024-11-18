@@ -37,6 +37,7 @@ public class CartaRobarCartas extends Carta {
 			System.out.printf("\n");
 			System.out.println(jugadorActual.getNombre() + " robó dos cartas correctamente.");
 			System.out.printf("\n");
+			jugadorActual.descartarCarta(1);
 			jugadorActual.robarCartas(CANTIDAD_A_ROBAR, mazo);
 			
 		}catch(Exception e) {
