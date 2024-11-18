@@ -13,6 +13,20 @@ public class CartaCambiarFicha extends Carta {
      * post: Se apropia de un Casillero ocupado por la ficha de otro jugador. 
      */
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
+		
+		if (jugadorActual == null) {
+			throw new Exception("jugadorActual no puede ser null");
+		}
+		if (listaJugadores == null) {
+			throw new Exception("listaJugadores no puede ser null");
+		}
+		if (tablero == null) {
+			throw new Exception("tablero no puede ser null");
+		}
+		if (mazo == null) {
+			throw new Exception("mazo no puede ser null");
+		}
+		
 		boolean casilleroModificado=false;
 		Casillero casillero;
 		while(!casilleroModificado) {
