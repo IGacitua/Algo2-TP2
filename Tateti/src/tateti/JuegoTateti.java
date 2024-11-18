@@ -52,7 +52,8 @@ public class JuegoTateti {
                     contadorDeTurno = aumentarContador(contadorDeTurno, menu);
                 }
             }
-            System.out.printf("Jugador %s ganó!\n", menu.getListaJugadores().obtenerDato(contadorDeTurno).getNombre());
+            Jugador ganador = menu.getListaJugadores().obtenerDato(contadorDeTurno);
+            System.out.printf("Jugador %s%s%s ganó!\n", ganador.getColor().getPrintfColor(), ganador.getNombre(), "\\u001B[0m");
         } catch (Exception e) {
             // Todo esta validado de tal forma que no deberían haber excepciones.
             System.out.println("Excepción imposible durante el juego!");
