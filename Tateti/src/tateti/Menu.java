@@ -73,10 +73,12 @@ public class Menu {
             Jugador jugador = new Jugador(nombre, (int) (tamañoTablero * 1.5), (int) Math.round(tamañoTablero * 0.5), solicitarFicha(), solicitarColor(), new Lista<>());
             this.listaJugadores.agregarElemento(jugador);
         }
-        imprimirJugadoresPorPantalla(); //TODO: borrar
     }
 
-    //TODO: eliminar
+    /**
+     * pre: -
+     * post: imprime todos los jugadores de la partida, cada uno con sus datos
+     */
     public void imprimirJugadoresPorPantalla() throws Exception {
         this.listaJugadores.iniciarCursor();
         while (this.listaJugadores.avanzarCursor()) {
@@ -199,10 +201,14 @@ public class Menu {
         try {
             int numeroAleatorio = tirarDado();
             jugadorActual.robarCartas(numeroAleatorio, mazo); // tirar dado y robar cartas
+            System.out.print("\n");
             System.out.println(jugadorActual.getNombre() + " roba " + numeroAleatorio + " cartas.");
+           
         } catch (Exception e) {
+        	System.out.print("\n");
             System.out.println("El jugador " + jugadorActual.getNombre() + " no pudo robar cartas ya que el"
             		+ " número que salió de tirar el dado más las que ya tiene supera la cantidad máxima.");
+            
         }
     }
 
@@ -326,9 +332,11 @@ public class Menu {
     		return;
     	}
         this.mostrarCartas(jugadorActual);
+        System.out.print("\n");
         Carta carta;
         try {
             int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el número de la carta que desea utilizar, 0 para no usar ninguna", 0, jugadorActual.getCantidadDeCartas());
+            System.out.print("\n");
             if (numeroCarta != 0) {
             	carta = jugadorActual.getCartas().obtenerDato(numeroCarta);            
                 jugadorActual.getCartas().remover(carta);
