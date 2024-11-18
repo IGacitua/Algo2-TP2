@@ -4,7 +4,22 @@ import utilidades.Herramientas;
 
 public class JuegoTateti {
 
-    public static int aumentarContador(int contador, Menu menu) {
+	/**
+	 * pre: contador y menu deben ser válidos,
+	 * post: Devuelve un valor aumentado en uno.
+	 * @param contador Debe ser >= 0.
+	 * @param menu No debe ser nulo.
+	 * @return Devuelve el contador aumentado en uno.
+	 * @throws Exception Si el contador es negativo.
+	 * @throws Exception Si el menu es nulo.
+	 */
+    public static int aumentarContador(int contador, Menu menu) throws Exception {
+    	if (menu == null) {
+    		throw new Exception("El menu no puede ser nulo.");
+    	}
+    	if (!Herramientas.validarNumeroPositivo(contador)) {
+    		throw new Exception("El contador no puede ser negativo.");
+    	}
         int valorRetorno;
         if (contador >= menu.getCantidadDeJugadores()) {
             valorRetorno = 1;
@@ -15,7 +30,7 @@ public class JuegoTateti {
     }
 
     public static void main(String[] args) {
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        System.out.println("El directorio donde está trabajando es " + System.getProperty("user.dir") + ". Allí se guardará el tablero.");
         Menu menu = new Menu(); // iniciamos menu
         Tablero tablero;
         Mazo mazo;
@@ -25,7 +40,7 @@ public class JuegoTateti {
             mazo = menu.inicializarMazo();
         } catch (Exception e) {
             // Todo esta validado de tal forma que no deberían haber excepciones.
-            System.out.println("Excepcion imposible al empezar el juego!");
+            System.out.println("Excepción al intentar inicializar el tablero, los jugadores o el mazo.");
             return; // Se sale del programa
         }
 
@@ -46,9 +61,11 @@ public class JuegoTateti {
                 } else {
                     // TURNO
                     menu.jugadorRobaCartas(jugadorActual, mazo);
+                    System.out.printf("\n");
                     menu.jugarFicha(jugadorActual, tablero);
                     tablero.imprimir();
-                    if (menu.isVictoria()) {
+                    System.out.printf("\n");
+                    if (menu.esVictoria()) {
                         victoria = true;
                         tablero.exportar("Tablero Final");
                     } else {
