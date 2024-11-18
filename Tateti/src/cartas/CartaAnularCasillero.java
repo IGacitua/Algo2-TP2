@@ -37,9 +37,6 @@ public class CartaAnularCasillero extends Carta {
 		}
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	public String toString() {
 		return "Carta Anular Casillero";
