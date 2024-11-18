@@ -42,7 +42,7 @@ public class CartaCambiarFicha extends Carta {
 	 * 
 	 */
 	@Override
-	public String ToString() {	
+	public String toString() {	
 		return "Carta Cambiar Ficha";
 	}
 }

@@ -273,9 +273,9 @@ public class Menu {
         while (!moverFicha) {
             try {
                 System.out.println(jugadorActual.getNombre() + " indique las coordenadas de la ficha a mover.");
-                int xOrigen = Teclado.pedirNumeroEntreIntervalo("X", 0, tablero.getTamaño() - 1);
-                int yOrigen = Teclado.pedirNumeroEntreIntervalo("Y", 0, tablero.getTamaño() - 1);
-                int zOrigen = Teclado.pedirNumeroEntreIntervalo("Z", 0, tablero.getTamaño() - 1);
+                int xOrigen = Teclado.pedirNumeroEntreIntervalo("X", 1, tablero.getTamaño())-1;
+                int yOrigen = Teclado.pedirNumeroEntreIntervalo("Y", 1, tablero.getTamaño())-1;
+                int zOrigen = Teclado.pedirNumeroEntreIntervalo("Z", 1, tablero.getTamaño())-1;
                 Casillero casilleroOrigen = tablero.getCasillero(xOrigen, yOrigen, zOrigen);
                 if (!casilleroOrigen.getJugador().getNombre().equals(jugadorActual.getNombre())) {
                     throw new Exception("El casillero indicado no te pertenece, jugador " + jugadorActual.getNombre());
@@ -315,17 +315,17 @@ public class Menu {
             try {
                 System.out.println(jugadorActual.getNombre() + " indique en que coordenadas desea colocar su ficha.");
                 System.out.printf("\n");
-                int x = Teclado.pedirNumeroEntreIntervalo("X", 0, tablero.getTamaño() - 1);
+                int x = Teclado.pedirNumeroEntreIntervalo("X", 1, tablero.getTamaño())-1;
                 System.out.printf("\n");
-                int y = Teclado.pedirNumeroEntreIntervalo("Y", 0, tablero.getTamaño() - 1);
+                int y = Teclado.pedirNumeroEntreIntervalo("Y", 1, tablero.getTamaño())-1;
                 System.out.printf("\n");
-                int z = Teclado.pedirNumeroEntreIntervalo("Z", 0, tablero.getTamaño() - 1);
+                int z = Teclado.pedirNumeroEntreIntervalo("Z", 1, tablero.getTamaño())-1;
                 System.out.printf("\n");
                 this.victoria = tablero.colocarFicha(x, y, z, jugadorActual);
                 jugadorActual.disminuirFichas();
                 colocarFicha = true;
             } catch (Exception e) {
-                System.out.println("No se pudo colocar la ficha en el lugar indicado.");
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -346,11 +346,12 @@ public class Menu {
         Carta carta;
         try {
             int numeroCarta = Teclado.pedirNumeroEntreIntervalo("Ingrese el numero de la carta que desea utilizar: ", 1, jugadorActual.getCantidadDeCartas());
-            carta = jugadorActual.getCartas().obtenerDato(numeroCarta);
-            carta.usar(jugadorActual, listaJugadores, tablero, mazo);
+            carta = jugadorActual.getCartas().obtenerDato(numeroCarta);            
             jugadorActual.getCartas().remover(carta);
+            carta.usar(jugadorActual, listaJugadores, tablero, mazo);
         } catch (Exception e) {
             System.out.println("Excepcion imposible");
+            e.printStackTrace();
         }
 
     }
@@ -369,7 +370,7 @@ public class Menu {
         if (jugadorActual.getCantidadDeCartas() == 0) {
             System.out.println("El jugador no posee cartas en la mano");
         } else {
-            for (int i = 1; i < jugadorActual.getCantidadDeCartas(); i++) {
+            for (int i = 1; i <= jugadorActual.getCantidadDeCartas(); i++) {
                 System.out.printf("%d - %s.\n ", i, jugadorActual.getCartas().obtenerDato(i).toString());
             }
         }

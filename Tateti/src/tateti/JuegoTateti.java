@@ -53,7 +53,7 @@ public class JuegoTateti {
                         tablero.exportar("Tablero Final");
                     } else {
                         contadorDeTurno = aumentarContador(contadorDeTurno, menu);
-                        //menu.jugarCarta(jugadorActual, tablero,mazo);
+                        menu.jugarCarta(jugadorActual, tablero,mazo);
                     }
                 }
             }
