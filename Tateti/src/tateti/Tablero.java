@@ -467,9 +467,14 @@ public class Tablero {
     }
 
     /**
-     * post: Cambia el tablero por su auxiliar.
+     * post: Intercambia el tablero por su auxiliar.
+     *
+     * @throws Exception: Si el Tablero no posee auxiliar.
      */
-    public void alternarTablero() {
+    public void alternarTablero() throws Exception {
+        if (this.tableroAuxiliar == null) {
+            throw new Exception("No exist e el tablero auxiliar.");
+        }
         this.casilleros = this.tableroAuxiliar.getCasilleros();
         this.tableroAuxiliar = null;
     }
