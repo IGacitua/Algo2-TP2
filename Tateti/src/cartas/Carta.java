@@ -31,8 +31,14 @@ public abstract class Carta {
 	 * post: Devuelve un Casillero en base a lo ingresado por el usuario.
 	 * @param tablero No debe ser nulo.
 	 * @return Devuelve un Casillero ingresado por el usuario.
+	 * @throws Exception 
 	 */
-	protected Casillero pedirCasillero(Tablero tablero) {
+	protected Casillero pedirCasillero(Tablero tablero) throws Exception {
+		
+		if (tablero == null ) {
+			throw new Exception("tablero no puede ser null");
+		}
+		
 		boolean valido= false;
 		Casillero casillero=null;
 		
@@ -58,8 +64,14 @@ public abstract class Carta {
 	 * post: Devuelve el Jugador que fue elegido por consola.
 	 * @param listaJugadores No debe ser nula.
 	 * @return Devuelve un Jugador según la identificación.
+	 * @throws Exception 
 	 */
-	protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) {
+	protected Jugador pedirJugadorPorIdentificacion(Lista<Jugador> listaJugadores) throws Exception {
+		
+		if (listaJugadores == null) {
+			throw new Exception("listaJugadores no puede ser null");
+		}
+		
 		Jugador jugadorResultado=null;		
 		int numero=Teclado.pedirNumeroEntreIntervalo(" ", 1, listaJugadores.getLongitud());
 		listaJugadores.iniciarCursor();
@@ -79,8 +91,14 @@ public abstract class Carta {
 	 * 1) nombreJugador1, ...
 	 * N) nombreJugadorN
 	 * @param listaJugadores No debe ser nula.
+	 * @throws Exception 
 	 */
-	protected void mostrarJugadores(Lista<Jugador> listaJugadores) {
+	protected void mostrarJugadores(Lista<Jugador> listaJugadores) throws Exception {
+		
+		if (listaJugadores == null) {
+			throw new Exception("listaJugadores no puede ser null");
+		}
+		
 		listaJugadores.iniciarCursor();
 		while(listaJugadores.avanzarCursor()) {
 			Jugador jugador=listaJugadores.obtenerCursor();
