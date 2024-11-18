@@ -51,7 +51,7 @@ public class Mazo {
      * @param largo: Debe ser >= 0.
      * @return Devuelve un arreglo con números aleatorios sin repetir.
      */
-    //TODO: Validar que largo sea >= 0
+ 
     private int[] crearArregloConIndicesAleatorios(int largo) {
         Random generadorRandom = new Random();
         int[] resultado = new int[largo];
