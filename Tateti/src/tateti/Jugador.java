@@ -21,7 +21,7 @@ public class Jugador {
 
     private Fichas fichaImagen; // Ficha que usa el usuario -> Para exportar tablero
     private char fichaCaracter; // Ficha que usa el usuario -> Para imprimir tablero
-    private ColoresDisponibles color; // Valor RGB de las fichas del usuario
+    private Colores color; // Valor RGB de las fichas del usuario
 
     private boolean pierdeTurno;
 
@@ -44,7 +44,7 @@ public class Jugador {
      * @throws Exception Si alguno de los parametros no cumple con lo
      * establecido
      */
-    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, ColoresDisponibles color, Lista<Carta> cartas) throws Exception {
+    public Jugador(String nombre, int fichasMaximas, int cartasMaximas, Fichas fichaImagen, Colores color, Lista<Carta> cartas) throws Exception {
 
         if (nombre.trim().isEmpty()) {
             throw new Exception("El nombre no es válido");
@@ -59,7 +59,7 @@ public class Jugador {
             throw new Exception("La ficha debe existir y estar dentro de las siguientes opciones: " + Fichas.obtenerTiposFicha());
         }
         if ((color == null) || (!Herramientas.validarRGB(color.getRGB()))) {
-            throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + ColoresDisponibles.obtenerColores());
+            throw new Exception("El color debe existir estar dentro de las siguientes opciones: " + Colores.obtenerColores());
         }
         if (cartas == null) {
             throw new Exception("La lista de cartas del jugador no debe ser nula");
@@ -199,7 +199,7 @@ public class Jugador {
     /**
      * @return Devuelve el valor Enum del color de la ficha del usuario.
      */
-    public ColoresDisponibles getColor() {
+    public Colores getColor() {
         return this.color;
     }
 
