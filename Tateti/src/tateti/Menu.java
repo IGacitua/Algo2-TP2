@@ -2,6 +2,7 @@ package tateti;
 
 import cartas.Carta;
 import java.util.Random;
+import utilidades.Herramientas;
 import utilidades.Lista;
 import utilidades.Teclado;
 
