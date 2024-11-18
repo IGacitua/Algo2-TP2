@@ -8,7 +8,7 @@ public enum Fichas {
     RECTANGULO,
     ESTRELLA,
     ROMBO,
-    PAUSA;
+    CORAZON;
 
     /**
      * pre: -, post: -
@@ -31,8 +31,8 @@ public enum Fichas {
                 '★';
             case ROMBO ->
                 '♦';
-            default ->
-                'P'; //P de pausa
+            case CORAZON ->
+                '♥';
         };
     }
 
