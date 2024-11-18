@@ -4,22 +4,26 @@ import utilidades.Herramientas;
 
 public class JuegoTateti {
 
-	/**
-	 * pre: contador y menu deben ser válidos,
-	 * post: Devuelve un valor aumentado en uno.
-	 * @param contador Debe ser >= 0.
-	 * @param menu No debe ser nulo.
-	 * @return Devuelve el contador aumentado en uno.
-	 * @throws Exception Si el contador es negativo.
-	 * @throws Exception Si el menu es nulo.
-	 */
+    /**
+     * pre: contador y menu deben ser válidos
+     *
+     * post: Aumenta el contador en uno. Si se pasa la cantidad de jugadores se
+     * setea en uno.
+     *
+     * @param contador Debe ser >= 0.
+     * @param menu No debe ser nulo.
+     * @return Devuelve un valor aumentado en uno, o seteado en uno si sobrepasa
+     * la cantidad de jugadores.
+     * @throws Exception Si el contador es negativo.
+     * @throws Exception Si el menu es nulo.
+     */
     public static int aumentarContador(int contador, Menu menu) throws Exception {
-    	if (menu == null) {
-    		throw new Exception("El menu no puede ser nulo.");
-    	}
-    	if (!Herramientas.validarNumeroPositivo(contador)) {
-    		throw new Exception("El contador no puede ser negativo.");
-    	}
+        if (menu == null) {
+            throw new Exception("El menu no puede ser nulo.");
+        }
+        if (!Herramientas.validarNumeroPositivo(contador)) {
+            throw new Exception("El contador no puede ser negativo.");
+        }
         int valorRetorno;
         if (contador >= menu.getCantidadDeJugadores()) {
             valorRetorno = 1;
@@ -30,11 +34,11 @@ public class JuegoTateti {
     }
 
     public static void main(String[] args) {
-        System.out.println("El directorio donde está trabajando es " + System.getProperty("user.dir") + ". Allí se guardará el tablero.");
-        Menu menu = new Menu(); // iniciamos menu
+        Menu menu = new Menu();
         Tablero tablero;
         Mazo mazo;
         try {
+            // Inicializamos Menu, Tablero, y Mazo
             tablero = menu.inicializarTablero();
             menu.inicializarJugadores(tablero.getTamaño());
             menu.imprimirJugadoresPorPantalla();
@@ -51,10 +55,10 @@ public class JuegoTateti {
         boolean victoria = false;
         try {
             while (!victoria) {
-                if (contadorDeTurno == 1) {
+                if (contadorDeTurno == 1) { // Comienzo de ronda
                     contadorDeRonda++;
-                    tablero.setTableroAuxiliar(tablero.copiarTablero());
-                    tablero.exportar(("Tablero Turno ") + contadorDeRonda);
+                    tablero.setTableroAuxiliar(tablero.copiarTablero()); // Para la carta de volver atrás
+                    tablero.exportar(("Tablero Ronda ") + contadorDeRonda);
                 }
                 Jugador jugadorActual = menu.getListaJugadores().obtenerDato(contadorDeTurno);
                 if (jugadorActual.isPierdeTurno()) {
@@ -64,14 +68,16 @@ public class JuegoTateti {
                     // TURNO
                     menu.jugadorRobaCartas(jugadorActual, mazo);
                     System.out.printf("\n");
+                    menu.jugarFicha(jugadorActual, tablero);
                     menu.jugarFicha(jugadorActual, tablero);                    
                     System.out.printf("\n");
+                    tablero.imprimir();
                     if (menu.esVictoria()) {
                         victoria = true;
                         tablero.exportar("Tablero Final");
                     } else {
                         contadorDeTurno = aumentarContador(contadorDeTurno, menu);
-                        menu.jugarCarta(jugadorActual, tablero,mazo);
+                        menu.jugarCarta(jugadorActual, tablero, mazo);
                     }
                     tablero.imprimir();
                 }
