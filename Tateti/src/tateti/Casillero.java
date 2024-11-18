@@ -72,35 +72,6 @@ public class Casillero {
     }
 
     /**
-     * post: Imprime el entorno del casillero por consola. Utilizado para
-     * debugging.
-     *
-     */
-    // TODO delete
-    public void imprimirEntorno() {
-        for (int z = -1; z < 2; z++) {
-            for (int y = -1; y < 2; y++) {
-                for (int x = -1; x < 2; x++) {
-                    if (this.entorno[x + 1][y + 1][z + 1] != null) {
-                        // getJugador() tira excepción, pero no debería suceder nunca, asi que uso try/catch en vez de throws
-                        try {
-                            System.out.printf("%2c ", this.entorno[x + 1][y + 1][z + 1].getJugador().getFichaCaracter());
-                        } catch (Exception e) {
-                            System.out.println("Excepción imposible al imprimir entorno. Revisar el código.");
-                        }
-                    } else {
-                        System.out.printf("- ");
-                    }
-                }
-                // Fin de linea
-                System.out.printf("\n");
-            }
-            // Fin de prints, para separar mejor
-            System.out.printf("\n");
-        }
-    }
-
-    /**
      * pre: Recibe un casillero
      *
      * post: Devuelve un boolean correspondiente a si es adyacente a este
