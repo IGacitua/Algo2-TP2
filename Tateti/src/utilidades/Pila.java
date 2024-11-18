@@ -1,6 +1,6 @@
 package utilidades;
 
-public class PilaGenerica<T> {
+public class Pila<T> {
 	//ATRIBUTOS -------------------------------------------
 	private Nodo<T> tope;
 	private int longitud;
@@ -9,7 +9,7 @@ public class PilaGenerica<T> {
 	/**
 	 * pre: -, post: Inicializa la pila.
 	 */
-	public PilaGenerica() {
+	public Pila() {
 		this.tope=null;
 		this.longitud=0;
 	}
@@ -92,8 +92,8 @@ public class PilaGenerica<T> {
 	 * pre: No debe estar vacía, post: -
 	 * @return Devuelve la pila invertida.
 	 */
-	public PilaGenerica<T> invertirPila(){
-		PilaGenerica<T> resultado=new PilaGenerica<T>();
+	public Pila<T> invertirPila(){
+		Pila<T> resultado=new Pila<T>();
 		while(!this.estaVacia()) {
 			resultado.agregar(this.quitar());
 		}
