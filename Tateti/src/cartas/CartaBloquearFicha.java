@@ -5,13 +5,12 @@ import tateti.Jugador;
 import tateti.Mazo;
 import tateti.Tablero;
 import utilidades.Lista;
-import utilidades.Teclado;
 
 public class CartaBloquearFicha extends Carta {
 
 	/**
-     * pre: -, post: Bloquea un casillero no vacio y no bloqueado
-     * 
+     * Misma documentación de Carta.
+     * post: Bloquea un casillero no vacio y no bloqueado.
      */
 	@Override
 	public void usar(Jugador jugadorActual, Lista<Jugador> listaJugadores, Tablero tablero, Mazo mazo) throws Exception {
@@ -21,15 +20,19 @@ public class CartaBloquearFicha extends Carta {
 		while(!casilleroBloqueado) {
 			try {
 				Casillero casillero = pedirCasillero(tablero);
-
+				if (casillero.getJugador().getNombre().equals(jugadorActual.getNombre())) {
+					throw new Exception("No puedes bloquear una ficha propia.");
+				}
 				if (casillero.isBloqueado()) {
-					throw new Exception("El casillero esta bloqueado");					
+					throw new Exception("El casillero esta bloqueado.");					
 				}
 				if(casillero.estaVacio()) {
-					throw new Exception("El casillero esta vacio");	
+					throw new Exception("El casillero esta vacio.");	
 				}
-				
 				casillero.alternarBloqueo();
+				System.out.printf("\n");
+				System.out.println("Se bloqueó la ficha en el casillero correctamente.");
+				System.out.printf("\n");
 				casilleroBloqueado=true;
 			}catch(Exception e) {
 				System.out.println(e.getMessage());
@@ -37,10 +40,13 @@ public class CartaBloquearFicha extends Carta {
 		}
 	}
 
+	/**
+	 * pre: -, post: -
+	 * @return Devuelve el nombre de la carta.
+	 */
 	@Override
 	public String toString() {
 		
-		return "Carta bloquear ficha";
+		return "Carta Bloquear Ficha";
 	}
-	
 }
